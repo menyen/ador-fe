@@ -11,13 +11,13 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import PersonIcon from '@material-ui/icons/Person';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PieChartIcon from '@material-ui/icons/PieChart';
 import logo from '../logo.svg';
+import minilogo from '../mini-logo.svg';
 
 const drawerWidth = 240;
 
@@ -70,6 +70,9 @@ const useStyles = makeStyles((theme: Theme) =>
         width: theme.spacing(9) + 1,
       },
     },
+    collapsedToolbar: {
+      paddingLeft: 12,
+    },
     toolbar: {
       display: 'flex',
       alignItems: 'center',
@@ -105,8 +108,9 @@ export default function MiniDrawer() {
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
+        color='default'
       >
-        <Toolbar>
+        <Toolbar className={classes.collapsedToolbar}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -116,7 +120,7 @@ export default function MiniDrawer() {
               [classes.hide]: open,
             })}
           >
-            <MenuIcon />
+            <img src={minilogo} alt="logo" />
           </IconButton>
           <Typography variant="h6" noWrap>
             Mini variant drawer
@@ -137,7 +141,7 @@ export default function MiniDrawer() {
         }}
       >
         <div className={classes.toolbar}>
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={logo} className="app-logo" alt="logo" />
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>

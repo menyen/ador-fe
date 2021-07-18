@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,7 +14,6 @@ interface Column {
   id: 'name' | 'email' | 'cpf' | 'lastQnaireDate';
   label: string;
   minWidth?: number;
-  align?: 'right';
   format?: (value: number) => string;
 }
 
@@ -25,19 +24,14 @@ const columns: Column[] = [
     id: 'cpf',
     label: 'CPF',
     minWidth: 170,
-    align: 'right',
     format: (value: number) =>
-      value.
-      toString().
-      padStart(11, '0').
-      replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, 
+      value.toString().padStart(11, '0').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, 
         (regex, arg1, arg2, arg3, arg4) => arg1 + '.' + arg2 + '.' + arg3 + '-' + arg4)
   },
   {
     id: 'lastQnaireDate',
     label: 'Data do último questionário',
     minWidth: 170,
-    align: 'right',
     format: (value: number) => {
       const dateFormat = new Date(value);
       return ((dateFormat.getDate() )) + "/" + ((dateFormat.getMonth() + 1)) + "/" + dateFormat.getFullYear();
@@ -75,15 +69,24 @@ const rows = [
   createData('Saulo Silva', 'aaa@ddd.com', 210147125, 1580266800000),
 ];
 
-const useStyles = makeStyles({
-  root: {
-    marginTop: '64px',
-    width: '100%',
-  },
-  container: {
-    maxHeight: 440,
-  },
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      marginTop: '64px',
+      width: '100%',
+    },
+    container: {
+      maxHeight: 440,
+    },
+    tableHeadCell: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    tableHeadCheckbox: {
+      color: theme.palette.common.white,
+    }
+  })
+);
 
 export default function StickyHeadTable() {
   const classes = useStyles();
@@ -131,7 +134,7 @@ export default function StickyHeadTable() {
 
   const isSelected = (cpf: number) => selected.indexOf(cpf) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <Paper className={classes.root}>
@@ -139,19 +142,22 @@ export default function StickyHeadTable() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
+              <TableCell padding="checkbox" className={classes.tableHeadCell}>
                 <Checkbox
                   indeterminate={selected.length > 0 && selected.length < rows.length}
                   checked={rows.length > 0 && selected.length === rows.length}
                   onChange={handleSelectAllClick}
                   inputProps={{ 'aria-label': 'select all desserts' }}
+                  color='default'
+                  classes={{root: classes.tableHeadCheckbox}}
                 />
               </TableCell>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  align={column.align}
+                  align='left'
                   style={{ minWidth: column.minWidth }}
+                  className={classes.tableHeadCell}
                 >
                   {column.label}
                 </TableCell>
@@ -181,7 +187,7 @@ export default function StickyHeadTable() {
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell key={column.id} align='left'>
                         {column.format && typeof value === 'number' ? column.format(value) : value}
                       </TableCell>
                     );
