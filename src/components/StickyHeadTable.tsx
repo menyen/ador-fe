@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Checkbox from '@material-ui/core/Checkbox';
 
 interface Column {
   id: 'name' | 'email' | 'cpf' | 'lastQnaireDate';
@@ -88,6 +89,7 @@ export default function StickyHeadTable() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [selected, setSelected] = React.useState<number[]>([]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -98,12 +100,53 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      const newSelecteds = rows.map((n) => n.cpf);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event: React.MouseEvent<unknown>, cpf: number) => {
+    const selectedIndex = selected.indexOf(cpf);
+    let newSelected: number[] = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, cpf);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    setSelected(newSelected);
+  };
+
+  const isSelected = (cpf: number) => selected.indexOf(cpf) !== -1;
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
+              <TableCell padding="checkbox">
+                <Checkbox
+                  indeterminate={selected.length > 0 && selected.length < rows.length}
+                  checked={rows.length > 0 && selected.length === rows.length}
+                  onChange={handleSelectAllClick}
+                  inputProps={{ 'aria-label': 'select all desserts' }}
+                />
+              </TableCell>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
@@ -116,9 +159,25 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              const isItemSelected = isSelected(row.cpf);
+              const labelId = `enhanced-table-checkbox-${index}`;
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.cpf}>
+                <TableRow
+                  hover
+                  role="checkbox"
+                  tabIndex={-1}
+                  key={row.cpf}
+                  aria-checked={isItemSelected}
+                  selected={isItemSelected}
+                  onClick={(event) => handleClick(event, row.cpf)}
+                >
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={isItemSelected}
+                      inputProps={{ 'aria-labelledby': labelId }}
+                    />
+                  </TableCell>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
