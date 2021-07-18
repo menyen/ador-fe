@@ -1,6 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';
+import {
+  createStyles,
+  makeStyles,
+  useTheme,
+  Theme,
+} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -85,10 +90,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
     },
-  }),
+  })
 );
 
-export default function MiniDrawer() {
+export default function LeftNav() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -108,7 +113,7 @@ export default function MiniDrawer() {
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
-        color='default'
+        color="default"
       >
         <Toolbar className={classes.collapsedToolbar}>
           <IconButton
@@ -143,22 +148,32 @@ export default function MiniDrawer() {
         <div className={classes.toolbar}>
           <img src={logo} className="app-logo" alt="logo" />
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === 'rtl' ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
         <List>
-          <ListItem button key='PersonIcon'>
-            <ListItemIcon><PersonIcon /></ListItemIcon>
-            <ListItemText primary='Pacientes' />
+          <ListItem button key="PersonIcon">
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary="Pacientes" />
           </ListItem>
-          <ListItem button key='FavoriteIcon'>
-            <ListItemIcon><FavoriteIcon /></ListItemIcon>
-            <ListItemText primary='Acolhimento' />
+          <ListItem button key="FavoriteIcon">
+            <ListItemIcon>
+              <FavoriteIcon />
+            </ListItemIcon>
+            <ListItemText primary="Acolhimento" />
           </ListItem>
-          <ListItem button key='PieChartIcon'>
-            <ListItemIcon><PieChartIcon /></ListItemIcon>
-            <ListItemText primary='Relatórios' />
+          <ListItem button key="PieChartIcon">
+            <ListItemIcon>
+              <PieChartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Relatórios" />
           </ListItem>
         </List>
         <Divider />

@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import './App.css';
-import MiniDrawer from './components/MiniDrawer';
+import LeftNav from './components/LeftNav';
 import StickyHeadTable from './components/StickyHeadTable';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -24,18 +24,20 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
     },
-  }),
+  })
 );
 
 function App() {
   const classes = useStyles();
 
   return (
-    <div className={clsx("App", {
-      [classes.appRoot]: true,
-    })}>
+    <div
+      className={clsx('App', {
+        [classes.appRoot]: true,
+      })}
+    >
       <CssBaseline />
-      <MiniDrawer />
+      <LeftNav />
       <main className={classes.content}>
         <StickyHeadTable />
       </main>
