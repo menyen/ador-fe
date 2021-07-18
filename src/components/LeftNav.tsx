@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {
+  alpha,
   createStyles,
   makeStyles,
   useTheme,
@@ -16,11 +17,14 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
+import InputBase from '@material-ui/core/InputBase';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import PersonIcon from '@material-ui/icons/Person';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PieChartIcon from '@material-ui/icons/PieChart';
+import SearchIcon from '@material-ui/icons/Search';
 import logo from '../logo.svg';
 import minilogo from '../mini-logo.svg';
 
@@ -46,9 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
-    menuButton: {
-      marginRight: 36,
-    },
+    menuButton: {},
     hide: {
       display: 'none',
     },
@@ -90,6 +92,46 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
     },
+    bottomButton: {
+      marginTop: 'auto',
+    },
+    search: {
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: alpha(theme.palette.common.white, 0.15),
+      '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+      },
+      marginRight: theme.spacing(2),
+      marginLeft: 0,
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(3),
+        width: 'auto',
+      },
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputRoot: {
+      color: 'inherit',
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '20ch',
+      },
+    },
   })
 );
 
@@ -127,9 +169,19 @@ export default function LeftNav() {
           >
             <img src={minilogo} alt="logo" />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Mini variant drawer
-          </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Pesquisar paciente"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -157,7 +209,7 @@ export default function LeftNav() {
         </div>
         <Divider />
         <List>
-          <ListItem button key="PersonIcon">
+          <ListItem button key="PersonIcon" selected>
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
@@ -176,7 +228,7 @@ export default function LeftNav() {
             <ListItemText primary="Relatórios" />
           </ListItem>
         </List>
-        <Divider />
+        <Button className={classes.bottomButton}>SAIR</Button>
       </Drawer>
     </div>
   );
