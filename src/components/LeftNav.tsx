@@ -72,9 +72,9 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.leavingScreen,
       }),
       overflowX: 'hidden',
-      width: theme.spacing(7) + 1,
+      width: theme.spacing(7),
       [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1,
+        width: theme.spacing(8),
       },
     },
     collapsedToolbar: {
@@ -151,30 +151,30 @@ export default function LeftNav() {
   return (
     <div className={classes.root}>
       <AppBar
-        position="fixed"
+        position='fixed'
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
-        color="default"
+        color='default'
       >
         <Toolbar className={classes.collapsedToolbar}>
           <IconButton
-            color="inherit"
-            aria-label="open drawer"
+            color='inherit'
+            aria-label='open drawer'
             onClick={handleDrawerOpen}
-            edge="start"
+            edge='start'
             className={clsx(classes.menuButton, {
               [classes.hide]: open,
             })}
           >
-            <img src={minilogo} alt="logo" />
+            <img src={minilogo} alt='logo' width='39' />
           </IconButton>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Pesquisar paciente"
+              placeholder='Pesquisar paciente'
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -185,7 +185,7 @@ export default function LeftNav() {
         </Toolbar>
       </AppBar>
       <Drawer
-        variant="permanent"
+        variant='permanent'
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
@@ -198,7 +198,7 @@ export default function LeftNav() {
         }}
       >
         <div className={classes.toolbar}>
-          <img src={logo} className="app-logo" alt="logo" />
+          <img src={logo} className='app-logo' alt='logo' />
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
@@ -209,23 +209,23 @@ export default function LeftNav() {
         </div>
         <Divider />
         <List>
-          <ListItem button key="PersonIcon" selected>
+          <ListItem button key='PersonIcon' selected>
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
-            <ListItemText primary="Pacientes" />
+            <ListItemText primary='Pacientes' />
           </ListItem>
-          <ListItem button key="FavoriteIcon">
+          <ListItem button key='FavoriteIcon'>
             <ListItemIcon>
               <FavoriteIcon />
             </ListItemIcon>
-            <ListItemText primary="Acolhimento" />
+            <ListItemText primary='Acolhimento' />
           </ListItem>
-          <ListItem button key="PieChartIcon">
+          <ListItem button key='PieChartIcon'>
             <ListItemIcon>
               <PieChartIcon />
             </ListItemIcon>
-            <ListItemText primary="Relatórios" />
+            <ListItemText primary='Relatórios' />
           </ListItem>
         </List>
         <Button className={classes.bottomButton}>SAIR</Button>
