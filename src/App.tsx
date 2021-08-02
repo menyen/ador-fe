@@ -1,46 +1,29 @@
 import React from 'react';
-import clsx from 'clsx';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+import Login from './components/Login'
+import Medico from './components/Medico';
+import useToken from './hooks/useToken';
 
 import './App.css';
-import LeftNav from './components/LeftNav';
-import StickyHeadTable from './components/StickyHeadTable';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    appRoot: {
-      display: 'flex',
-    },
-    toolbar: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
-  })
-);
 
 function App() {
-  const classes = useStyles();
-
+  const [token, setToken] = useToken();
+  
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
   return (
     <div
-      className={clsx('App', {
-        [classes.appRoot]: true,
-      })}
+      className='App'
     >
-      <CssBaseline />
-      <LeftNav />
-      <main className={classes.content}>
-        <StickyHeadTable />
-      </main>
+      <BrowserRouter>
+      <Switch>
+        <Route path='/medico'>
+          <Medico />
+        </Route>
+      </Switch>
+      </BrowserRouter>
     </div>
   );
 }
