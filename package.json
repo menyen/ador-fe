@@ -21,6 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:with-mock-server": "concurrently \"node mockserver.js\" \"yarn start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.8",
+    "concurrently": "^6.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1"
   }
