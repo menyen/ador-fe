@@ -17,9 +17,10 @@ import { UserToken } from '../hooks/useToken';
 import minilogo from '../image/mini-logo-white.svg';
 import logo from '../image/logo.svg';
 import { loginUser } from '../utils/endpointRequests';
+import { useHistory, useLocation } from 'react-router-dom';
 
 interface LoginProps {
-  setToken: (userToken: UserToken) => void;
+  setToken: (userToken?: UserToken) => void;
 }
 interface PanelCommonProps {
   nextPanel: () => void;
@@ -167,13 +168,18 @@ function LoginPanel(props: LoginPanelProps) {
   const [password, setPassword] = useState<string>('');
   const classes = useStyles();
 
+  const history = useHistory();
+  const location = useLocation<{ from: string }>();
+
   const handleLoginSubmit = async (e: React.SyntheticEvent) => {
+    const { from } = location.state || { from: { pathname: '/' } };
     e.preventDefault();
     const token = await loginUser({
       email,
       password,
     });
     props.setToken(token);
+    history.replace(from);
   };
 
   return (

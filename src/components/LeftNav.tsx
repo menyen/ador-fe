@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { useHistory } from 'react-router';
 import {
   alpha,
   createStyles,
@@ -26,6 +27,7 @@ import PieChartIcon from '@material-ui/icons/PieChart';
 import SearchIcon from '@material-ui/icons/Search';
 import logo from '../image/logo.svg';
 import minilogo from '../image/mini-logo.svg';
+import useToken from '../hooks/useToken';
 
 const drawerWidth = 240;
 
@@ -138,6 +140,7 @@ export default function LeftNav() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const history = useHistory();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -145,6 +148,12 @@ export default function LeftNav() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const [token, setToken] = useToken();
+
+  const signout = () => {
+    setToken();
+    history.push('/login');
   };
 
   return (
@@ -227,7 +236,9 @@ export default function LeftNav() {
             <ListItemText primary="Relatórios" />
           </ListItem>
         </List>
-        <Button className={classes.bottomButton}>SAIR</Button>
+        <Button className={classes.bottomButton} onClick={signout}>
+          SAIR
+        </Button>
       </Drawer>
     </div>
   );

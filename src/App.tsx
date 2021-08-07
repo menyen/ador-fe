@@ -1,5 +1,11 @@
 import React from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Redirect,
+  Route,
+  RouteProps,
+  Switch,
+} from 'react-router-dom';
 
 import Login from './components/Login';
 import PhysicianPage from './components/PhysicianPage';
@@ -10,19 +16,39 @@ import './App.css';
 function App() {
   const [token, setToken] = useToken();
 
-  if (!token) {
-    return <Login setToken={setToken} />;
+  function PrivateRoute({ children, ...rest }: RouteProps) {
+    return (
+      <Route
+        {...rest}
+        render={({ location }) =>
+          token ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: location },
+              }}
+            />
+          )
+        }
+      />
+    );
   }
+
   return (
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route exact path="/">
+          <Route path="/login">
+            <Login setToken={setToken} />
+          </Route>
+          <PrivateRoute exact path="/">
             <Redirect to="/physician" />
-          </Route>
-          <Route path="/physician">
+          </PrivateRoute>
+          <PrivateRoute path="/physician">
             <PhysicianPage />
-          </Route>
+          </PrivateRoute>
         </Switch>
       </BrowserRouter>
     </div>
