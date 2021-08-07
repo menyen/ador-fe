@@ -1,8 +1,8 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import Login from './components/Login';
-import Medico from './components/Medico';
+import PhysicianPage from './components/PhysicianPage';
 import useToken from './hooks/useToken';
 
 import './App.css';
@@ -17,8 +17,11 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route path="/medico">
-            <Medico />
+          <Route exact path="/">
+            <Redirect to="/physician" />
+          </Route>
+          <Route path="/physician">
+            <PhysicianPage />
           </Route>
         </Switch>
       </BrowserRouter>

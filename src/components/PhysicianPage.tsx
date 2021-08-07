@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function Medico() {
+function PhysicianPage() {
   const classes = useStyles();
 
   return (
@@ -44,4 +44,4 @@ function Medico() {
   );
 }
 
-export default Medico;
+export default PhysicianPage;

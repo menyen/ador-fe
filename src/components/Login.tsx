@@ -14,25 +14,10 @@ import clsx from 'clsx';
 import { UserToken } from '../hooks/useToken';
 import minilogo from '../image/mini-logo-white.svg';
 import logo from '../image/logo.svg';
+import { loginUser } from '../utils/endpointRequests';
 
 interface LoginProps {
   setToken: (userToken: UserToken) => void;
-}
-
-interface Credentials {
-  email: string;
-  password: string;
-}
-
-async function loginUser(credentials: Credentials) {
-  // TODO: need to change URL once back-end is done
-  return fetch('http://localhost:8080/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'applciation/json',
-    },
-    body: JSON.stringify(credentials),
-  }).then((data) => data.json());
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -132,6 +117,7 @@ export default function Login(props: LoginProps) {
                       id="password-input"
                       label="Senha"
                       type="password"
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12}>
