@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router';
 import {
@@ -139,7 +139,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function LeftNav() {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const history = useHistory();
 
   const handleDrawerOpen = () => {
