@@ -10,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Slide from '@material-ui/core/Slide';
+import Link from '@material-ui/core/Link';
 import clsx from 'clsx';
 import { UserToken } from '../hooks/useToken';
 import minilogo from '../image/mini-logo-white.svg';
@@ -18,6 +20,18 @@ import { loginUser } from '../utils/endpointRequests';
 
 interface LoginProps {
   setToken: (userToken: UserToken) => void;
+}
+interface PanelCommonProps {
+  nextPanel: () => void;
+}
+
+type LoginPanelProps = LoginProps & PanelCommonProps;
+
+enum PanelType {
+  Initial,
+  Login,
+  ForgotPassword,
+  CreatePassword,
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,35 +52,122 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       height: '100vh',
-      width: '50vw',
+      boxShadow: 'none',
+    },
+    contentBox: {
+      maxWidth: '400px',
+    },
+    centralize: {
       textAlign: 'center',
+      marginBottom: theme.spacing(6),
+      marginTop: theme.spacing(6),
     },
-    margin: {
-      marginLeft: theme.spacing(6),
-      marginRight: theme.spacing(6),
+    input: {
+      marginTop: theme.spacing(2),
     },
-    // control: {
-    //   padding: theme.spacing(2),
-    // },
+    termsAndPolicy: {
+      fontSize: '0.875rem',
+    },
+    link: {
+      textDecoration: 'underline',
+    },
+    alignRight: {
+      textAlign: 'end',
+    },
+    forgotLink: {
+      marginTop: 10,
+      fontSize: '0.75rem',
+    },
   })
 );
 
-const ColorButton = withStyles((theme: Theme) => ({
+const DefaultButton = withStyles((theme: Theme) => ({
   root: {
     color: 'white',
     backgroundColor: 'black',
     '&:hover': {
       backgroundColor: 'black',
     },
+    textTransform: 'capitalize',
+    width: 185,
   },
 }))(Button);
 
-export default function Login(props: LoginProps) {
+const OutlinedButton = withStyles((theme: Theme) => ({
+  root: {
+    color: 'black',
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: 'white',
+    },
+    border: '1px solid rgba(0, 0, 0, 1)',
+    textTransform: 'capitalize',
+    width: 185,
+  },
+}))(Button);
+
+function InitialPanel(props: PanelCommonProps) {
+  const classes = useStyles();
+  const preventDefault = (event: React.SyntheticEvent) =>
+    event.preventDefault();
+
+  return (
+    <Paper className={clsx(classes.paper, classes.right)}>
+      <Grid container spacing={0} className={classes.contentBox}>
+        <Grid item xs={12} className={classes.centralize}>
+          <img src={logo} className="app-logo" alt="logo" />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h6" gutterBottom>
+            Seja Bem-vindo!
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" gutterBottom>
+            Por favor informe suas credenciais para acessar a plataforma!
+          </Typography>
+        </Grid>
+        <Grid item xs={12} className={classes.centralize}>
+          <DefaultButton
+            variant="contained"
+            onClick={props.nextPanel}
+            size="large"
+          >
+            Entrar
+          </DefaultButton>
+        </Grid>
+        <Grid item xs={12} className={classes.centralize}>
+          <Typography className={classes.termsAndPolicy}>
+            <Link
+              href="#"
+              color="textPrimary"
+              onClick={preventDefault}
+              className={classes.link}
+            >
+              Termos de uso
+            </Link>
+            &nbsp;e&nbsp;
+            <Link
+              href="#"
+              color="textPrimary"
+              onClick={preventDefault}
+              className={classes.link}
+            >
+              Políticas de privacidade
+            </Link>
+          </Typography>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+}
+
+function LoginPanel(props: LoginPanelProps) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const classes = useStyles();
 
-  const handleSubmit = async (e: React.SyntheticEvent) => {
+  const handleLoginSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const token = await loginUser({
       email,
@@ -74,60 +175,151 @@ export default function Login(props: LoginProps) {
     });
     props.setToken(token);
   };
+
+  return (
+    <Paper className={clsx(classes.paper, classes.right)}>
+      <form onSubmit={handleLoginSubmit}>
+        <Grid container spacing={0} className={classes.contentBox}>
+          <Grid item xs={12} className={classes.centralize}>
+            <img src={logo} className="app-logo" alt="logo" />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" gutterBottom>
+              Seja Bem-vindo!
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="subtitle1" gutterBottom>
+              Por favor informe suas credenciais para acessar a plataforma!
+            </Typography>
+          </Grid>
+          <Grid item xs={12} className={classes.input}>
+            <TextField
+              fullWidth
+              id="email-input"
+              label="E-mail"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} className={classes.input}>
+            <TextField
+              fullWidth
+              id="password-input"
+              label="Senha"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} className={classes.alignRight}>
+            <Typography className={classes.forgotLink}>
+              <Link href="#" color="textPrimary" onClick={props.nextPanel}>
+                Esqueceu a senha?
+              </Link>
+            </Typography>
+          </Grid>
+          <Grid item xs={12} className={classes.centralize}>
+            <DefaultButton variant="contained" type="submit" size="large">
+              Entrar
+            </DefaultButton>
+          </Grid>
+        </Grid>
+      </form>
+    </Paper>
+  );
+}
+
+function ForgotPasswordPanel(props: PanelCommonProps) {
+  const [emailForgotPsw, setEmailForgotPsw] = useState<string>('');
+
+  const handleForgotPswSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    // TODO call forgotPassword function here
+  };
+
+  const classes = useStyles();
+  return (
+    <Paper className={clsx(classes.paper, classes.right)}>
+      <form onSubmit={handleForgotPswSubmit}>
+        <Grid container spacing={0} className={classes.contentBox}>
+          <Grid item xs={12} className={classes.centralize}>
+            <img src={logo} className="app-logo" alt="logo" />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" gutterBottom>
+              Esqueceu sua senha?
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="subtitle1" gutterBottom>
+              Enviaremos um código de recuperação para o seu email
+            </Typography>
+          </Grid>
+          <Grid item xs={12} className={classes.input}>
+            <TextField
+              fullWidth
+              id="email-forgot-psw-input"
+              label="E-mail"
+              onChange={(e) => setEmailForgotPsw(e.target.value)}
+            />
+          </Grid>
+          <Grid container xs={12} className={classes.centralize}>
+            <Grid item xs={6}>
+              <OutlinedButton
+                variant="outlined"
+                type="submit"
+                size="large"
+                onClick={props.nextPanel}
+              >
+                Cancelar
+              </OutlinedButton>
+            </Grid>
+            <Grid item xs={6}>
+              <DefaultButton variant="contained" type="submit" size="large">
+                Enviar
+              </DefaultButton>
+            </Grid>
+          </Grid>
+        </Grid>
+      </form>
+    </Paper>
+  );
+}
+
+export default function Login(props: LoginProps) {
+  const [panel, setPanel] = useState<PanelType>(PanelType.Initial);
+  const classes = useStyles();
+
   return (
     <Grid container className={classes.root} spacing={1}>
       <Grid item xs={12}>
         <Grid container justifyContent="center" spacing={0}>
-          <Grid item>
-            <Paper className={clsx(classes.paper, classes.left)}>
-              <img src={minilogo} alt="logo" width="300" />
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper className={clsx(classes.paper, classes.right)}>
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <img src={logo} className="app-logo" alt="logo" />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom>
-                      Seja Bem-vindo!
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="subtitle1" gutterBottom>
-                      Por favor informe suas credenciais para acessar a
-                      plataforma!
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <TextField
-                      fullWidth
-                      className={classes.margin}
-                      id="email-input"
-                      label="E-mail"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={10}>
-                    <TextField
-                      fullWidth
-                      className={classes.margin}
-                      id="password-input"
-                      label="Senha"
-                      type="password"
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <ColorButton variant="contained" type="submit">
-                      Entrar
-                    </ColorButton>
-                  </Grid>
-                </Grid>
-              </form>
-            </Paper>
+          <Slide
+            in={panel !== PanelType.Initial}
+            direction="right"
+            mountOnEnter
+            unmountOnExit
+          >
+            <Grid item xs={6}>
+              <Paper className={clsx(classes.paper, classes.left)}>
+                <img src={minilogo} alt="logo" width="300" />
+              </Paper>
+            </Grid>
+          </Slide>
+          <Grid item xs={6}>
+            {panel === PanelType.Initial && (
+              <InitialPanel nextPanel={() => setPanel(PanelType.Login)} />
+            )}
+            {panel === PanelType.Login && (
+              <LoginPanel
+                {...props}
+                nextPanel={() => setPanel(PanelType.ForgotPassword)}
+              />
+            )}
+            {panel === PanelType.ForgotPassword && (
+              <ForgotPasswordPanel
+                nextPanel={() => setPanel(PanelType.Login)}
+              />
+            )}
           </Grid>
         </Grid>
       </Grid>
