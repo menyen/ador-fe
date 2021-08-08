@@ -9,68 +9,25 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
-import { PatientTableColumn, PatientTableData } from '../interfaces';
+import { ClinicTableColumn, ClinicModel } from '../interfaces';
+import { getClinicis } from '../utils/endpointRequests';
+import { useEffect } from 'react';
 
-const columns: PatientTableColumn[] = [
-  { id: 'name', label: 'Nome', minWidth: 170 },
-  { id: 'email', label: 'E-mail', minWidth: 100 },
-  {
-    id: 'cpf',
-    label: 'CPF',
-    minWidth: 170,
-    format: (value: number) =>
-      value
-        .toString()
-        .padStart(11, '0')
-        .replace(
-          /(\d{3})(\d{3})(\d{3})(\d{2})/,
-          (regex, arg1, arg2, arg3, arg4) =>
-            arg1 + '.' + arg2 + '.' + arg3 + '-' + arg4
-        ),
-  },
-  {
-    id: 'lastQnaireDate',
-    label: 'Data do último questionário',
-    minWidth: 170,
-    format: (value: number) => {
-      const dateFormat = new Date(value);
-      return (
-        dateFormat.getDate() +
-        '/' +
-        (dateFormat.getMonth() + 1) +
-        '/' +
-        dateFormat.getFullYear()
-      );
-    },
-  },
+const columns: ClinicTableColumn[] = [
+  // { id: 'id', label: 'ID' },
+  { id: 'name', label: 'Nome', minWidth: 100 },
+  { id: 'address_zipcode', label: 'CEP', minWidth: 100 },
+  { id: 'address_street', label: 'Endereço', minWidth: 100 },
+  { id: 'address_city', label: 'Cidade', minWidth: 100 },
+  { id: 'address_state', label: 'Estado', minWidth: 100 },
+  { id: 'phone', label: 'Telefone', minWidth: 100 },
+  { id: 'status', label: 'Status', minWidth: 100 },
 ];
 
-function createData(
-  name: string,
-  email: string,
-  cpf: number,
-  lastQnaireDate: number
-): PatientTableData {
-  return { name, email, cpf, lastQnaireDate };
+async function fetchData(): Promise<ClinicModel[]> {
+  const resp = await getClinicis();
+  return resp.clinics;
 }
-
-const rows = [
-  createData('André Silva', 'aaa@ddd.com', 1324171354, 1580266800000),
-  createData('José da Cunha', 'aaa@ddd.com', 1403500365, 1580256000000),
-  createData('Bruno', 'aaa@ddd.com', 60483973, 1580266800000),
-  createData('Alice in Chains', 'aaa@ddd.com', 327167434, 1580256000000),
-  createData('Eduardo Cabral', 'aaa@ddd.com', 37602103, 1580256000000),
-  createData('Victor Camejo', 'aaa@ddd.com', 25475400, 1580266800000),
-  createData('Josefina', 'aaa@ddd.com', 83019200, 1580266800000),
-  createData('Luana Amaral', 'aaa@ddd.com', 4857000, 1580266800000),
-  createData('Simone Souza', 'aaa@ddd.com', 126577691, 1580256000000),
-  createData('Bia Novaes', 'aaa@ddd.com', 126317000, 1580266800000),
-  createData('João Camilo', 'aaa@ddd.com', 67022000, 1580266800000),
-  createData('Julia Hitaki', 'aaa@ddd.com', 67545757, 1580266800000),
-  createData('Claudia Paes', 'aaa@ddd.com', 146793744, 1580256000000),
-  createData('Tulio Pazos', 'aaa@ddd.com', 200962417, 1580256000000),
-  createData('Saulo Silva', 'aaa@ddd.com', 210147125, 1580266800000),
-];
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -91,11 +48,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function StickyHeadTable() {
+export default function PacientsTable() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selected, setSelected] = React.useState<number[]>([]);
+  const [rows, setRows] = React.useState<ClinicModel[]>([]);
+
+  useEffect(() => {
+    async function setClinics() {
+      const clinics = await fetchData();
+      setRows(clinics);
+    }
+    setClinics();
+  }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -110,7 +76,7 @@ export default function StickyHeadTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.cpf);
+      const newSelecteds = rows.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -175,17 +141,17 @@ export default function StickyHeadTable() {
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                const isItemSelected = isSelected(row.cpf);
+                const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={row.cpf}
+                    key={row.id}
                     aria-checked={isItemSelected}
                     selected={isItemSelected}
-                    onClick={(event) => handleClick(event, row.cpf)}
+                    onClick={(event) => handleClick(event, row.id)}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox

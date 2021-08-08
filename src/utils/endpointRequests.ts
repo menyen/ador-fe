@@ -9,3 +9,14 @@ export async function loginUser(credentials: Credentials) {
     body: JSON.stringify(credentials),
   }).then((data) => data.json());
 }
+
+export async function getClinicis() {
+  const tokenString = localStorage.getItem('auth') || '{}';
+  const auth = JSON.parse(tokenString);
+  return fetch('https://api-ador.iponce.com.br/api/v1/clinics', {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${auth.token}`,
+    },
+  }).then((data) => data.json());
+}

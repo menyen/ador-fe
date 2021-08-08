@@ -3,7 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import LeftNav from './LeftNav';
-import StickyHeadTable from './StickyHeadTable';
+import PacientsTable from './PacientsTable';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,7 +37,7 @@ function PhysicianPage() {
       <CssBaseline />
       <LeftNav />
       <main className={classes.content}>
-        <StickyHeadTable />
+        <PacientsTable />
       </main>
     </div>
   );
