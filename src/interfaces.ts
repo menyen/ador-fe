@@ -20,7 +20,7 @@ export interface UserAuth {
 }
 
 export interface LoginProps {
-  setToken: (userToken?: UserAuth) => void;
+  setAuth: (setAuth?: UserAuth) => void;
 }
 
 export interface PanelCommonProps {
@@ -45,3 +45,16 @@ export interface Credentials {
   email: string;
   password: string;
 }
+
+export enum LoginPanelType {
+  Initial,
+  Login,
+  ForgotPassword,
+  CreatePassword,
+}
+
+export const DefaultPathByRole = {
+  ADMIN: 'admin',
+  MANAGER: 'manager',
+  PHYSICIAN: 'physician',
+} as const;

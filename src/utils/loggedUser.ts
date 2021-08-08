@@ -1,7 +1,7 @@
-import { UserAuth } from '../interfaces';
+import { DefaultPathByRole } from '../interfaces';
 
-export function getLoggedUserInfo() {
-  const authString = localStorage.getItem('auth') || '{}';
-  const userAuth: UserAuth = JSON.parse(authString);
-  return userAuth.user;
+export function isValidRole(
+  value: string
+): value is keyof typeof DefaultPathByRole {
+  return value in DefaultPathByRole;
 }

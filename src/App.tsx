@@ -8,20 +8,32 @@ import {
 
 import Login from './components/Login';
 import PhysicianPage from './components/PhysicianPage';
-import useToken from './hooks/useToken';
+import useAuth from './hooks/useAuth';
+import { DefaultPathByRole } from './interfaces';
+import { isValidRole } from './utils/loggedUser';
+import AdminPage from './components/AdminPage';
 
 import './App.css';
 
 function App() {
-  const [token, setToken] = useToken();
+  const [auth, setAuth] = useAuth();
+
+  const currentRole = auth?.user?.roles[0];
+  const defaultPath = isValidRole(currentRole)
+    ? DefaultPathByRole[currentRole]
+    : '/';
 
   function PrivateRoute({ children, ...rest }: RouteProps) {
     return (
       <Route
         {...rest}
         render={({ location }) =>
-          token ? (
-            children
+          auth.token ? (
+            rest.path?.includes(defaultPath) ? (
+              children
+            ) : (
+              <Redirect to={defaultPath} />
+            )
           ) : (
             <Redirect
               to={{
@@ -40,10 +52,10 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/login">
-            <Login setToken={setToken} />
+            <Login setAuth={setAuth} />
           </Route>
-          <PrivateRoute exact path="/">
-            <Redirect to="/physician" />
+          <PrivateRoute path="/admin">
+            <AdminPage />
           </PrivateRoute>
           <PrivateRoute path="/physician">
             <PhysicianPage />

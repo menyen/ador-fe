@@ -27,7 +27,7 @@ import PieChartIcon from '@material-ui/icons/PieChart';
 import SearchIcon from '@material-ui/icons/Search';
 import logo from '../image/logo.svg';
 import minilogo from '../image/mini-logo.svg';
-import useToken from '../hooks/useToken';
+import useAuth from '../hooks/useAuth';
 
 const drawerWidth = 240;
 
@@ -149,10 +149,10 @@ export default function LeftNav() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [, setToken] = useToken();
+  const [, setAuth] = useAuth();
 
   const signout = () => {
-    setToken();
+    setAuth();
     history.push('/login');
   };
 

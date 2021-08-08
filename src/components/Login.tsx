@@ -13,20 +13,13 @@ import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
 import Link from '@material-ui/core/Link';
 import clsx from 'clsx';
-import { LoginProps, PanelCommonProps } from '../interfaces';
+import { LoginPanelType, LoginProps, PanelCommonProps } from '../interfaces';
 import minilogo from '../image/mini-logo-white.svg';
 import logo from '../image/logo.svg';
 import { loginUser } from '../utils/endpointRequests';
 import { useHistory, useLocation } from 'react-router-dom';
 
 type LoginPanelProps = LoginProps & PanelCommonProps;
-
-enum PanelType {
-  Initial,
-  Login,
-  ForgotPassword,
-  CreatePassword,
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -162,7 +155,7 @@ function LoginPanel(props: LoginPanelProps) {
   const classes = useStyles();
 
   const history = useHistory();
-  const location = useLocation<{ from: string }>();
+  const location = useLocation<{ from: { pathname: string } }>();
 
   const handleLoginSubmit = async (e: React.SyntheticEvent) => {
     const { from } = location.state || { from: { pathname: '/' } };
@@ -171,7 +164,7 @@ function LoginPanel(props: LoginPanelProps) {
       email,
       password,
     });
-    props.setToken(token);
+    props.setAuth(token);
     history.replace(from);
   };
 
@@ -285,7 +278,7 @@ function ForgotPasswordPanel(props: PanelCommonProps) {
 }
 
 export default function Login(props: LoginProps) {
-  const [panel, setPanel] = useState<PanelType>(PanelType.Initial);
+  const [panel, setPanel] = useState<LoginPanelType>(LoginPanelType.Initial);
   const classes = useStyles();
 
   return (
@@ -293,7 +286,7 @@ export default function Login(props: LoginProps) {
       <Grid item xs={12}>
         <Grid container justifyContent="center" spacing={0}>
           <Slide
-            in={panel !== PanelType.Initial}
+            in={panel !== LoginPanelType.Initial}
             direction="right"
             mountOnEnter
             unmountOnExit
@@ -305,18 +298,18 @@ export default function Login(props: LoginProps) {
             </Grid>
           </Slide>
           <Grid item xs={6}>
-            {panel === PanelType.Initial && (
-              <InitialPanel nextPanel={() => setPanel(PanelType.Login)} />
+            {panel === LoginPanelType.Initial && (
+              <InitialPanel nextPanel={() => setPanel(LoginPanelType.Login)} />
             )}
-            {panel === PanelType.Login && (
+            {panel === LoginPanelType.Login && (
               <LoginPanel
                 {...props}
-                nextPanel={() => setPanel(PanelType.ForgotPassword)}
+                nextPanel={() => setPanel(LoginPanelType.ForgotPassword)}
               />
             )}
-            {panel === PanelType.ForgotPassword && (
+            {panel === LoginPanelType.ForgotPassword && (
               <ForgotPasswordPanel
-                nextPanel={() => setPanel(PanelType.Login)}
+                nextPanel={() => setPanel(LoginPanelType.Login)}
               />
             )}
           </Grid>
