@@ -13,18 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
 import Link from '@material-ui/core/Link';
 import clsx from 'clsx';
-import { UserToken } from '../hooks/useToken';
+import { LoginProps, PanelCommonProps } from '../interfaces';
 import minilogo from '../image/mini-logo-white.svg';
 import logo from '../image/logo.svg';
 import { loginUser } from '../utils/endpointRequests';
 import { useHistory, useLocation } from 'react-router-dom';
-
-interface LoginProps {
-  setToken: (userToken?: UserToken) => void;
-}
-interface PanelCommonProps {
-  nextPanel: () => void;
-}
 
 type LoginPanelProps = LoginProps & PanelCommonProps;
 

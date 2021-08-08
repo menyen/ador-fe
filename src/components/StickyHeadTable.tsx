@@ -9,15 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
+import { PatientTableColumn, PatientTableData } from '../interfaces';
 
-interface Column {
-  id: 'name' | 'email' | 'cpf' | 'lastQnaireDate';
-  label: string;
-  minWidth?: number;
-  format?: (value: number) => string;
-}
-
-const columns: Column[] = [
+const columns: PatientTableColumn[] = [
   { id: 'name', label: 'Nome', minWidth: 170 },
   { id: 'email', label: 'E-mail', minWidth: 100 },
   {
@@ -25,8 +19,14 @@ const columns: Column[] = [
     label: 'CPF',
     minWidth: 170,
     format: (value: number) =>
-      value.toString().padStart(11, '0').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, 
-        (regex, arg1, arg2, arg3, arg4) => arg1 + '.' + arg2 + '.' + arg3 + '-' + arg4)
+      value
+        .toString()
+        .padStart(11, '0')
+        .replace(
+          /(\d{3})(\d{3})(\d{3})(\d{2})/,
+          (regex, arg1, arg2, arg3, arg4) =>
+            arg1 + '.' + arg2 + '.' + arg3 + '-' + arg4
+        ),
   },
   {
     id: 'lastQnaireDate',
@@ -34,20 +34,23 @@ const columns: Column[] = [
     minWidth: 170,
     format: (value: number) => {
       const dateFormat = new Date(value);
-      return ((dateFormat.getDate() )) + "/" + ((dateFormat.getMonth() + 1)) + "/" + dateFormat.getFullYear();
+      return (
+        dateFormat.getDate() +
+        '/' +
+        (dateFormat.getMonth() + 1) +
+        '/' +
+        dateFormat.getFullYear()
+      );
     },
   },
 ];
 
-interface Data {
-  name: string;
-  email: string;
-  cpf: number;
-  lastQnaireDate: number;
-  
-}
-
-function createData(name: string, email: string, cpf: number, lastQnaireDate: number): Data {
+function createData(
+  name: string,
+  email: string,
+  cpf: number,
+  lastQnaireDate: number
+): PatientTableData {
   return { name, email, cpf, lastQnaireDate };
 }
 
@@ -84,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     tableHeadCheckbox: {
       color: theme.palette.common.white,
-    }
+    },
   })
 );
 
@@ -98,7 +101,9 @@ export default function StickyHeadTable() {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
@@ -125,7 +130,7 @@ export default function StickyHeadTable() {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
 
@@ -144,18 +149,20 @@ export default function StickyHeadTable() {
             <TableRow>
               <TableCell padding="checkbox" className={classes.tableHeadCell}>
                 <Checkbox
-                  indeterminate={selected.length > 0 && selected.length < rows.length}
+                  indeterminate={
+                    selected.length > 0 && selected.length < rows.length
+                  }
                   checked={rows.length > 0 && selected.length === rows.length}
                   onChange={handleSelectAllClick}
                   inputProps={{ 'aria-label': 'select all desserts' }}
-                  color='default'
-                  classes={{root: classes.tableHeadCheckbox}}
+                  color="default"
+                  classes={{ root: classes.tableHeadCheckbox }}
                 />
               </TableCell>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  align='left'
+                  align="left"
                   style={{ minWidth: column.minWidth }}
                   className={classes.tableHeadCell}
                 >
@@ -165,36 +172,40 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-              const isItemSelected = isSelected(row.cpf);
-              const labelId = `enhanced-table-checkbox-${index}`;
-              return (
-                <TableRow
-                  hover
-                  role="checkbox"
-                  tabIndex={-1}
-                  key={row.cpf}
-                  aria-checked={isItemSelected}
-                  selected={isItemSelected}
-                  onClick={(event) => handleClick(event, row.cpf)}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={isItemSelected}
-                      inputProps={{ 'aria-labelledby': labelId }}
-                    />
-                  </TableCell>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align='left'>
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => {
+                const isItemSelected = isSelected(row.cpf);
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.cpf}
+                    aria-checked={isItemSelected}
+                    selected={isItemSelected}
+                    onClick={(event) => handleClick(event, row.cpf)}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={isItemSelected}
+                        inputProps={{ 'aria-labelledby': labelId }}
+                      />
+                    </TableCell>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align="left">
+                          {column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>

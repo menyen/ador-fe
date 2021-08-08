@@ -149,7 +149,7 @@ export default function LeftNav() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [token, setToken] = useToken();
+  const [, setToken] = useToken();
 
   const signout = () => {
     setToken();

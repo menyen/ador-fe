@@ -1,7 +1,4 @@
-interface Credentials {
-  email: string;
-  password: string;
-}
+import { Credentials } from '../interfaces';
 
 export async function loginUser(credentials: Credentials) {
   return fetch('https://api-ador.iponce.com.br/api/v1/login', {

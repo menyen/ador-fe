@@ -1,27 +1,24 @@
 import { useState } from 'react';
-
-export interface UserToken {
-  token: string;
-}
+import { UserAuth } from '../interfaces';
 
 export default function useToken(): [
   token: string,
-  saveToken: (userToken?: UserToken) => void
+  saveToken: (userToken?: UserAuth) => void
 ] {
   const getToken = () => {
-    const tokenString = localStorage.getItem('token') || '{}';
-    const userToken: UserToken = JSON.parse(tokenString);
+    const tokenString = localStorage.getItem('auth') || '{}';
+    const userToken: UserAuth = JSON.parse(tokenString);
     return userToken.token;
   };
 
   const [token, setToken] = useState(getToken());
 
-  const saveToken = (userToken?: UserToken) => {
+  const saveToken = (userToken?: UserAuth) => {
     if (userToken) {
-      localStorage.setItem('token', JSON.stringify(userToken));
+      localStorage.setItem('auth', JSON.stringify(userToken));
       setToken(userToken.token);
     } else {
-      localStorage.removeItem('token');
+      localStorage.removeItem('auth');
     }
   };
 
