@@ -20,7 +20,7 @@ function App() {
 
   const currentRole = auth?.user?.roles[0];
   const defaultPath = isValidRole(currentRole)
-    ? DefaultPathByRole[currentRole]
+    ? `/${DefaultPathByRole[currentRole]}`
     : '/';
 
   function PrivateRoute({ children, ...rest }: RouteProps) {
@@ -53,6 +53,9 @@ function App() {
         <Switch>
           <Route path="/login">
             <Login setAuth={setAuth} />
+          </Route>
+          <Route exact path="/">
+            <Redirect to={defaultPath} />
           </Route>
           <PrivateRoute path="/admin">
             <AdminPage />

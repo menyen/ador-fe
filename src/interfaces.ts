@@ -23,6 +23,20 @@ export interface LoginProps {
   setAuth: (setAuth?: UserAuth) => void;
 }
 
+export interface TableColumn<K extends string = string> {
+  id: K;
+  label: string;
+  minWidth?: number;
+  format?: (value: number) => string;
+}
+
+export type TableRow<K extends string = string, T = any> = Record<K, T>;
+
+export interface TableProps<K extends string = string, L extends K = K> {
+  columns: TableColumn<L>[];
+  rows: TableRow<K>[];
+}
+
 export interface PanelCommonProps {
   nextPanel: () => void;
 }
