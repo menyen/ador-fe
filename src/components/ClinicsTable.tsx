@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -9,9 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
-import { ClinicTableColumn, ClinicModel } from '../interfaces';
+import { ClinicTableColumn } from '../interfaces';
 import { getClinicis } from '../utils/endpointRequests';
-import { useEffect } from 'react';
+import { Clinic } from '../models/Clinic';
 
 const columns: ClinicTableColumn[] = [
   // { id: 'id', label: 'ID' },
@@ -24,7 +24,7 @@ const columns: ClinicTableColumn[] = [
   { id: 'status', label: 'Status', minWidth: 100 },
 ];
 
-async function fetchData(): Promise<ClinicModel[]> {
+async function fetchData(): Promise<Clinic[]> {
   const resp = await getClinicis();
   return resp.clinics;
 }
@@ -53,7 +53,7 @@ export default function PacientsTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selected, setSelected] = React.useState<number[]>([]);
-  const [rows, setRows] = React.useState<ClinicModel[]>([]);
+  const [rows, setRows] = React.useState<Clinic[]>([]);
 
   useEffect(() => {
     async function setClinics() {
