@@ -20,7 +20,7 @@ async function fetchData(): Promise<Clinic[]> {
   return resp.clinics;
 }
 
-export default function PacientsTable() {
+export default function ClinicsTable() {
   const [rows, setRows] = React.useState<Clinic[]>([]);
 
   useEffect(() => {

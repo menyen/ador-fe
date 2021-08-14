@@ -25,9 +25,12 @@ import PersonIcon from '@material-ui/icons/Person';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PieChartIcon from '@material-ui/icons/PieChart';
 import SearchIcon from '@material-ui/icons/Search';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import SettingsIcon from '@material-ui/icons/Settings';
 import logo from '../image/logo.svg';
 import minilogo from '../image/mini-logo.svg';
 import useAuth from '../hooks/useAuth';
+import { RolesEnum } from '../interfaces';
 
 const drawerWidth = 240;
 
@@ -136,7 +139,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function LeftNav() {
+export default function LeftNav({ role }: { role: string }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -216,26 +219,44 @@ export default function LeftNav() {
           </IconButton>
         </div>
         <Divider />
-        <List>
-          <ListItem button key="PersonIcon" selected>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText primary="Pacientes" />
-          </ListItem>
-          <ListItem button key="FavoriteIcon">
-            <ListItemIcon>
-              <FavoriteIcon />
-            </ListItemIcon>
-            <ListItemText primary="Acolhimento" />
-          </ListItem>
-          <ListItem button key="PieChartIcon">
-            <ListItemIcon>
-              <PieChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Relatórios" />
-          </ListItem>
-        </List>
+        {role === RolesEnum.ADMIN && (
+          <List>
+            <ListItem button key="LocalHospitalIcon" selected>
+              <ListItemIcon>
+                <LocalHospitalIcon />
+              </ListItemIcon>
+              <ListItemText primary="Clínicas" />
+            </ListItem>
+            <ListItem button key="SettingsIcon">
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Configurações" />
+            </ListItem>
+          </List>
+        )}
+        {role === RolesEnum.PHYSICIAN && (
+          <List>
+            <ListItem button key="PersonIcon" selected>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary="Pacientes" />
+            </ListItem>
+            <ListItem button key="FavoriteIcon">
+              <ListItemIcon>
+                <FavoriteIcon />
+              </ListItemIcon>
+              <ListItemText primary="Acolhimento" />
+            </ListItem>
+            <ListItem button key="PieChartIcon">
+              <ListItemIcon>
+                <PieChartIcon />
+              </ListItemIcon>
+              <ListItemText primary="Relatórios" />
+            </ListItem>
+          </List>
+        )}
         <Button className={classes.bottomButton} onClick={signout}>
           SAIR
         </Button>

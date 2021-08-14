@@ -97,7 +97,7 @@ export enum LoginPanelType {
   CreatePassword,
 }
 
-export const DefaultPathByRole = {
+export const RolesEnum = {
   ADMIN: 'admin',
   MANAGER: 'manager',
   PHYSICIAN: 'physician',

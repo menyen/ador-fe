@@ -1,7 +1,5 @@
-import { DefaultPathByRole } from '../interfaces';
+import { RolesEnum } from '../interfaces';
 
-export function isValidRole(
-  value: string
-): value is keyof typeof DefaultPathByRole {
-  return value in DefaultPathByRole;
+export function isValidRole(value: string): value is keyof typeof RolesEnum {
+  return value in RolesEnum;
 }

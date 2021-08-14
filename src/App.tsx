@@ -9,7 +9,7 @@ import {
 import Login from './components/Login';
 import PhysicianPage from './components/PhysicianPage';
 import useAuth from './hooks/useAuth';
-import { DefaultPathByRole } from './interfaces';
+import { RolesEnum } from './interfaces';
 import { isValidRole } from './utils/loggedUser';
 import AdminPage from './components/AdminPage';
 
@@ -20,7 +20,7 @@ function App() {
 
   const currentRole = auth?.user?.roles[0];
   const defaultPath = isValidRole(currentRole)
-    ? `/${DefaultPathByRole[currentRole]}`
+    ? `/${RolesEnum[currentRole]}`
     : '/';
 
   function PrivateRoute({ children, ...rest }: RouteProps) {

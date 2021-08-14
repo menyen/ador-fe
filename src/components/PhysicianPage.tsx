@@ -35,7 +35,7 @@ function PhysicianPage() {
       })}
     >
       <CssBaseline />
-      <LeftNav />
+      <LeftNav role="physician" />
       <main className={classes.content}>
         <PacientsTable />
       </main>

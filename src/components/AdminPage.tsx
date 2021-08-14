@@ -35,7 +35,7 @@ function AdminPage() {
       })}
     >
       <CssBaseline />
-      <LeftNav />
+      <LeftNav role="admin" />
       <main className={classes.content}>
         <ClinicsTable />
       </main>
