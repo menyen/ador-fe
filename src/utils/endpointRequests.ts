@@ -1,7 +1,16 @@
-import { Credentials, ClinicPayload } from '../interfaces';
+import { Credentials, ClinicPayload, UserAuth } from '../interfaces';
+
+const baseUrl = 'https://api-ador.iponce.com.br';
+let auth: UserAuth;
+function getAuth() {
+  if (!auth) {
+    auth = JSON.parse(localStorage.getItem('auth') || '{}');
+  }
+  return auth;
+}
 
 export async function loginUser(credentials: Credentials) {
-  return fetch('https://api-ador.iponce.com.br/api/v1/login', {
+  return fetch(`${baseUrl}/api/v1/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'applciation/json',
@@ -11,23 +20,19 @@ export async function loginUser(credentials: Credentials) {
 }
 
 export async function getClinicis() {
-  const tokenString = localStorage.getItem('auth') || '{}';
-  const auth = JSON.parse(tokenString);
-  return fetch('https://api-ador.iponce.com.br/api/v1/clinics', {
+  return fetch(`${baseUrl}/api/v1/clinics`, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${auth.token}`,
+      Authorization: `Bearer ${getAuth().token}`,
     },
   }).then((data) => data.json());
 }
 
 export async function createClinic(newClinic: ClinicPayload) {
-  const tokenString = localStorage.getItem('auth') || '{}';
-  const auth = JSON.parse(tokenString);
-  return fetch('https://api-ador.iponce.com.br/api/v1/clinics', {
+  return fetch(`${baseUrl}/api/v1/clinics`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${auth.token}`,
+      Authorization: `Bearer ${getAuth().token}`,
       'Content-Type': 'applciation/json',
     },
     body: JSON.stringify(newClinic),
