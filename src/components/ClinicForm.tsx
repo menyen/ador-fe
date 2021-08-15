@@ -88,7 +88,6 @@ export default function ClinicForm(props: ClinicFormProps) {
       <form onSubmit={handleSetClinic}>
         <Grid
           container
-          xs={12}
           justifyContent="flex-start"
           alignItems="flex-start"
           alignContent="flex-start"
@@ -169,7 +168,6 @@ export default function ClinicForm(props: ClinicFormProps) {
 
         <Grid
           container
-          xs={12}
           justifyContent="flex-start"
           alignItems="flex-start"
           alignContent="flex-start"
@@ -214,7 +212,6 @@ export default function ClinicForm(props: ClinicFormProps) {
         </Grid>
         <Grid
           container
-          xs={12}
           justifyContent="center"
           alignItems="center"
           alignContent="center"

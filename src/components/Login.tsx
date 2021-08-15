@@ -242,7 +242,7 @@ function ForgotPasswordPanel(props: PanelCommonProps) {
               onChange={(e) => setEmailForgotPsw(e.target.value)}
             />
           </Grid>
-          <Grid container xs={12} className={classes.centralize}>
+          <Grid container className={classes.centralize}>
             <Grid item xs={6}>
               <OutlinedButton
                 variant="outlined"

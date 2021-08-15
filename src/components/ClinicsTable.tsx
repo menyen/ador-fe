@@ -76,7 +76,7 @@ export default function ClinicsTable(props: ClinicsTableProps) {
       setRows(clinics);
     }
     setClinics();
-  }, []);
+  }, [props.openClinicForm]);
 
   return (
     <Grid
