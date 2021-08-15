@@ -19,8 +19,17 @@ export async function loginUser(credentials: Credentials) {
   }).then((data) => data.json());
 }
 
-export async function getClinicis() {
+export async function getClinics() {
   return fetch(`${baseUrl}/api/v1/clinics`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${getAuth().token}`,
+    },
+  }).then((data) => data.json());
+}
+
+export async function getClinic(id: number) {
+  return fetch(`${baseUrl}/api/v1/clinics/${id}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${getAuth().token}`,
@@ -31,6 +40,17 @@ export async function getClinicis() {
 export async function createClinic(newClinic: ClinicPayload) {
   return fetch(`${baseUrl}/api/v1/clinics`, {
     method: 'POST',
+    headers: {
+      Authorization: `Bearer ${getAuth().token}`,
+      'Content-Type': 'applciation/json',
+    },
+    body: JSON.stringify(newClinic),
+  });
+}
+
+export async function updateClinic(id: number, newClinic: ClinicPayload) {
+  return fetch(`${baseUrl}/api/v1/clinics/${id}`, {
+    method: 'PUT',
     headers: {
       Authorization: `Bearer ${getAuth().token}`,
       'Content-Type': 'applciation/json',

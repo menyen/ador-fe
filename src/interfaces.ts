@@ -1,3 +1,5 @@
+import { Clinic } from './models/Clinic';
+
 interface LoggedUser {
   // address_city?: string;
   // address_state?: string;
@@ -66,23 +68,15 @@ export interface ClinicTableColumn {
     | 'address_state'
     | 'phone'
     | 'owner_id'
-    | 'status';
+    | 'status'
+    | 'details';
   label: string;
   minWidth?: number;
   format?: (value: number) => string;
 }
 
-export interface ClinicTableData {
-  id: number;
-  name: string;
-  taxId: string;
-  addressZipcode: number;
-  addressStreet: string;
-  addressCity: string;
-  addressState: string;
-  phone: string;
-  ownerId: number;
-  status: string;
+export interface ClinicTableData extends Clinic {
+  details: JSX.Element;
 }
 
 export interface Credentials {

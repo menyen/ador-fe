@@ -6,8 +6,9 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { deepOrange } from '@material-ui/core/colors';
-import { createClinic } from '../utils/endpointRequests';
+import { createClinic, updateClinic } from '../utils/endpointRequests';
 import { OrangeButton, OutlinedButton } from './Buttons';
+import { Clinic } from '../models/Clinic';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,25 +30,36 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ClinicFormProps {
+  currentClinic?: Clinic;
   openClinicsTablePage: () => void;
 }
 
 export default function ClinicForm(props: ClinicFormProps) {
-  const [clinicName, setClinicName] = useState<string>('');
-  const [taxId, setTaxId] = useState<string>('');
-  const [zipcode, setZipcode] = useState<string>('');
-  const [streetAddress, setStreetAddress] = useState<string>('');
-  const [city, setCity] = useState<string>('');
-  const [stateAddress, setStateAddress] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
+  const { currentClinic } = props;
+  const [clinicName, setClinicName] = useState<string>(
+    currentClinic?.name || ''
+  );
+  const [taxId, setTaxId] = useState<string>(currentClinic?.tax_id || '');
+  const [zipcode, setZipcode] = useState<string>(
+    currentClinic?.address_zipcode?.toString() || ''
+  );
+  const [streetAddress, setStreetAddress] = useState<string>(
+    currentClinic?.address_street || ''
+  );
+  const [city, setCity] = useState<string>(currentClinic?.address_city || '');
+  const [stateAddress, setStateAddress] = useState<string>(
+    currentClinic?.address_state || ''
+  );
+  const [phone, setPhone] = useState<string>(currentClinic?.phone || '');
+  // TODO: Need to get owner's data. Get clinic is not returning them
   const [ownerName, setOwnerName] = useState<string>('');
   const [ownerEmail, setOwnerEmail] = useState<string>('');
   const [ownerPassword, setOwnerPassword] = useState<string>('');
   const classes = useStyles();
 
-  const handleNewClinic = async (e: React.SyntheticEvent) => {
+  const handleSetClinic = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const response = await createClinic({
+    const payload = {
       name: clinicName,
       tax_id: taxId,
       address_zipcode: zipcode,
@@ -60,14 +72,20 @@ export default function ClinicForm(props: ClinicFormProps) {
         email: ownerEmail,
         password: ownerPassword,
       },
-    });
+    };
+    let response;
+    if (currentClinic?.id) {
+      response = await updateClinic(currentClinic.id, payload);
+    } else {
+      response = await createClinic(payload);
+    }
     if (response.ok) {
       props.openClinicsTablePage();
     }
   };
   return (
     <Paper className={classes.root}>
-      <form onSubmit={handleNewClinic}>
+      <form onSubmit={handleSetClinic}>
         <Grid
           container
           xs={12}
@@ -89,6 +107,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="clinic-name-input"
               label="Nome da clínica"
+              defaultValue={clinicName}
               onChange={(e) => setClinicName(e.target.value)}
             />
           </Grid>
@@ -97,6 +116,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="tax-id-input"
               label="ID de cobrança"
+              defaultValue={taxId}
               onChange={(e) => setTaxId(e.target.value)}
             />
           </Grid>
@@ -105,6 +125,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="zipcode-input"
               label="CEP"
+              defaultValue={zipcode}
               onChange={(e) => setZipcode(e.target.value)}
             />
           </Grid>
@@ -113,6 +134,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="street-address-input"
               label="Logradouro"
+              defaultValue={streetAddress}
               onChange={(e) => setStreetAddress(e.target.value)}
             />
           </Grid>
@@ -121,6 +143,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="city-input"
               label="Cidade"
+              defaultValue={city}
               onChange={(e) => setCity(e.target.value)}
             />
           </Grid>
@@ -129,6 +152,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="state-address-input"
               label="Estado"
+              defaultValue={stateAddress}
               onChange={(e) => setStateAddress(e.target.value)}
             />
           </Grid>
@@ -137,6 +161,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="phone-input"
               label="Telefone"
+              defaultValue={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
           </Grid>
@@ -163,6 +188,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="owner-name-input"
               label="Nome do proprietário"
+              defaultValue={ownerName}
               onChange={(e) => setOwnerName(e.target.value)}
             />
           </Grid>
@@ -171,6 +197,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="owner-email-input"
               label="Email do proprietário"
+              defaultValue={ownerEmail}
               onChange={(e) => setOwnerEmail(e.target.value)}
             />
           </Grid>
@@ -180,6 +207,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               type="password"
               id="owner-password-input"
               label="Senha do proprietário"
+              defaultValue={ownerPassword}
               onChange={(e) => setOwnerPassword(e.target.value)}
             />
           </Grid>

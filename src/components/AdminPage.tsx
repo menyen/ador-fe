@@ -7,6 +7,7 @@ import LeftNav from './LeftNav';
 import ClinicsTable from './ClinicsTable';
 import ClinicForm from './ClinicForm';
 import { AdminPanelType } from '../interfaces';
+import { Clinic } from '../models/Clinic';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,6 +34,7 @@ function AdminPage() {
   const [panel, setPanel] = useState<AdminPanelType>(
     AdminPanelType.ClinicsTable
   );
+  const [currentClinic, setCurrentClinic] = useState<Clinic>();
 
   return (
     <div
@@ -49,11 +51,15 @@ function AdminPage() {
       <main className={classes.content}>
         {panel === AdminPanelType.ClinicsTable && (
           <ClinicsTable
-            openNewClinicForm={() => setPanel(AdminPanelType.ClinicForm)}
+            openClinicForm={(clinic?: Clinic) => {
+              setCurrentClinic(clinic);
+              setPanel(AdminPanelType.ClinicForm);
+            }}
           />
         )}
         {panel === AdminPanelType.ClinicForm && (
           <ClinicForm
+            currentClinic={currentClinic}
             openClinicsTablePage={() => setPanel(AdminPanelType.ClinicsTable)}
           />
         )}
