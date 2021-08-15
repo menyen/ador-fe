@@ -4,6 +4,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import LeftNav from './LeftNav';
 import PacientsTable from './PacientsTable';
+import { PhysicianPanelType } from '../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,7 +36,10 @@ function PhysicianPage() {
       })}
     >
       <CssBaseline />
-      <LeftNav role="physician" />
+      <LeftNav
+        role="physician"
+        currentPanel={PhysicianPanelType.PacientsTable}
+      />
       <main className={classes.content}>
         <PacientsTable />
       </main>

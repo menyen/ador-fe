@@ -6,12 +6,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import LeftNav from './LeftNav';
 import ClinicsTable from './ClinicsTable';
 import ClinicForm from './ClinicForm';
-
-enum AdminPanelType {
-  ClinicsTable,
-  ClinicForm,
-  Settings,
-}
+import { AdminPanelType } from '../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,7 +41,11 @@ function AdminPage() {
       })}
     >
       <CssBaseline />
-      <LeftNav role="admin" />
+      <LeftNav
+        role="admin"
+        currentPanel={panel}
+        openClinicsTablePage={() => setPanel(AdminPanelType.ClinicsTable)}
+      />
       <main className={classes.content}>
         {panel === AdminPanelType.ClinicsTable && (
           <ClinicsTable

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import { deepOrange } from '@material-ui/core/colors';
 import { createClinic } from '../utils/endpointRequests';
 import { OrangeButton, OutlinedButton } from './Buttons';
 
@@ -12,6 +15,15 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '64px',
       width: '100%',
       padding: theme.spacing(4),
+    },
+    headerSection: {
+      color: deepOrange[500],
+    },
+    ownerHeaderSection: {
+      marginTop: theme.spacing(4),
+    },
+    footerSection: {
+      marginTop: theme.spacing(4),
     },
   })
 );
@@ -35,7 +47,7 @@ export default function ClinicForm(props: ClinicFormProps) {
 
   const handleNewClinic = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    await createClinic({
+    const response = await createClinic({
       name: clinicName,
       tax_id: taxId,
       address_zipcode: zipcode,
@@ -49,10 +61,28 @@ export default function ClinicForm(props: ClinicFormProps) {
         password: ownerPassword,
       },
     });
+    if (response.ok) {
+      props.openClinicsTablePage();
+    }
   };
   return (
     <Paper className={classes.root}>
       <form onSubmit={handleNewClinic}>
+        <Grid
+          container
+          xs={12}
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          alignContent="flex-start"
+        >
+          <Typography
+            variant="h6"
+            gutterBottom
+            className={classes.headerSection}
+          >
+            Dados da clínica
+          </Typography>
+        </Grid>
         <Grid container spacing={4}>
           <Grid item xs={6}>
             <TextField
@@ -110,7 +140,24 @@ export default function ClinicForm(props: ClinicFormProps) {
               onChange={(e) => setPhone(e.target.value)}
             />
           </Grid>
+        </Grid>
 
+        <Grid
+          container
+          xs={12}
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          alignContent="flex-start"
+        >
+          <Typography
+            variant="h6"
+            gutterBottom
+            className={clsx(classes.headerSection, classes.ownerHeaderSection)}
+          >
+            Dados da proprietário
+          </Typography>
+        </Grid>
+        <Grid container spacing={4}>
           <Grid item xs={4}>
             <TextField
               fullWidth
@@ -130,6 +177,7 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={4}>
             <TextField
               fullWidth
+              type="password"
               id="owner-password-input"
               label="Senha do proprietário"
               onChange={(e) => setOwnerPassword(e.target.value)}
@@ -142,10 +190,10 @@ export default function ClinicForm(props: ClinicFormProps) {
           justifyContent="center"
           alignItems="center"
           alignContent="center"
+          className={classes.footerSection}
         >
           <OutlinedButton
             variant="outlined"
-            // size="large"
             onClick={props.openClinicsTablePage}
           >
             Cancelar

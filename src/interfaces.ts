@@ -97,6 +97,18 @@ export enum LoginPanelType {
   CreatePassword,
 }
 
+export enum AdminPanelType {
+  ClinicsTable,
+  ClinicForm,
+  Settings,
+}
+
+export enum PhysicianPanelType {
+  PacientsTable,
+  ReceptionistsTable,
+  ReportsTable,
+}
+
 export const RolesEnum = {
   ADMIN: 'admin',
   MANAGER: 'manager',

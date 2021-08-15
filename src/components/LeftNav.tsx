@@ -30,7 +30,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import logo from '../image/logo.svg';
 import minilogo from '../image/mini-logo.svg';
 import useAuth from '../hooks/useAuth';
-import { RolesEnum } from '../interfaces';
+import { AdminPanelType, PhysicianPanelType, RolesEnum } from '../interfaces';
 
 const drawerWidth = 240;
 
@@ -139,11 +139,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function LeftNav({ role }: { role: string }) {
+interface LeftNavProps {
+  role: string;
+  currentPanel: AdminPanelType | PhysicianPanelType;
+  openClinicsTablePage?: () => void;
+}
+
+export default function LeftNav(props: LeftNavProps) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const history = useHistory();
+  const { role, currentPanel } = props;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -221,7 +228,15 @@ export default function LeftNav({ role }: { role: string }) {
         <Divider />
         {role === RolesEnum.ADMIN && (
           <List>
-            <ListItem button key="LocalHospitalIcon" selected>
+            <ListItem
+              button
+              key="LocalHospitalIcon"
+              selected={[
+                AdminPanelType.ClinicsTable,
+                AdminPanelType.ClinicForm,
+              ].includes(currentPanel as AdminPanelType)}
+              onClick={props.openClinicsTablePage}
+            >
               <ListItemIcon>
                 <LocalHospitalIcon />
               </ListItemIcon>
