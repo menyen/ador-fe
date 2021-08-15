@@ -102,3 +102,18 @@ export const RolesEnum = {
   MANAGER: 'manager',
   PHYSICIAN: 'physician',
 } as const;
+
+export interface ClinicPayload {
+  name: string;
+  tax_id: string;
+  address_zipcode: string;
+  address_street: string;
+  address_city: string;
+  address_state: string;
+  phone: string;
+  user: {
+    name: string;
+    email: string;
+    password: string;
+  };
+}

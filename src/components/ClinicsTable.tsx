@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import { ClinicTableColumn } from '../interfaces';
 import { getClinicis } from '../utils/endpointRequests';
 import { Clinic } from '../models/Clinic';
 import GenericTable from './GenericTable';
+import { OrangeButton } from './Buttons';
 
 const columns: ClinicTableColumn[] = [
   // { id: 'id', label: 'ID' },
@@ -20,8 +23,22 @@ async function fetchData(): Promise<Clinic[]> {
   return resp.clinics;
 }
 
-export default function ClinicsTable() {
-  const [rows, setRows] = React.useState<Clinic[]>([]);
+interface ClinicsTableProps {
+  openNewClinicForm: () => void;
+}
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      marginTop: '64px',
+      width: '100%',
+    },
+  })
+);
+
+export default function ClinicsTable(props: ClinicsTableProps) {
+  const classes = useStyles();
+  const [rows, setRows] = useState<Clinic[]>([]);
 
   useEffect(() => {
     async function setClinics() {
@@ -31,5 +48,22 @@ export default function ClinicsTable() {
     setClinics();
   }, []);
 
-  return <GenericTable columns={columns} rows={rows} />;
+  return (
+    <Grid
+      container
+      className={classes.root}
+      spacing={1}
+      alignItems="flex-end"
+      justifyContent="flex-end"
+    >
+      <OrangeButton
+        variant="contained"
+        color="primary"
+        onClick={props.openNewClinicForm}
+      >
+        Cadastrar nova clínica
+      </OrangeButton>
+      <GenericTable columns={columns} rows={rows} />
+    </Grid>
+  );
 }

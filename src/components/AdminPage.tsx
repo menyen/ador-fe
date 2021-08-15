@@ -1,9 +1,17 @@
+import { useState } from 'react';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import LeftNav from './LeftNav';
 import ClinicsTable from './ClinicsTable';
+import ClinicForm from './ClinicForm';
+
+enum AdminPanelType {
+  ClinicsTable,
+  ClinicForm,
+  Settings,
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function AdminPage() {
   const classes = useStyles();
+  const [panel, setPanel] = useState<AdminPanelType>(
+    AdminPanelType.ClinicsTable
+  );
 
   return (
     <div
@@ -37,7 +48,17 @@ function AdminPage() {
       <CssBaseline />
       <LeftNav role="admin" />
       <main className={classes.content}>
-        <ClinicsTable />
+        {panel === AdminPanelType.ClinicsTable && (
+          <ClinicsTable
+            openNewClinicForm={() => setPanel(AdminPanelType.ClinicForm)}
+          />
+        )}
+        {panel === AdminPanelType.ClinicForm && (
+          <ClinicForm
+            openClinicsTablePage={() => setPanel(AdminPanelType.ClinicsTable)}
+          />
+        )}
+        {/* {panel === AdminPanelType.Settings && <Settings />} */}
       </main>
     </div>
   );

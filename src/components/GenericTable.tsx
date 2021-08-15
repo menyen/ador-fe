@@ -14,7 +14,6 @@ import { TableProps } from '../interfaces';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      marginTop: '64px',
       width: '100%',
     },
     container: {

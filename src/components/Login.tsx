@@ -18,6 +18,7 @@ import minilogo from '../image/mini-logo-white.svg';
 import logo from '../image/logo.svg';
 import { loginUser } from '../utils/endpointRequests';
 import { useHistory, useLocation } from 'react-router-dom';
+import { OutlinedButton } from './Buttons';
 
 type LoginPanelProps = LoginProps & PanelCommonProps;
 
@@ -76,20 +77,7 @@ const DefaultButton = withStyles((theme: Theme) => ({
       backgroundColor: 'black',
     },
     textTransform: 'capitalize',
-    width: 185,
-  },
-}))(Button);
-
-const OutlinedButton = withStyles((theme: Theme) => ({
-  root: {
-    color: 'black',
-    backgroundColor: 'white',
-    '&:hover': {
-      backgroundColor: 'white',
-    },
-    border: '1px solid rgba(0, 0, 0, 1)',
-    textTransform: 'capitalize',
-    width: 185,
+    maxWidth: 185,
   },
 }))(Button);
 
@@ -258,7 +246,6 @@ function ForgotPasswordPanel(props: PanelCommonProps) {
             <Grid item xs={6}>
               <OutlinedButton
                 variant="outlined"
-                type="submit"
                 size="large"
                 onClick={props.nextPanel}
               >
