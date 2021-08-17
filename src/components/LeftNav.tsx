@@ -143,6 +143,7 @@ interface LeftNavProps {
   role: string;
   currentPanel: AdminPanelType | PhysicianPanelType;
   openClinicsTablePage?: () => void;
+  openTermsOfUsePage?: () => void;
 }
 
 export default function LeftNav(props: LeftNavProps) {
@@ -242,7 +243,14 @@ export default function LeftNav(props: LeftNavProps) {
               </ListItemIcon>
               <ListItemText primary="Clínicas" />
             </ListItem>
-            <ListItem button key="SettingsIcon">
+            <ListItem
+              button
+              key="SettingsIcon"
+              selected={
+                AdminPanelType.Settings === (currentPanel as AdminPanelType)
+              }
+              onClick={props.openTermsOfUsePage}
+            >
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>

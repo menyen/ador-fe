@@ -58,3 +58,22 @@ export async function updateClinic(id: number, newClinic: ClinicPayload) {
     body: JSON.stringify(newClinic),
   });
 }
+
+export async function getTermsOfUse() {
+  return fetch(`${baseUrl}/api/v1/terms`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${getAuth().token}`,
+    },
+  }).then((data) => data.json());
+}
+
+export async function setTermsOfUse(text: string) {
+  return fetch(`${baseUrl}/api/v1/terms/1`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${getAuth().token}`,
+    },
+    body: JSON.stringify({ text }),
+  });
+}

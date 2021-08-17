@@ -8,6 +8,7 @@ import ClinicsTable from './ClinicsTable';
 import ClinicForm from './ClinicForm';
 import { AdminPanelType } from '../interfaces';
 import { Clinic } from '../models/Clinic';
+import Settings from './Settings';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,6 +48,7 @@ function AdminPage() {
         role="admin"
         currentPanel={panel}
         openClinicsTablePage={() => setPanel(AdminPanelType.ClinicsTable)}
+        openTermsOfUsePage={() => setPanel(AdminPanelType.Settings)}
       />
       <main className={classes.content}>
         {panel === AdminPanelType.ClinicsTable && (
@@ -63,7 +65,7 @@ function AdminPage() {
             openClinicsTablePage={() => setPanel(AdminPanelType.ClinicsTable)}
           />
         )}
-        {/* {panel === AdminPanelType.Settings && <Settings />} */}
+        {panel === AdminPanelType.Settings && <Settings />}
       </main>
     </div>
   );

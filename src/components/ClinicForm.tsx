@@ -52,8 +52,12 @@ export default function ClinicForm(props: ClinicFormProps) {
   );
   const [phone, setPhone] = useState<string>(currentClinic?.phone || '');
   // TODO: Need to get owner's data. Get clinic is not returning them
-  const [ownerName, setOwnerName] = useState<string>('');
-  const [ownerEmail, setOwnerEmail] = useState<string>('');
+  const [ownerName, setOwnerName] = useState<string>(
+    currentClinic?.owner?.name || ''
+  );
+  const [ownerEmail, setOwnerEmail] = useState<string>(
+    currentClinic?.owner?.email || ''
+  );
   const [ownerPassword, setOwnerPassword] = useState<string>('');
   const classes = useStyles();
 
