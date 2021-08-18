@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { UserAuth } from '../interfaces';
+import { UserAuth } from '../models/UserAuth';
 
 export default function useAuth(): [
   token: UserAuth,

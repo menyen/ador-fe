@@ -118,7 +118,7 @@ export default function ClinicForm(props: ClinicFormProps) {
             <TextField
               fullWidth
               id="tax-id-input"
-              label="ID de cobrança"
+              label="CNPJ/CPF"
               defaultValue={taxId}
               onChange={(e) => setTaxId(e.target.value)}
             />

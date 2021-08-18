@@ -1,4 +1,5 @@
-import { Credentials, ClinicPayload, UserAuth } from '../interfaces';
+import { Credentials, ClinicPayload } from '../interfaces';
+import { UserAuth } from '../models/UserAuth';
 
 const baseUrl = 'https://api-ador.iponce.com.br';
 let auth: UserAuth;
