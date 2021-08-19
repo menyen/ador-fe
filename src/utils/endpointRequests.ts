@@ -38,6 +38,15 @@ export async function getClinic(id: number) {
   }).then((data) => data.json());
 }
 
+export async function deleteClinic(id: number) {
+  return fetch(`${baseUrl}/api/v1/clinics/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${getAuth().token}`,
+    },
+  });
+}
+
 export async function createClinic(newClinic: ClinicPayload) {
   return fetch(`${baseUrl}/api/v1/clinics`, {
     method: 'POST',
@@ -74,6 +83,7 @@ export async function setTermsOfUse(text: string) {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${getAuth().token}`,
+      'Content-Type': 'applciation/json',
     },
     body: JSON.stringify({ text }),
   });
