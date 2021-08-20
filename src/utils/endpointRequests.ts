@@ -1,9 +1,9 @@
-import { Credentials, ClinicPayload } from '../interfaces';
+import { Credentials } from '../interfaces';
 import { UserAuth } from '../models/UserAuth';
 
-const baseUrl = 'https://api-ador.iponce.com.br';
+export const baseUrl = 'https://api-ador.iponce.com.br';
 let auth: UserAuth;
-function getAuth() {
+export function getAuth() {
   if (!auth) {
     auth = JSON.parse(localStorage.getItem('auth') || '{}');
   }
@@ -14,59 +14,10 @@ export async function loginUser(credentials: Credentials) {
   return fetch(`${baseUrl}/api/v1/login`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'applciation/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(credentials),
   }).then((data) => data.json());
-}
-
-export async function getClinics() {
-  return fetch(`${baseUrl}/api/v1/clinics`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${getAuth().token}`,
-    },
-  }).then((data) => data.json());
-}
-
-export async function getClinic(id: number) {
-  return fetch(`${baseUrl}/api/v1/clinics/${id}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${getAuth().token}`,
-    },
-  }).then((data) => data.json());
-}
-
-export async function deleteClinic(id: number) {
-  return fetch(`${baseUrl}/api/v1/clinics/${id}`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${getAuth().token}`,
-    },
-  });
-}
-
-export async function createClinic(newClinic: ClinicPayload) {
-  return fetch(`${baseUrl}/api/v1/clinics`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${getAuth().token}`,
-      'Content-Type': 'applciation/json',
-    },
-    body: JSON.stringify(newClinic),
-  });
-}
-
-export async function updateClinic(id: number, newClinic: ClinicPayload) {
-  return fetch(`${baseUrl}/api/v1/clinics/${id}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${getAuth().token}`,
-      'Content-Type': 'applciation/json',
-    },
-    body: JSON.stringify(newClinic),
-  });
 }
 
 export async function getTermsOfUse() {
@@ -83,7 +34,7 @@ export async function setTermsOfUse(text: string) {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${getAuth().token}`,
-      'Content-Type': 'applciation/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ text }),
   });

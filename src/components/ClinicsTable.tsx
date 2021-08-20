@@ -1,11 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { ClinicTableColumn, ClinicTableData } from '../interfaces';
-import { deleteClinic, getClinic, getClinics } from '../utils/endpointRequests';
 import { Clinic } from '../models/Clinic';
 import GenericTable from './GenericTable';
 import { OrangeButton } from './Buttons';
@@ -28,30 +27,21 @@ const columns: ClinicTableColumn[] = [
   { id: 'details', label: 'Detalhes', minWidth: 100 },
 ];
 
-async function fetchSingleClinic(id: number): Promise<Clinic> {
-  const resp = await getClinic(id);
-  return resp.clinic;
-}
-
-async function fetchAllClinics(
-  openClinicForm: (clinic?: Clinic) => void,
-  setRows: Dispatch<SetStateAction<ClinicTableData[]>>
-): Promise<void> {
-  const resp = await getClinics();
-  const clinics = resp.clinics.map((clinic: ClinicTableData) => {
+function setClinicsIntoTable(
+  clinics: Clinic[],
+  deleteClinic: (clinic: Clinic) => Promise<void>,
+  openClinicForm: (clinic?: Clinic) => void
+) {
+  return clinics.map((clinic: ClinicTableData) => {
     const handleClinicDetails = async (e: React.SyntheticEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      const clinicDetails = await fetchSingleClinic(clinic.id);
-      openClinicForm(clinicDetails);
+      openClinicForm(clinic);
     };
     const handleDeleteClinic = async (e: React.SyntheticEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      const response = await deleteClinic(clinic.id);
-      if (response.ok) {
-        return fetchAllClinics(openClinicForm, setRows);
-      }
+      deleteClinic(clinic);
     };
 
     clinic.status = (ClinicStatus as any)[clinic.status];
@@ -67,11 +57,11 @@ async function fetchAllClinics(
     );
     return clinic;
   });
-
-  setRows(clinics);
 }
 
 interface ClinicsTableProps {
+  clinics: Clinic[];
+  deleteClinic: (clinic: Clinic) => Promise<void>;
   openClinicForm: (clinic?: Clinic) => void;
 }
 
@@ -86,28 +76,25 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ClinicsTable(props: ClinicsTableProps) {
   const classes = useStyles();
-  // TODO: might be a good idea to use reducer instead of state here
   const [rows, setRows] = useState<ClinicTableData[]>([]);
 
+  const { clinics, deleteClinic, openClinicForm } = props;
+
   useEffect(() => {
-    async function setClinics() {
-      return fetchAllClinics(props.openClinicForm, setRows);
-      // setRows(clinics);
-    }
-    setClinics();
-  }, [props.openClinicForm]);
+    setRows(setClinicsIntoTable(clinics, deleteClinic, openClinicForm));
+  }, [clinics, deleteClinic, openClinicForm]);
 
   return (
     <Grid
       container
       className={classes.root}
       spacing={1}
-      alignItems="flex-end"
-      justifyContent="flex-end"
+      alignItems='flex-end'
+      justifyContent='flex-end'
     >
       <OrangeButton
-        variant="contained"
-        color="primary"
+        variant='contained'
+        color='primary'
         onClick={() => props.openClinicForm()}
       >
         Cadastrar nova clínica

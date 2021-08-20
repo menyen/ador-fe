@@ -56,7 +56,7 @@ export interface ClinicTableColumn {
 }
 
 export interface ClinicTableData extends Clinic {
-  details: JSX.Element;
+  details?: JSX.Element;
 }
 
 export interface Credentials {
