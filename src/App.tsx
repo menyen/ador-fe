@@ -21,7 +21,7 @@ function App() {
   const currentRole = auth?.user?.roles[0];
   const defaultPath = isValidRole(currentRole)
     ? `/${RolesEnum[currentRole]}`
-    : '/';
+    : '/login';
 
   function PrivateRoute({ children, ...rest }: RouteProps) {
     return (
@@ -48,19 +48,19 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className='App'>
       <BrowserRouter>
         <Switch>
-          <Route path="/login">
+          <Route path='/login'>
             <Login setAuth={setAuth} />
           </Route>
-          <Route exact path="/">
+          <Route exact path='/'>
             <Redirect to={defaultPath} />
           </Route>
-          <PrivateRoute path="/admin">
+          <PrivateRoute path='/admin'>
             <AdminPage />
           </PrivateRoute>
-          <PrivateRoute path="/physician">
+          <PrivateRoute path='/physician'>
             <PhysicianPage />
           </PrivateRoute>
         </Switch>
