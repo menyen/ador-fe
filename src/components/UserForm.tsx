@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { deepOrange } from '@material-ui/core/colors';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
 import { OrangeButton, OutlinedButton } from './Buttons';
 import { User } from '../models/User';
 import { UserPayload } from '../interfaces';
@@ -35,6 +37,12 @@ interface UserFormProps {
   setUser: (id: number | undefined, payload: UserPayload) => Promise<void>;
 }
 
+const roleOptions = [
+  { value: 'MANAGER', label: 'Gerente' },
+  { value: 'PHYSICIAN', label: 'Médico' },
+  { value: 'RECEPTIONIST', label: 'Recepcionista' },
+];
+
 export default function UserForm(props: UserFormProps) {
   const { currentUser, setUser } = props;
   const [userName, setUserName] = useState<string>(currentUser?.name || '');
@@ -54,7 +62,7 @@ export default function UserForm(props: UserFormProps) {
   );
   const [phone, setPhone] = useState<string>(currentUser?.phone || '');
   const [crm, setCrm] = useState<string>(currentUser?.crm || '');
-  const [role, setRole] = useState<Array<string>>(currentUser?.role || ['']);
+  const [role, setRole] = useState<string>(currentUser?.role[0] || '');
   const classes = useStyles();
 
   const handleSetUser = async (e: React.SyntheticEvent) => {
@@ -70,7 +78,7 @@ export default function UserForm(props: UserFormProps) {
       address_state: stateAddress,
       phone,
       crm,
-      role: role[0],
+      role,
     };
     setUser(currentUser?.id, payload);
   };
@@ -138,14 +146,21 @@ export default function UserForm(props: UserFormProps) {
             />
           </Grid>
           <Grid item xs={4}>
-            {/* TODO: Need to put a select box here */}
-            <TextField
-              fullWidth
-              id='role-input'
-              label='Perfil'
-              defaultValue={role}
-              onChange={(e) => setRole([e.target.value])}
-            />
+            <FormControl>
+              <InputLabel htmlFor='role-select'>Perfil</InputLabel>
+              <Select
+                native
+                id='role-select'
+                value={role}
+                onChange={(e) => setRole(e.target.value as string)}
+              >
+                {roleOptions.map((roleOption) => (
+                  <option key={roleOption.value} value={roleOption.value}>
+                    {roleOption.label}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={4}>
             <TextField
