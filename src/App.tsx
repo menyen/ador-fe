@@ -14,6 +14,7 @@ import { isValidRole } from './utils/loggedUser';
 import AdminPage from './components/AdminPage';
 
 import './App.css';
+import ManagerPage from './components/ManagerPage';
 
 function App() {
   const [auth, setAuth] = useAuth();
@@ -59,6 +60,9 @@ function App() {
           </Route>
           <PrivateRoute path='/admin'>
             <AdminPage />
+          </PrivateRoute>
+          <PrivateRoute path='/manager'>
+            <ManagerPage />
           </PrivateRoute>
           <PrivateRoute path='/physician'>
             <PhysicianPage />

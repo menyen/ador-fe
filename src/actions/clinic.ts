@@ -52,7 +52,7 @@ export function deleteClinic(clinic: Clinic) {
   };
 }
 
-export function createClinic(newClinic: ClinicPayload) {
+export function createClinic(clinic: ClinicPayload) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/clinics`, {
       method: 'POST',
@@ -60,13 +60,13 @@ export function createClinic(newClinic: ClinicPayload) {
         Authorization: `Bearer ${getAuth().token}`,
         'Content-Type': 'applciation/json',
       },
-      body: JSON.stringify(newClinic),
+      body: JSON.stringify(clinic),
     }).then((data) => data.json());
     dispatch({ type: IActions.CLINIC_CREATED, clinics: [response.clinic] });
   };
 }
 
-export function updateClinic(id: number, newClinic: ClinicPayload) {
+export function updateClinic(id: number, clinic: ClinicPayload) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/clinics/${id}`, {
       method: 'PUT',
@@ -74,7 +74,7 @@ export function updateClinic(id: number, newClinic: ClinicPayload) {
         Authorization: `Bearer ${getAuth().token}`,
         'Content-Type': 'applciation/json',
       },
-      body: JSON.stringify(newClinic),
+      body: JSON.stringify(clinic),
     }).then((data) => data.json());
 
     dispatch({ type: IActions.CLINIC_UPDATED, clinics: [response.clinic] });

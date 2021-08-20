@@ -1,4 +1,5 @@
 import { Clinic } from './models/Clinic';
+import { User } from './models/User';
 import { UserAuth } from './models/UserAuth';
 
 export interface LoginProps {
@@ -59,6 +60,29 @@ export interface ClinicTableData extends Clinic {
   details?: JSX.Element;
 }
 
+export interface UserTableColumn {
+  id:
+    | 'id'
+    | 'name'
+    | 'tax_id'
+    | 'email'
+    | 'address_zipcode'
+    | 'address_street'
+    | 'address_city'
+    | 'address_state'
+    | 'crm'
+    | 'phone'
+    | 'role'
+    | 'details';
+  label: string;
+  minWidth?: number;
+  format?: (value: number) => string;
+}
+
+export interface UserTableData extends User {
+  details?: JSX.Element;
+}
+
 export interface Credentials {
   email: string;
   password: string;
@@ -83,6 +107,11 @@ export enum PhysicianPanelType {
   ReportsTable,
 }
 
+export enum ManagerPanelType {
+  UsersTable,
+  UserForm,
+}
+
 export const RolesEnum = {
   ADMIN: 'admin',
   MANAGER: 'manager',
@@ -102,4 +131,18 @@ export interface ClinicPayload {
     email: string;
     password: string;
   };
+}
+
+export interface UserPayload {
+  name: string;
+  tax_id: string;
+  email: string;
+  password: string;
+  address_zipcode: string;
+  address_street: string;
+  address_city: string;
+  address_state: string;
+  crm: string;
+  phone: string;
+  role: string;
 }
