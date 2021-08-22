@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Grid from '@material-ui/core/Grid';
 import { deepOrange } from '@material-ui/core/colors';
-import { getTermsOfUse, setTermsOfUse } from '../utils/endpointRequests';
 import { OrangeButton } from './Buttons';
+import termsReducer from '../reducers/term';
+import { getTermsOfUse, setTermsOfUse } from '../actions/term';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,50 +27,46 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Settings() {
   const classes = useStyles();
-  const [tou, setTou] = useState<string>('');
+  const [tou, dispatch] = useReducer(termsReducer, '');
   useEffect(() => {
-    async function getTOU() {
-      const termsOfUse: { message: string; term: string } =
-        await getTermsOfUse();
-      setTou(termsOfUse.term);
-    }
-    getTOU();
+    getTermsOfUse()(dispatch);
   }, []);
 
   const handleSetTerms = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    setTermsOfUse(tou);
+    setTermsOfUse(
+      ((e.target as HTMLFormElement)[0] as HTMLTextAreaElement).value
+    )(dispatch);
   };
 
   return (
     <Paper className={classes.root}>
       <Grid
         container
-        justifyContent="flex-start"
-        alignItems="flex-start"
-        alignContent="flex-start"
+        justifyContent='flex-start'
+        alignItems='flex-start'
+        alignContent='flex-start'
       >
-        <Typography variant="h6" gutterBottom className={classes.headerSection}>
+        <Typography variant='h6' gutterBottom className={classes.headerSection}>
           Termos de uso
         </Typography>
       </Grid>
       <form onSubmit={handleSetTerms}>
         <Grid
           container
-          justifyContent="flex-end"
-          alignItems="flex-end"
-          alignContent="flex-end"
+          justifyContent='flex-end'
+          alignItems='flex-end'
+          alignContent='flex-end'
         >
           <Grid item xs={12}>
             <TextareaAutosize
               minRows={10}
-              placeholder="Digite os termos de uso aqui..."
+              placeholder='Digite os termos de uso aqui...'
               defaultValue={tou}
               className={classes.textarea}
-              onChange={(e) => setTou(e.target.value)}
             />
           </Grid>
-          <OrangeButton type="submit">Salvar</OrangeButton>
+          <OrangeButton type='submit'>Salvar</OrangeButton>
         </Grid>
       </form>
     </Paper>

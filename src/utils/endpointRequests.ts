@@ -19,23 +19,3 @@ export async function loginUser(credentials: Credentials) {
     body: JSON.stringify(credentials),
   }).then((data) => data.json());
 }
-
-export async function getTermsOfUse() {
-  return fetch(`${baseUrl}/api/v1/terms`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${getAuth().token}`,
-    },
-  }).then((data) => data.json());
-}
-
-export async function setTermsOfUse(text: string) {
-  return fetch(`${baseUrl}/api/v1/terms/1`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${getAuth().token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ text }),
-  });
-}
