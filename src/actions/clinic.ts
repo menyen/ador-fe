@@ -58,7 +58,7 @@ export function createClinic(clinic: ClinicPayload) {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'applciation/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(clinic),
     }).then((data) => data.json());
@@ -72,7 +72,7 @@ export function updateClinic(id: number, clinic: ClinicPayload) {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'applciation/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(clinic),
     }).then((data) => data.json());

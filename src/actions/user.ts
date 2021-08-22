@@ -49,7 +49,7 @@ export function createUser(user: UserPayload) {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'applciation/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(user),
     }).then((data) => data.json());
@@ -63,7 +63,7 @@ export function updateUser(id: number, user: UserPayload) {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'applciation/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(user),
     }).then((data) => data.json());
