@@ -74,8 +74,8 @@ export default function UsersTable(props: UsersTableProps) {
   const { deleteUser, users } = props;
 
   useEffect(() => {
-    setRows(setUsersIntoTable(props.users, deleteUser));
-  }, [props.users]);
+    setRows(setUsersIntoTable(users, deleteUser));
+  }, [users, deleteUser]);
 
   return (
     <Grid

@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { baseUrl, getAuth } from '../utils/endpointRequests';
+import { baseUrl, getAuth } from '../utils/loggedUser';
 
 export enum IActions {
   TERMS_FETCHED,

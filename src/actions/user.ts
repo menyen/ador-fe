@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { UserPayload } from '../interfaces';
 import { User } from '../models/User';
-import { baseUrl, getAuth } from '../utils/endpointRequests';
+import { baseUrl, getAuth } from '../utils/loggedUser';
 
 export enum IActions {
   USERS_FETCHED,

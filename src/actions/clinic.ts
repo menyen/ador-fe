@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { ClinicPayload } from '../interfaces';
 import { Clinic } from '../models/Clinic';
-import { baseUrl, getAuth } from '../utils/endpointRequests';
+import { baseUrl, getAuth } from '../utils/loggedUser';
 
 export enum IActions {
   CLINICS_FETCHED,
