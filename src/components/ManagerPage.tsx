@@ -59,7 +59,7 @@ export default function ManagerPage() {
       })}
     >
       <CssBaseline />
-      <LeftNav role='manager' currentPanel={panel} />
+      <LeftNav role="manager" currentPanel={panel} />
       <main className={classes.content}>
         {panel === ManagerPanelType.UsersTable && (
           <UsersTable
@@ -73,6 +73,7 @@ export default function ManagerPage() {
         )}
         {panel === ManagerPanelType.UserForm && (
           <UserForm
+            currentUser={currentUser}
             setUser={setUser}
             openUsersTablePage={() => setPanel(ManagerPanelType.UsersTable)}
           />

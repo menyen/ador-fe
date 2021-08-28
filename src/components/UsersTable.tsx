@@ -25,12 +25,14 @@ const columns: UserTableColumn[] = [
 
 function setUsersIntoTable(
   users: User[],
-  deleteUser: (user: User) => Promise<void>
+  deleteUser: (user: User) => Promise<void>,
+  openUserForm: (user?: User) => void
 ) {
   return users.map((user: UserTableData) => {
     const handleUserDetails = async (e: React.SyntheticEvent) => {
       e.preventDefault();
       e.stopPropagation();
+      openUserForm(user);
     };
     const handleDeleteUser = async (e: React.SyntheticEvent) => {
       e.preventDefault();
@@ -71,23 +73,23 @@ export default function UsersTable(props: UsersTableProps) {
   const classes = useStyles();
   const [rows, setRows] = useState<UserTableData[]>([]);
 
-  const { deleteUser, users } = props;
+  const { deleteUser, openUserForm, users } = props;
 
   useEffect(() => {
-    setRows(setUsersIntoTable(users, deleteUser));
-  }, [users, deleteUser]);
+    setRows(setUsersIntoTable(users, deleteUser, openUserForm));
+  }, [users, deleteUser, openUserForm]);
 
   return (
     <Grid
       container
       className={classes.root}
       spacing={1}
-      alignItems='flex-end'
-      justifyContent='flex-end'
+      alignItems="flex-end"
+      justifyContent="flex-end"
     >
       <OrangeButton
-        variant='contained'
-        color='primary'
+        variant="contained"
+        color="primary"
         onClick={() => props.openUserForm()}
       >
         Cadastrar novo Usuário

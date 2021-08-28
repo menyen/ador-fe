@@ -62,7 +62,12 @@ export default function UserForm(props: UserFormProps) {
   );
   const [phone, setPhone] = useState<string>(currentUser?.phone || '');
   const [crm, setCrm] = useState<string>(currentUser?.crm || '');
-  const [role, setRole] = useState<string>(currentUser?.role[0] || '');
+  const currentRole =
+    currentUser?.roles &&
+    (Array.isArray(currentUser.roles)
+      ? currentUser.roles[0]
+      : currentUser.roles);
+  const [role, setRole] = useState<string>(currentRole || '');
   const classes = useStyles();
 
   const handleSetUser = async (e: React.SyntheticEvent) => {
@@ -87,12 +92,12 @@ export default function UserForm(props: UserFormProps) {
       <form onSubmit={handleSetUser}>
         <Grid
           container
-          justifyContent='flex-start'
-          alignItems='flex-start'
-          alignContent='flex-start'
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          alignContent="flex-start"
         >
           <Typography
-            variant='h6'
+            variant="h6"
             gutterBottom
             className={classes.headerSection}
           >
@@ -103,8 +108,8 @@ export default function UserForm(props: UserFormProps) {
           <Grid item xs={5}>
             <TextField
               fullWidth
-              id='user-name-input'
-              label='Nome do usuário'
+              id="user-name-input"
+              label="Nome do usuário"
               defaultValue={userName}
               onChange={(e) => setUserName(e.target.value)}
             />
@@ -112,8 +117,8 @@ export default function UserForm(props: UserFormProps) {
           <Grid item xs={4}>
             <TextField
               fullWidth
-              id='tax-id-input'
-              label='CNPJ/CPF'
+              id="tax-id-input"
+              label="CNPJ/CPF"
               defaultValue={taxId}
               onChange={(e) => setTaxId(e.target.value)}
             />
@@ -121,8 +126,8 @@ export default function UserForm(props: UserFormProps) {
           <Grid item xs={3}>
             <TextField
               fullWidth
-              id='crm-input'
-              label='CRM'
+              id="crm-input"
+              label="CRM"
               defaultValue={crm}
               onChange={(e) => setCrm(e.target.value)}
             />
@@ -130,8 +135,8 @@ export default function UserForm(props: UserFormProps) {
           <Grid item xs={4}>
             <TextField
               fullWidth
-              id='email-input'
-              label='E-mail'
+              id="email-input"
+              label="E-mail"
               defaultValue={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -139,18 +144,18 @@ export default function UserForm(props: UserFormProps) {
           <Grid item xs={4}>
             <TextField
               fullWidth
-              id='tax-id-input'
-              label='Senha'
+              id="tax-id-input"
+              label="Senha"
               defaultValue={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
           <Grid item xs={4}>
             <FormControl>
-              <InputLabel htmlFor='role-select'>Perfil</InputLabel>
+              <InputLabel htmlFor="role-select">Perfil</InputLabel>
               <Select
                 native
-                id='role-select'
+                id="role-select"
                 value={role}
                 onChange={(e) => setRole(e.target.value as string)}
               >
@@ -165,8 +170,8 @@ export default function UserForm(props: UserFormProps) {
           <Grid item xs={4}>
             <TextField
               fullWidth
-              id='zipcode-input'
-              label='CEP'
+              id="zipcode-input"
+              label="CEP"
               defaultValue={zipcode}
               onChange={(e) => setZipcode(e.target.value)}
             />
@@ -174,8 +179,8 @@ export default function UserForm(props: UserFormProps) {
           <Grid item xs={8}>
             <TextField
               fullWidth
-              id='street-address-input'
-              label='Logradouro'
+              id="street-address-input"
+              label="Logradouro"
               defaultValue={streetAddress}
               onChange={(e) => setStreetAddress(e.target.value)}
             />
@@ -183,8 +188,8 @@ export default function UserForm(props: UserFormProps) {
           <Grid item xs={5}>
             <TextField
               fullWidth
-              id='city-input'
-              label='Cidade'
+              id="city-input"
+              label="Cidade"
               defaultValue={city}
               onChange={(e) => setCity(e.target.value)}
             />
@@ -192,8 +197,8 @@ export default function UserForm(props: UserFormProps) {
           <Grid item xs={2}>
             <TextField
               fullWidth
-              id='state-address-input'
-              label='Estado'
+              id="state-address-input"
+              label="Estado"
               defaultValue={stateAddress}
               onChange={(e) => setStateAddress(e.target.value)}
             />
@@ -201,8 +206,8 @@ export default function UserForm(props: UserFormProps) {
           <Grid item xs={5}>
             <TextField
               fullWidth
-              id='phone-input'
-              label='Telefone'
+              id="phone-input"
+              label="Telefone"
               defaultValue={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -210,15 +215,15 @@ export default function UserForm(props: UserFormProps) {
         </Grid>
         <Grid
           container
-          justifyContent='center'
-          alignItems='center'
-          alignContent='center'
+          justifyContent="center"
+          alignItems="center"
+          alignContent="center"
           className={classes.footerSection}
         >
-          <OutlinedButton variant='outlined' onClick={props.openUsersTablePage}>
+          <OutlinedButton variant="outlined" onClick={props.openUsersTablePage}>
             Cancelar
           </OutlinedButton>
-          <OrangeButton type='submit'>Salvar</OrangeButton>
+          <OrangeButton type="submit">Salvar</OrangeButton>
         </Grid>
       </form>
     </Paper>

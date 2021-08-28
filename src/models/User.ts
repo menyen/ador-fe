@@ -13,6 +13,6 @@ export interface User {
   address_state: string;
   crm: string;
   phone: string;
-  role: string[];
+  roles: string[];
   deleted_at: Date;
 }
