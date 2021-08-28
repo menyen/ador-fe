@@ -2,9 +2,9 @@ import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import LeftNav from './LeftNav';
+import LeftNav from '../LeftNav';
 import PacientsTable from './PacientsTable';
-import { PhysicianPanelType } from '../interfaces';
+import { PhysicianPanelType } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

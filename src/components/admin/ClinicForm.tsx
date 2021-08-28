@@ -6,9 +6,9 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { deepOrange } from '@material-ui/core/colors';
-import { OrangeButton, OutlinedButton } from './Buttons';
-import { Clinic } from '../models/Clinic';
-import { ClinicPayload } from '../interfaces';
+import { OrangeButton, OutlinedButton } from '../Buttons';
+import { Clinic } from '../../models/Clinic';
+import { ClinicPayload } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -85,12 +85,12 @@ export default function ClinicForm(props: ClinicFormProps) {
       <form onSubmit={handleSetClinic}>
         <Grid
           container
-          justifyContent='flex-start'
-          alignItems='flex-start'
-          alignContent='flex-start'
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          alignContent="flex-start"
         >
           <Typography
-            variant='h6'
+            variant="h6"
             gutterBottom
             className={classes.headerSection}
           >
@@ -101,8 +101,8 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={6}>
             <TextField
               fullWidth
-              id='clinic-name-input'
-              label='Nome da clínica'
+              id="clinic-name-input"
+              label="Nome da clínica"
               defaultValue={clinicName}
               onChange={(e) => setClinicName(e.target.value)}
             />
@@ -110,8 +110,8 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={6}>
             <TextField
               fullWidth
-              id='tax-id-input'
-              label='CNPJ/CPF'
+              id="tax-id-input"
+              label="CNPJ/CPF"
               defaultValue={taxId}
               onChange={(e) => setTaxId(e.target.value)}
             />
@@ -119,8 +119,8 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={4}>
             <TextField
               fullWidth
-              id='zipcode-input'
-              label='CEP'
+              id="zipcode-input"
+              label="CEP"
               defaultValue={zipcode}
               onChange={(e) => setZipcode(e.target.value)}
             />
@@ -128,8 +128,8 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={8}>
             <TextField
               fullWidth
-              id='street-address-input'
-              label='Logradouro'
+              id="street-address-input"
+              label="Logradouro"
               defaultValue={streetAddress}
               onChange={(e) => setStreetAddress(e.target.value)}
             />
@@ -137,8 +137,8 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={5}>
             <TextField
               fullWidth
-              id='city-input'
-              label='Cidade'
+              id="city-input"
+              label="Cidade"
               defaultValue={city}
               onChange={(e) => setCity(e.target.value)}
             />
@@ -146,8 +146,8 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={2}>
             <TextField
               fullWidth
-              id='state-address-input'
-              label='Estado'
+              id="state-address-input"
+              label="Estado"
               defaultValue={stateAddress}
               onChange={(e) => setStateAddress(e.target.value)}
             />
@@ -155,8 +155,8 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={5}>
             <TextField
               fullWidth
-              id='phone-input'
-              label='Telefone'
+              id="phone-input"
+              label="Telefone"
               defaultValue={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -165,12 +165,12 @@ export default function ClinicForm(props: ClinicFormProps) {
 
         <Grid
           container
-          justifyContent='flex-start'
-          alignItems='flex-start'
-          alignContent='flex-start'
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          alignContent="flex-start"
         >
           <Typography
-            variant='h6'
+            variant="h6"
             gutterBottom
             className={clsx(classes.headerSection, classes.ownerHeaderSection)}
           >
@@ -181,8 +181,8 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={4}>
             <TextField
               fullWidth
-              id='owner-name-input'
-              label='Nome do proprietário'
+              id="owner-name-input"
+              label="Nome do proprietário"
               defaultValue={ownerName}
               onChange={(e) => setOwnerName(e.target.value)}
             />
@@ -190,8 +190,8 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={4}>
             <TextField
               fullWidth
-              id='owner-email-input'
-              label='Email do proprietário'
+              id="owner-email-input"
+              label="Email do proprietário"
               defaultValue={ownerEmail}
               onChange={(e) => setOwnerEmail(e.target.value)}
             />
@@ -199,9 +199,9 @@ export default function ClinicForm(props: ClinicFormProps) {
           <Grid item xs={4}>
             <TextField
               fullWidth
-              type='password'
-              id='owner-password-input'
-              label='Senha do proprietário'
+              type="password"
+              id="owner-password-input"
+              label="Senha do proprietário"
               defaultValue={ownerPassword}
               onChange={(e) => setOwnerPassword(e.target.value)}
             />
@@ -209,18 +209,18 @@ export default function ClinicForm(props: ClinicFormProps) {
         </Grid>
         <Grid
           container
-          justifyContent='center'
-          alignItems='center'
-          alignContent='center'
+          justifyContent="center"
+          alignItems="center"
+          alignContent="center"
           className={classes.footerSection}
         >
           <OutlinedButton
-            variant='outlined'
+            variant="outlined"
             onClick={props.openClinicsTablePage}
           >
             Cancelar
           </OutlinedButton>
-          <OrangeButton type='submit'>Salvar</OrangeButton>
+          <OrangeButton type="submit">Salvar</OrangeButton>
         </Grid>
       </form>
     </Paper>

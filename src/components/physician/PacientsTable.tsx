@@ -1,5 +1,5 @@
-import { PatientTableColumn, PatientTableData } from '../interfaces';
-import GenericTable from './GenericTable';
+import { PatientTableColumn, PatientTableData } from '../../interfaces';
+import GenericTable from '../GenericTable';
 
 const columns: PatientTableColumn[] = [
   { id: 'name', label: 'Nome', minWidth: 170 },

@@ -3,19 +3,19 @@ import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import LeftNav from './LeftNav';
+import LeftNav from '../LeftNav';
 import ClinicsTable from './ClinicsTable';
 import ClinicForm from './ClinicForm';
-import { AdminPanelType, ClinicPayload } from '../interfaces';
-import { Clinic } from '../models/Clinic';
+import { AdminPanelType, ClinicPayload } from '../../interfaces';
+import { Clinic } from '../../models/Clinic';
 import Settings from './Settings';
-import clinicReducer from '../reducers/clinic';
+import clinicReducer from '../../reducers/clinic';
 import {
   createClinic,
   deleteClinic,
   getClinics,
   updateClinic,
-} from '../actions/clinic';
+} from '../../actions/clinic';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,7 +66,7 @@ function AdminPage() {
     >
       <CssBaseline />
       <LeftNav
-        role='admin'
+        role="admin"
         currentPanel={panel}
         openClinicsTablePage={() => setPanel(AdminPanelType.ClinicsTable)}
         openTermsOfUsePage={() => setPanel(AdminPanelType.Settings)}

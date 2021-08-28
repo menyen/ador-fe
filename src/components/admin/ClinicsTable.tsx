@@ -4,10 +4,10 @@ import Grid from '@material-ui/core/Grid';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { ClinicTableColumn, ClinicTableData } from '../interfaces';
-import { Clinic } from '../models/Clinic';
-import GenericTable from './GenericTable';
-import { OrangeButton } from './Buttons';
+import { ClinicTableColumn, ClinicTableData } from '../../interfaces';
+import { Clinic } from '../../models/Clinic';
+import GenericTable from '../GenericTable';
+import { OrangeButton } from '../Buttons';
 
 // TODO: Need to double check if these values below are valid in the back-end
 enum ClinicStatus {
@@ -89,12 +89,12 @@ export default function ClinicsTable(props: ClinicsTableProps) {
       container
       className={classes.root}
       spacing={1}
-      alignItems='flex-end'
-      justifyContent='flex-end'
+      alignItems="flex-end"
+      justifyContent="flex-end"
     >
       <OrangeButton
-        variant='contained'
-        color='primary'
+        variant="contained"
+        color="primary"
         onClick={() => props.openClinicForm()}
       >
         Cadastrar nova clínica

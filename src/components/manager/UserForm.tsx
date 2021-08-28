@@ -8,9 +8,9 @@ import { deepOrange } from '@material-ui/core/colors';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import { OrangeButton, OutlinedButton } from './Buttons';
-import { User } from '../models/User';
-import { UserPayload } from '../interfaces';
+import { OrangeButton, OutlinedButton } from '../Buttons';
+import { User } from '../../models/User';
+import { UserPayload } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

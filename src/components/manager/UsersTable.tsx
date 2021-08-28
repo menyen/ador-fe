@@ -4,10 +4,10 @@ import Grid from '@material-ui/core/Grid';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { UserTableColumn, UserTableData } from '../interfaces';
-import GenericTable from './GenericTable';
-import { OrangeButton } from './Buttons';
-import { User } from '../models/User';
+import { UserTableColumn, UserTableData } from '../../interfaces';
+import GenericTable from '../GenericTable';
+import { OrangeButton } from '../Buttons';
+import { User } from '../../models/User';
 
 const columns: UserTableColumn[] = [
   // { id: 'id', label: 'ID' },

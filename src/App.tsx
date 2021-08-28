@@ -7,14 +7,14 @@ import {
 } from 'react-router-dom';
 
 import Login from './components/Login';
-import PhysicianPage from './components/PhysicianPage';
+import PhysicianPage from './components/physician/PhysicianPage';
 import useAuth from './hooks/useAuth';
 import { RolesEnum } from './interfaces';
 import { AuthContext, isValidRole } from './utils/loggedUser';
-import AdminPage from './components/AdminPage';
+import AdminPage from './components/admin/AdminPage';
 
 import './App.css';
-import ManagerPage from './components/ManagerPage';
+import ManagerPage from './components/manager/ManagerPage';
 
 function App() {
   const [auth, setAuth] = useAuth();

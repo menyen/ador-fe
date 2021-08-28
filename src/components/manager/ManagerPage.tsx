@@ -3,12 +3,17 @@ import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import LeftNav from './LeftNav';
-import { ManagerPanelType, UserPayload } from '../interfaces';
+import LeftNav from '../LeftNav';
+import { ManagerPanelType, UserPayload } from '../../interfaces';
 import UsersTable from './UsersTable';
-import userReducer from '../reducers/user';
-import { getUsers, deleteUser, updateUser, createUser } from '../actions/user';
-import { User } from '../models/User';
+import userReducer from '../../reducers/user';
+import {
+  getUsers,
+  deleteUser,
+  updateUser,
+  createUser,
+} from '../../actions/user';
+import { User } from '../../models/User';
 import UserForm from './UserForm';
 
 const useStyles = makeStyles((theme: Theme) =>
