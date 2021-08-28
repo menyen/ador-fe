@@ -1,4 +1,5 @@
 import { Clinic } from './models/Clinic';
+import { Patient } from './models/Patient';
 import { User } from './models/User';
 export interface TableColumn<K extends string = string> {
   id: K;
@@ -19,17 +20,21 @@ export interface PanelCommonProps {
 }
 
 export interface PatientTableColumn {
-  id: 'name' | 'email' | 'cpf' | 'lastQnaireDate';
+  id:
+    | 'name'
+    | 'email'
+    | 'tax_id'
+    | 'phone'
+    | 'birthdate'
+    | 'gender'
+    | 'physician_id';
   label: string;
   minWidth?: number;
   format?: (value: number) => string;
 }
 
-export interface PatientTableData {
-  name: string;
-  email: string;
-  cpf: number;
-  lastQnaireDate: number;
+export interface PatientTableData extends Patient {
+  details?: JSX.Element;
 }
 
 export interface ClinicTableColumn {
@@ -139,4 +144,14 @@ export interface UserPayload {
   crm: string;
   phone: string;
   role: string;
+}
+
+export interface PatientPayload {
+  name: string;
+  tax_id: string;
+  email: string;
+  phone: string;
+  birthdate: Date;
+  gender: string;
+  physician_id: number;
 }

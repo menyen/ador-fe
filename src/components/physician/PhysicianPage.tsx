@@ -1,3 +1,4 @@
+import { useEffect, useReducer } from 'react';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -5,6 +6,9 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import LeftNav from '../LeftNav';
 import PacientsTable from './PacientsTable';
 import { PhysicianPanelType } from '../../interfaces';
+import { Patient } from '../../models/Patient';
+import patientReducer from '../../reducers/patient';
+import { deletePatient, getPatients } from '../../actions/patient';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,7 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function PhysicianPage() {
   const classes = useStyles();
+  const [patients, dispatch] = useReducer(patientReducer, []);
 
+  useEffect(() => {
+    getPatients()(dispatch);
+  }, []);
   return (
     <div
       className={clsx({
@@ -41,7 +49,10 @@ function PhysicianPage() {
         currentPanel={PhysicianPanelType.PacientsTable}
       />
       <main className={classes.content}>
-        <PacientsTable />
+        <PacientsTable
+          patients={patients}
+          deletePatient={(patient: Patient) => deletePatient(patient)(dispatch)}
+        />
       </main>
     </div>
   );
