@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   withStyles,
   makeStyles,
@@ -13,19 +13,12 @@ import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
 import Link from '@material-ui/core/Link';
 import clsx from 'clsx';
-import {
-  Credentials,
-  LoginPanelType,
-  LoginProps,
-  PanelCommonProps,
-} from '../interfaces';
+import { Credentials, LoginPanelType, PanelCommonProps } from '../interfaces';
 import minilogo from '../image/mini-logo-white.svg';
 import logo from '../image/logo.svg';
 import { useHistory, useLocation } from 'react-router-dom';
 import { OutlinedButton } from './Buttons';
-import { baseUrl } from '../utils/loggedUser';
-
-type LoginPanelProps = LoginProps & PanelCommonProps;
+import { AuthContext, baseUrl } from '../utils/loggedUser';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -105,23 +98,23 @@ function InitialPanel(props: PanelCommonProps) {
     <Paper className={clsx(classes.paper, classes.right)}>
       <Grid container spacing={0} className={classes.contentBox}>
         <Grid item xs={12} className={classes.centralize}>
-          <img src={logo} className='app-logo' alt='logo' />
+          <img src={logo} className="app-logo" alt="logo" />
         </Grid>
         <Grid item xs={12}>
-          <Typography variant='h6' gutterBottom>
+          <Typography variant="h6" gutterBottom>
             Seja Bem-vindo!
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant='subtitle1' gutterBottom>
+          <Typography variant="subtitle1" gutterBottom>
             Por favor informe suas credenciais para acessar a plataforma!
           </Typography>
         </Grid>
         <Grid item xs={12} className={classes.centralize}>
           <DefaultButton
-            variant='contained'
+            variant="contained"
             onClick={props.nextPanel}
-            size='large'
+            size="large"
           >
             Entrar
           </DefaultButton>
@@ -129,8 +122,8 @@ function InitialPanel(props: PanelCommonProps) {
         <Grid item xs={12} className={classes.centralize}>
           <Typography className={classes.termsAndPolicy}>
             <Link
-              href='#'
-              color='textPrimary'
+              href="#"
+              color="textPrimary"
               onClick={preventDefault}
               className={classes.link}
             >
@@ -138,8 +131,8 @@ function InitialPanel(props: PanelCommonProps) {
             </Link>
             &nbsp;e&nbsp;
             <Link
-              href='#'
-              color='textPrimary'
+              href="#"
+              color="textPrimary"
               onClick={preventDefault}
               className={classes.link}
             >
@@ -152,7 +145,8 @@ function InitialPanel(props: PanelCommonProps) {
   );
 }
 
-function LoginPanel(props: LoginPanelProps) {
+function LoginPanel(props: PanelCommonProps) {
+  const [, setAuth] = useContext(AuthContext);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const classes = useStyles();
@@ -167,7 +161,7 @@ function LoginPanel(props: LoginPanelProps) {
       email,
       password,
     });
-    props.setAuth(token);
+    setAuth(token);
     history.replace(from);
   };
 
@@ -176,44 +170,44 @@ function LoginPanel(props: LoginPanelProps) {
       <form onSubmit={handleLoginSubmit}>
         <Grid container spacing={0} className={classes.contentBox}>
           <Grid item xs={12} className={classes.centralize}>
-            <img src={logo} className='app-logo' alt='logo' />
+            <img src={logo} className="app-logo" alt="logo" />
           </Grid>
           <Grid item xs={12}>
-            <Typography variant='h6' gutterBottom>
+            <Typography variant="h6" gutterBottom>
               Seja Bem-vindo!
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant='subtitle1' gutterBottom>
+            <Typography variant="subtitle1" gutterBottom>
               Por favor informe suas credenciais para acessar a plataforma!
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.input}>
             <TextField
               fullWidth
-              id='email-input'
-              label='E-mail'
+              id="email-input"
+              label="E-mail"
               onChange={(e) => setEmail(e.target.value)}
             />
           </Grid>
           <Grid item xs={12} className={classes.input}>
             <TextField
               fullWidth
-              id='password-input'
-              label='Senha'
-              type='password'
+              id="password-input"
+              label="Senha"
+              type="password"
               onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
           <Grid item xs={12} className={classes.alignRight}>
             <Typography className={classes.forgotLink}>
-              <Link href='#' color='textPrimary' onClick={props.nextPanel}>
+              <Link href="#" color="textPrimary" onClick={props.nextPanel}>
                 Esqueceu a senha?
               </Link>
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.centralize}>
-            <DefaultButton variant='contained' type='submit' size='large'>
+            <DefaultButton variant="contained" type="submit" size="large">
               Entrar
             </DefaultButton>
           </Grid>
@@ -237,38 +231,38 @@ function ForgotPasswordPanel(props: PanelCommonProps) {
       <form onSubmit={handleForgotPswSubmit}>
         <Grid container spacing={0} className={classes.contentBox}>
           <Grid item xs={12} className={classes.centralize}>
-            <img src={logo} className='app-logo' alt='logo' />
+            <img src={logo} className="app-logo" alt="logo" />
           </Grid>
           <Grid item xs={12}>
-            <Typography variant='h6' gutterBottom>
+            <Typography variant="h6" gutterBottom>
               Esqueceu sua senha?
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant='subtitle1' gutterBottom>
+            <Typography variant="subtitle1" gutterBottom>
               Enviaremos um código de recuperação para o seu email
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.input}>
             <TextField
               fullWidth
-              id='email-forgot-psw-input'
-              label='E-mail'
+              id="email-forgot-psw-input"
+              label="E-mail"
               onChange={(e) => setEmailForgotPsw(e.target.value)}
             />
           </Grid>
           <Grid container className={classes.centralize}>
             <Grid item xs={6}>
               <OutlinedButton
-                variant='outlined'
-                size='large'
+                variant="outlined"
+                size="large"
                 onClick={props.nextPanel}
               >
                 Cancelar
               </OutlinedButton>
             </Grid>
             <Grid item xs={6}>
-              <DefaultButton variant='contained' type='submit' size='large'>
+              <DefaultButton variant="contained" type="submit" size="large">
                 Enviar
               </DefaultButton>
             </Grid>
@@ -279,23 +273,23 @@ function ForgotPasswordPanel(props: PanelCommonProps) {
   );
 }
 
-export default function Login(props: LoginProps) {
+export default function Login() {
   const [panel, setPanel] = useState<LoginPanelType>(LoginPanelType.Initial);
   const classes = useStyles();
 
   return (
     <Grid container className={classes.root} spacing={1}>
       <Grid item xs={12}>
-        <Grid container justifyContent='center' spacing={0}>
+        <Grid container justifyContent="center" spacing={0}>
           <Slide
             in={panel !== LoginPanelType.Initial}
-            direction='right'
+            direction="right"
             mountOnEnter
             unmountOnExit
           >
             <Grid item xs={6}>
               <Paper className={clsx(classes.paper, classes.left)}>
-                <img src={minilogo} alt='logo' width='300' />
+                <img src={minilogo} alt="logo" width="300" />
               </Paper>
             </Grid>
           </Slide>
@@ -305,7 +299,6 @@ export default function Login(props: LoginProps) {
             )}
             {panel === LoginPanelType.Login && (
               <LoginPanel
-                {...props}
                 nextPanel={() => setPanel(LoginPanelType.ForgotPassword)}
               />
             )}

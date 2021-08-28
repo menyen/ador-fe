@@ -1,11 +1,5 @@
 import { Clinic } from './models/Clinic';
 import { User } from './models/User';
-import { UserAuth } from './models/UserAuth';
-
-export interface LoginProps {
-  setAuth: (setAuth?: UserAuth) => void;
-}
-
 export interface TableColumn<K extends string = string> {
   id: K;
   label: string;

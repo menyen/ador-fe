@@ -16,5 +16,5 @@ interface LoggedUser {
 
 export interface UserAuth {
   token: string;
-  user: LoggedUser;
+  user?: LoggedUser;
 }

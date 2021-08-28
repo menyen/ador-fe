@@ -10,7 +10,7 @@ import Login from './components/Login';
 import PhysicianPage from './components/PhysicianPage';
 import useAuth from './hooks/useAuth';
 import { RolesEnum } from './interfaces';
-import { isValidRole } from './utils/loggedUser';
+import { AuthContext, isValidRole } from './utils/loggedUser';
 import AdminPage from './components/AdminPage';
 
 import './App.css';
@@ -49,27 +49,29 @@ function App() {
   }
 
   return (
-    <div className='App'>
-      <BrowserRouter>
-        <Switch>
-          <Route path='/login'>
-            <Login setAuth={setAuth} />
-          </Route>
-          <Route exact path='/'>
-            <Redirect to={defaultPath} />
-          </Route>
-          <PrivateRoute path='/admin'>
-            <AdminPage />
-          </PrivateRoute>
-          <PrivateRoute path='/manager'>
-            <ManagerPage />
-          </PrivateRoute>
-          <PrivateRoute path='/physician'>
-            <PhysicianPage />
-          </PrivateRoute>
-        </Switch>
-      </BrowserRouter>
-    </div>
+    <AuthContext.Provider value={[auth, setAuth]}>
+      <div className="App">
+        <BrowserRouter>
+          <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/">
+              <Redirect to={defaultPath} />
+            </Route>
+            <PrivateRoute path="/admin">
+              <AdminPage />
+            </PrivateRoute>
+            <PrivateRoute path="/manager">
+              <ManagerPage />
+            </PrivateRoute>
+            <PrivateRoute path="/physician">
+              <PhysicianPage />
+            </PrivateRoute>
+          </Switch>
+        </BrowserRouter>
+      </div>
+    </AuthContext.Provider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router';
 import {
@@ -29,13 +29,13 @@ import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import SettingsIcon from '@material-ui/icons/Settings';
 import logo from '../image/logo.svg';
 import minilogo from '../image/mini-logo.svg';
-import useAuth from '../hooks/useAuth';
 import {
   AdminPanelType,
   ManagerPanelType,
   PhysicianPanelType,
   RolesEnum,
 } from '../interfaces';
+import { AuthContext } from '../utils/loggedUser';
 
 const drawerWidth = 240;
 
@@ -152,6 +152,7 @@ interface LeftNavProps {
 }
 
 export default function LeftNav(props: LeftNavProps) {
+  const [, setAuth] = useContext(AuthContext);
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -165,7 +166,6 @@ export default function LeftNav(props: LeftNavProps) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [, setAuth] = useAuth();
 
   const signout = () => {
     setAuth();
@@ -175,30 +175,30 @@ export default function LeftNav(props: LeftNavProps) {
   return (
     <div className={classes.root}>
       <AppBar
-        position='fixed'
+        position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
-        color='default'
+        color="default"
       >
         <Toolbar className={classes.collapsedToolbar}>
           <IconButton
-            color='inherit'
-            aria-label='open drawer'
+            color="inherit"
+            aria-label="open drawer"
             onClick={handleDrawerOpen}
-            edge='start'
+            edge="start"
             className={clsx(classes.menuButton, {
               [classes.hide]: open,
             })}
           >
-            <img src={minilogo} alt='logo' width='39' />
+            <img src={minilogo} alt="logo" width="39" />
           </IconButton>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
             <InputBase
-              placeholder='Pesquisar paciente'
+              placeholder="Pesquisar paciente"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -209,7 +209,7 @@ export default function LeftNav(props: LeftNavProps) {
         </Toolbar>
       </AppBar>
       <Drawer
-        variant='permanent'
+        variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
@@ -222,7 +222,7 @@ export default function LeftNav(props: LeftNavProps) {
         }}
       >
         <div className={classes.toolbar}>
-          <img src={logo} className='app-logo' alt='logo' />
+          <img src={logo} className="app-logo" alt="logo" />
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
@@ -236,7 +236,7 @@ export default function LeftNav(props: LeftNavProps) {
           <List>
             <ListItem
               button
-              key='LocalHospitalIcon'
+              key="LocalHospitalIcon"
               selected={[
                 AdminPanelType.ClinicsTable,
                 AdminPanelType.ClinicForm,
@@ -246,11 +246,11 @@ export default function LeftNav(props: LeftNavProps) {
               <ListItemIcon>
                 <LocalHospitalIcon />
               </ListItemIcon>
-              <ListItemText primary='Clínicas' />
+              <ListItemText primary="Clínicas" />
             </ListItem>
             <ListItem
               button
-              key='SettingsIcon'
+              key="SettingsIcon"
               selected={
                 AdminPanelType.Settings === (currentPanel as AdminPanelType)
               }
@@ -259,39 +259,39 @@ export default function LeftNav(props: LeftNavProps) {
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText primary='Configurações' />
+              <ListItemText primary="Configurações" />
             </ListItem>
           </List>
         )}
         {role === RolesEnum.MANAGER && (
           <List>
-            <ListItem button key='PersonIcon' selected>
+            <ListItem button key="PersonIcon" selected>
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary='Usuários' />
+              <ListItemText primary="Usuários" />
             </ListItem>
           </List>
         )}
         {role === RolesEnum.PHYSICIAN && (
           <List>
-            <ListItem button key='PersonIcon' selected>
+            <ListItem button key="PersonIcon" selected>
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary='Pacientes' />
+              <ListItemText primary="Pacientes" />
             </ListItem>
-            <ListItem button key='FavoriteIcon'>
+            <ListItem button key="FavoriteIcon">
               <ListItemIcon>
                 <FavoriteIcon />
               </ListItemIcon>
-              <ListItemText primary='Acolhimento' />
+              <ListItemText primary="Acolhimento" />
             </ListItem>
-            <ListItem button key='PieChartIcon'>
+            <ListItem button key="PieChartIcon">
               <ListItemIcon>
                 <PieChartIcon />
               </ListItemIcon>
-              <ListItemText primary='Relatórios' />
+              <ListItemText primary="Relatórios" />
             </ListItem>
           </List>
         )}
