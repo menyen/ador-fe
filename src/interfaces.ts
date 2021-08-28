@@ -135,7 +135,7 @@ export interface ClinicPayload {
 export interface UserPayload {
   name: string;
   tax_id: string;
-  email: string;
+  // email: string;
   password: string;
   address_zipcode: string;
   address_street: string;

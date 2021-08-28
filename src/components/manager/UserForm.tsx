@@ -47,7 +47,6 @@ export default function UserForm(props: UserFormProps) {
   const { currentUser, setUser } = props;
   const [userName, setUserName] = useState<string>(currentUser?.name || '');
   const [taxId, setTaxId] = useState<string>(currentUser?.tax_id || '');
-  const [email, setEmail] = useState<string>(currentUser?.email || '');
   const [password, setPassword] = useState<string>('');
 
   const [zipcode, setZipcode] = useState<string>(
@@ -75,7 +74,6 @@ export default function UserForm(props: UserFormProps) {
     const payload = {
       name: userName,
       tax_id: taxId,
-      email,
       password,
       address_zipcode: zipcode,
       address_street: streetAddress,
@@ -137,8 +135,8 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="email-input"
               label="E-mail"
-              defaultValue={email}
-              onChange={(e) => setEmail(e.target.value)}
+              defaultValue={currentUser?.email || ''}
+              disabled
             />
           </Grid>
           <Grid item xs={4}>
