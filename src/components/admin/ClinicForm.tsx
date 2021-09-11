@@ -193,6 +193,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               id="owner-email-input"
               label="Email do proprietário"
               defaultValue={ownerEmail}
+              disabled={!!currentClinic?.owner?.email}
               onChange={(e) => setOwnerEmail(e.target.value)}
             />
           </Grid>

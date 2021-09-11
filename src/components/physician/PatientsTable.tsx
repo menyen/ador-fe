@@ -29,6 +29,7 @@ const columns: PatientTableColumn[] = [
   { id: 'phone', label: 'Telefone', minWidth: 100 },
   { id: 'birthdate', label: 'Nascimento', minWidth: 100 },
   { id: 'gender', label: 'Sexo', minWidth: 100 },
+  { id: 'details', label: 'Detalhes', minWidth: 50 },
   // {
   //   id: 'lastQnaireDate',
   //   label: 'Data do último questionário',
@@ -48,14 +49,14 @@ const columns: PatientTableColumn[] = [
 
 function setPatientsIntoTable(
   patients: Patient[],
-  deletePatient: (patient: Patient) => Promise<void>
-  // openPatientForm: (patient?: Patient) => void
+  deletePatient: (patient: Patient) => Promise<void>,
+  openPatientForm: (patient?: Patient) => void
 ) {
   return patients.map((patient: PatientTableData) => {
     const handlePatientDetails = async (e: React.SyntheticEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      // openPatientForm(patient);
+      openPatientForm(patient);
     };
     const handleDeletePatient = async (e: React.SyntheticEvent) => {
       e.preventDefault();
@@ -88,17 +89,17 @@ const useStyles = makeStyles((theme: Theme) =>
 interface PatientsTableProps {
   patients: Patient[];
   deletePatient: (patient: Patient) => Promise<void>;
-  openPatientForm?: (patient?: Patient) => void;
+  openPatientForm: (patient?: Patient) => void;
 }
 
 export default function PatientsTable(props: PatientsTableProps) {
   const classes = useStyles();
   const [rows, setRows] = useState<PatientTableData[]>([]);
 
-  const { deletePatient, patients } = props;
+  const { deletePatient, openPatientForm, patients } = props;
 
   useEffect(() => {
-    setRows(setPatientsIntoTable(patients, deletePatient));
+    setRows(setPatientsIntoTable(patients, deletePatient, openPatientForm));
   }, [patients, deletePatient]);
 
   return (
@@ -109,7 +110,11 @@ export default function PatientsTable(props: PatientsTableProps) {
       alignItems="flex-end"
       justifyContent="flex-end"
     >
-      <OrangeButton variant="contained" color="primary" onClick={() => {}}>
+      <OrangeButton
+        variant="contained"
+        color="primary"
+        onClick={() => props.openPatientForm()}
+      >
         Cadastrar novo Patiente
       </OrangeButton>
       <GenericTable columns={columns} rows={rows} />

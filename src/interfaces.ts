@@ -27,7 +27,8 @@ export interface PatientTableColumn {
     | 'phone'
     | 'birthdate'
     | 'gender'
-    | 'physician_id';
+    | 'physician_id'
+    | 'details';
   label: string;
   minWidth?: number;
   format?: (value: number) => string;
@@ -102,6 +103,7 @@ export enum AdminPanelType {
 
 export enum PhysicianPanelType {
   PatientsTable,
+  PatientForm,
   ReceptionistsTable,
   ReportsTable,
 }

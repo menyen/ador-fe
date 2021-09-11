@@ -4,7 +4,7 @@ export interface Patient {
   tax_id: string;
   email: string;
   phone: string;
-  birthdate: Date;
+  birthdate?: Date;
   gender: string;
   physician_id: number;
 }
