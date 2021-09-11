@@ -101,7 +101,7 @@ export enum AdminPanelType {
 }
 
 export enum PhysicianPanelType {
-  PacientsTable,
+  PatientsTable,
   ReceptionistsTable,
   ReportsTable,
 }

@@ -279,7 +279,7 @@ export default function LeftNav(props: LeftNavProps) {
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary="Pacientes" />
+              <ListItemText primary="Patientes" />
             </ListItem>
             <ListItem button key="FavoriteIcon">
               <ListItemIcon>

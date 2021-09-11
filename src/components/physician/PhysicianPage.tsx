@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import LeftNav from '../LeftNav';
-import PacientsTable from './PacientsTable';
+import PatientsTable from './PatientsTable';
 import { PhysicianPanelType } from '../../interfaces';
 import { Patient } from '../../models/Patient';
 import patientReducer from '../../reducers/patient';
@@ -46,10 +46,10 @@ function PhysicianPage() {
       <CssBaseline />
       <LeftNav
         role="physician"
-        currentPanel={PhysicianPanelType.PacientsTable}
+        currentPanel={PhysicianPanelType.PatientsTable}
       />
       <main className={classes.content}>
-        <PacientsTable
+        <PatientsTable
           patients={patients}
           deletePatient={(patient: Patient) => deletePatient(patient)(dispatch)}
         />

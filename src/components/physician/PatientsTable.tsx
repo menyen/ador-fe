@@ -91,7 +91,7 @@ interface PatientsTableProps {
   openPatientForm?: (patient?: Patient) => void;
 }
 
-export default function PacientsTable(props: PatientsTableProps) {
+export default function PatientsTable(props: PatientsTableProps) {
   const classes = useStyles();
   const [rows, setRows] = useState<PatientTableData[]>([]);
 
@@ -110,7 +110,7 @@ export default function PacientsTable(props: PatientsTableProps) {
       justifyContent="flex-end"
     >
       <OrangeButton variant="contained" color="primary" onClick={() => {}}>
-        Cadastrar novo Paciente
+        Cadastrar novo Patiente
       </OrangeButton>
       <GenericTable columns={columns} rows={rows} />
     </Grid>
