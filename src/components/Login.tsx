@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
 import Link from '@material-ui/core/Link';
 import clsx from 'clsx';
+import { green } from '@material-ui/core/colors';
+
 import { Credentials, LoginPanelType, PanelCommonProps } from '../interfaces';
 import minilogo from '../image/mini-logo-white.svg';
 import logo from '../image/logo.svg';
@@ -24,6 +26,17 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+    },
+    loginPatient: {
+      backgroundColor: '#CEEBEA',
+      height: '100vh',
+    },
+    paperLoginPatient: {
+      margin: 'auto',
+      width: '90vw',
+    },
+    gridLoginPatient: {
+      padding: '1rem',
     },
     left: {
       backgroundColor: 'black',
@@ -77,6 +90,16 @@ async function loginUser(credentials: Credentials) {
   }).then((data) => data.json());
 }
 
+async function loginPatient(tax_id: string) {
+  return fetch(`${baseUrl}/api/v1/patient/login/2`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ tax_id }),
+  }).then((data) => data.json());
+}
+
 const DefaultButton = withStyles((theme: Theme) => ({
   root: {
     color: 'white',
@@ -86,6 +109,16 @@ const DefaultButton = withStyles((theme: Theme) => ({
     },
     textTransform: 'capitalize',
     maxWidth: 185,
+  },
+}))(Button);
+
+const LoginPatientButton = withStyles((theme: Theme) => ({
+  root: {
+    color: 'white',
+    backgroundColor: green[400],
+  },
+  '&:hover': {
+    backgroundColor: green[700],
   },
 }))(Button);
 
@@ -273,42 +306,103 @@ function ForgotPasswordPanel(props: PanelCommonProps) {
   );
 }
 
-export default function Login() {
+function PatientPanel() {
+  const [taxId, setTaxId] = useState('');
+  const [, setAuth] = useContext(AuthContext);
+  const classes = useStyles();
+
+  const history = useHistory();
+  const location = useLocation<{ from: { pathname: string } }>();
+  const handleLoginSubmit = async (e: React.SyntheticEvent) => {
+    const { from } = location.state || { from: { pathname: '/' } };
+    e.preventDefault();
+    const token = await loginPatient(taxId);
+    setAuth(token);
+    history.replace(from);
+  };
+
+  return (
+    <Grid
+      container
+      justifyContent="center"
+      spacing={0}
+      className={classes.loginPatient}
+    >
+      <Paper className={classes.paperLoginPatient}>
+        <Grid item xs={12} spacing={0} className={classes.gridLoginPatient}>
+          <Typography component="h1" variant="h6">
+            Acesse para continuar
+          </Typography>
+        </Grid>
+        <Grid item xs={12} spacing={0} className={classes.gridLoginPatient}>
+          <Typography variant="body1" align="left">
+            Para ter acesso aos questionários, por favor insira seu CPF abaixo:
+          </Typography>
+        </Grid>
+        <Grid item xs={12} spacing={0} className={classes.gridLoginPatient}>
+          <TextField
+            fullWidth
+            id="tax-id-input"
+            label="CPF"
+            onChange={(e) => setTaxId(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} spacing={0} className={classes.gridLoginPatient}>
+          <LoginPatientButton variant="contained" onClick={handleLoginSubmit}>
+            Entrar
+          </LoginPatientButton>
+        </Grid>
+      </Paper>
+    </Grid>
+  );
+}
+
+interface LoginProps {
+  isPatient?: boolean;
+}
+
+export default function Login(props: LoginProps) {
   const [panel, setPanel] = useState<LoginPanelType>(LoginPanelType.Initial);
   const classes = useStyles();
 
   return (
     <Grid container className={classes.root} spacing={1}>
       <Grid item xs={12}>
-        <Grid container justifyContent="center" spacing={0}>
-          <Slide
-            in={panel !== LoginPanelType.Initial}
-            direction="right"
-            mountOnEnter
-            unmountOnExit
-          >
+        {props.isPatient ? (
+          <PatientPanel />
+        ) : (
+          <Grid container justifyContent="center" spacing={0}>
+            <Slide
+              in={panel !== LoginPanelType.Initial}
+              direction="right"
+              mountOnEnter
+              unmountOnExit
+            >
+              <Grid item xs={6}>
+                <Paper className={clsx(classes.paper, classes.left)}>
+                  <img src={minilogo} alt="logo" width="300" />
+                </Paper>
+              </Grid>
+            </Slide>
             <Grid item xs={6}>
-              <Paper className={clsx(classes.paper, classes.left)}>
-                <img src={minilogo} alt="logo" width="300" />
-              </Paper>
+              {panel === LoginPanelType.Initial && (
+                <InitialPanel
+                  nextPanel={() => setPanel(LoginPanelType.Login)}
+                />
+              )}
+              {panel === LoginPanelType.Login && (
+                <LoginPanel
+                  nextPanel={() => setPanel(LoginPanelType.ForgotPassword)}
+                />
+              )}
+              {panel === LoginPanelType.ForgotPassword && (
+                <ForgotPasswordPanel
+                  nextPanel={() => setPanel(LoginPanelType.Login)}
+                />
+              )}
             </Grid>
-          </Slide>
-          <Grid item xs={6}>
-            {panel === LoginPanelType.Initial && (
-              <InitialPanel nextPanel={() => setPanel(LoginPanelType.Login)} />
-            )}
-            {panel === LoginPanelType.Login && (
-              <LoginPanel
-                nextPanel={() => setPanel(LoginPanelType.ForgotPassword)}
-              />
-            )}
-            {panel === LoginPanelType.ForgotPassword && (
-              <ForgotPasswordPanel
-                nextPanel={() => setPanel(LoginPanelType.Login)}
-              />
-            )}
           </Grid>
-        </Grid>
+        )}
       </Grid>
     </Grid>
   );

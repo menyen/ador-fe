@@ -117,6 +117,8 @@ export const RolesEnum = {
   ADMIN: 'admin',
   MANAGER: 'manager',
   PHYSICIAN: 'physician',
+  RECEPTIONIST: 'receptionist',
+  PATIENT: 'patient',
 } as const;
 
 export interface ClinicPayload {

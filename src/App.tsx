@@ -15,11 +15,12 @@ import AdminPage from './components/admin/AdminPage';
 
 import './App.css';
 import ManagerPage from './components/manager/ManagerPage';
+import PatientPage from './components/patient/PatientPage';
 
 function App() {
   const [auth, setAuth] = useAuth();
 
-  const currentRole = auth?.user?.roles[0];
+  const currentRole = auth?.user?.roles[0] || 'PATIENT';
   const defaultPath = isValidRole(currentRole)
     ? `/${RolesEnum[currentRole]}`
     : '/login';
@@ -53,8 +54,11 @@ function App() {
       <div className="App">
         <BrowserRouter>
           <Switch>
-            <Route path="/login">
+            <Route exact path="/login">
               <Login />
+            </Route>
+            <Route path="/login/patient">
+              <Login isPatient={true} />
             </Route>
             <Route exact path="/">
               <Redirect to={defaultPath} />
@@ -67,6 +71,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path="/physician">
               <PhysicianPage />
+            </PrivateRoute>
+            <PrivateRoute path="/patient">
+              <PatientPage />
             </PrivateRoute>
           </Switch>
         </BrowserRouter>
