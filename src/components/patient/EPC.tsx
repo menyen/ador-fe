@@ -58,6 +58,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const questions = [
+  'Não posso mais suportar esta dor.',
+  'Não importa o que fizer minhas dores não mudarão.',
+  'Preciso tomar remédios para dor.',
+  'Isso nunca vai acabar.',
+  'Sou um caso sem esperança.',
+  'Quando ficarei pior novamente?',
+  'Essa dor esta me matando.',
+  'Eu não consigo mais continuar.',
+  'Essa dor esta me deixando maluco.',
+];
+
 export default function EPC(props: PatientCommonPanelProps) {
   enum EPCFormPanel {
     DESCRIPTION,
@@ -153,141 +165,25 @@ export default function EPC(props: PatientCommonPanelProps) {
             Marque na escala com que frequência você tem estes pensamentos
             quando sua dor esta forte.
           </Typography>
-          <div className={classes.EPCFormItem}>
-            <Typography id="question1" gutterBottom>
-              Não posso mais suportar esta dor.
-            </Typography>
-            <Slider
-              defaultValue={0}
-              className={classes.EPCSlider}
-              aria-labelledby="question1"
-              step={1}
-              valueLabelDisplay="auto"
-              marks={marks}
-              min={0}
-              max={5}
-            />
-          </div>
-          <div className={classes.EPCFormItem}>
-            <Typography id="question2" gutterBottom>
-              Não importa o que fizer minhas dores não mudarão.
-            </Typography>
-            <Slider
-              defaultValue={0}
-              className={classes.EPCSlider}
-              aria-labelledby="question2"
-              step={1}
-              valueLabelDisplay="auto"
-              marks={marks}
-              min={0}
-              max={5}
-            />
-          </div>
-          <div className={classes.EPCFormItem}>
-            <Typography id="question3" gutterBottom>
-              Preciso tomar remédios para dor.
-            </Typography>
-            <Slider
-              defaultValue={0}
-              className={classes.EPCSlider}
-              aria-labelledby="question3"
-              step={1}
-              valueLabelDisplay="auto"
-              marks={marks}
-              min={0}
-              max={5}
-            />
-          </div>
-          <div className={classes.EPCFormItem}>
-            <Typography id="question4" gutterBottom>
-              Isso nunca vai acabar.
-            </Typography>
-            <Slider
-              defaultValue={0}
-              className={classes.EPCSlider}
-              aria-labelledby="question4"
-              step={1}
-              valueLabelDisplay="auto"
-              marks={marks}
-              min={0}
-              max={5}
-            />
-          </div>
-          <div className={classes.EPCFormItem}>
-            <Typography id="question5" gutterBottom>
-              Sou um caso sem esperança.
-            </Typography>
-            <Slider
-              defaultValue={0}
-              className={classes.EPCSlider}
-              aria-labelledby="question5"
-              step={1}
-              valueLabelDisplay="auto"
-              marks={marks}
-              min={0}
-              max={5}
-            />
-          </div>
-          <div className={classes.EPCFormItem}>
-            <Typography id="question6" gutterBottom>
-              Quando ficarei pior novamente?
-            </Typography>
-            <Slider
-              defaultValue={0}
-              className={classes.EPCSlider}
-              aria-labelledby="question6"
-              step={1}
-              valueLabelDisplay="auto"
-              marks={marks}
-              min={0}
-              max={5}
-            />
-          </div>
-          <div className={classes.EPCFormItem}>
-            <Typography id="question7" gutterBottom>
-              Essa dor esta me matando.
-            </Typography>
-            <Slider
-              defaultValue={0}
-              className={classes.EPCSlider}
-              aria-labelledby="question7"
-              step={1}
-              valueLabelDisplay="auto"
-              marks={marks}
-              min={0}
-              max={5}
-            />
-          </div>
-          <div className={classes.EPCFormItem}>
-            <Typography id="question8" gutterBottom>
-              Eu não consigo mais continuar.
-            </Typography>
-            <Slider
-              defaultValue={0}
-              className={classes.EPCSlider}
-              aria-labelledby="question8"
-              step={1}
-              valueLabelDisplay="auto"
-              marks={marks}
-              min={0}
-              max={5}
-            />
-          </div>
-          <div className={classes.EPCFormItem}>
-            <Typography id="question9" gutterBottom>
-              Essa dor esta me deixando maluco.
-            </Typography>
-            <Slider
-              defaultValue={0}
-              className={classes.EPCSlider}
-              aria-labelledby="question9"
-              step={1}
-              valueLabelDisplay="auto"
-              marks={marks}
-              min={0}
-              max={5}
-            />
-          </div>
+
+          {questions.map((question, index) => (
+            <div className={classes.EPCFormItem}>
+              <Typography id={`question${index}`} gutterBottom>
+                {question}
+              </Typography>
+              <Slider
+                aria-labelledby={`question${index}`}
+                defaultValue={0}
+                className={classes.EPCSlider}
+                step={1}
+                valueLabelDisplay="auto"
+                marks={marks}
+                min={0}
+                max={5}
+              />
+            </div>
+          ))}
+
           <div className={classes.EPCFooter}>
             <Button variant="contained" className={classes.EPCAppBar}>
               Finalizar
