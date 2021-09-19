@@ -7,6 +7,7 @@ import { ArrowBack } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { grey } from '@material-ui/core/colors';
 
 import { PatientCommonPanelProps, PatientPanel } from '../../interfaces';
 
@@ -21,12 +22,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     EPCTitle: {
       color: '#329D63',
-      margin: theme.spacing(5, 3, 2),
+      margin: theme.spacing(5, 2, 2),
     },
     EPCBodyContent: {
       '& > *': {
         textAlign: 'left',
-        margin: theme.spacing(3),
+        margin: theme.spacing(2),
       },
     },
     EPCSlider: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: '1rem',
     },
     EPCForm: {
-      margin: theme.spacing(3),
+      margin: theme.spacing(2),
       textAlign: 'left',
     },
     EPCFormItem: {
@@ -54,6 +55,10 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'block',
         margin: '0 auto',
       },
+    },
+    EPCReferenceInfo: {
+      fontSize: '0.75rem',
+      color: grey[500],
     },
   })
 );
@@ -156,6 +161,11 @@ export default function EPC(props: PatientCommonPanelProps) {
             >
               Começar
             </Button>
+            <Typography variant="body2" className={classes.EPCReferenceInfo}>
+              Junior JS, Nicholas MK, Pereira IA, Pimenta CAM, Asghari A, Cruz
+              RM. Validação da Escala de Pensamentos Catastróficos sobre Dor.
+              ACTA FISIATR 2008; 15(1): 31 - 36
+            </Typography>
           </div>
         </>
       )}
