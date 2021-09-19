@@ -14,16 +14,16 @@ import React from 'react';
 import { green } from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Grid from '@material-ui/core/Grid';
 
 import logo from '../../image/logo.svg';
 import logoWhite from '../../image/logo-white.svg';
 import onBoardStep1 from '../../image/onboard-step-1.svg';
 import onBoardStep2 from '../../image/onboard-step-2.svg';
 import onBoardStep3 from '../../image/onboard-step-3.svg';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Grid from '@material-ui/core/Grid';
 
 function getHasOnboardedLocalStorage(): boolean {
   const hasGoneOnboard = localStorage.getItem('onboard') || 'false';
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // padding: theme.spacing(4),
       height: '100vh',
     },
+    onboard: { marginTop: '64px' },
     tourTitle: {
       padding: '1rem',
     },
@@ -53,7 +54,8 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '2rem',
     },
     logoWhite: {
-      margin: '1rem auto',
+      textAlign: 'center',
+      margin: '1rem',
     },
     img: {
       height: 255,
@@ -64,6 +66,21 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     profileMenu: {
       backgroundColor: '#CEEBEA',
+      textAlign: 'left',
+      '&:last-child, &:first-child': {
+        borderRadius: '0 0 20px 20px',
+      },
+    },
+    expandIcon: {
+      position: 'absolute',
+      left: 0,
+      top: '30px',
+      '&.Mui-expanded': {
+        top: '42px',
+      },
+    },
+    greenColor: {
+      color: '#329D9C',
     },
   })
 );
@@ -92,9 +109,9 @@ const tourSteps = [
 const LoginPatientButton = withStyles((theme: Theme) => ({
   root: {
     color: 'white',
-    backgroundColor: green[400],
+    backgroundColor: '#329D9C',
     '&:hover:not(:disabled)': {
-      backgroundColor: green[700],
+      backgroundColor: green[500],
     },
   },
 }))(IconButton);
@@ -113,7 +130,7 @@ function OnBoard(props: OnBoardProps) {
   const { activeStep, maxSteps, handleNext, handleBack, setHasOnboarded } =
     props;
   return (
-    <>
+    <div className={classes.onboard}>
       <img src={logo} className={classes.logo} />
       <img
         className={classes.img}
@@ -161,7 +178,55 @@ function OnBoard(props: OnBoardProps) {
       >
         Pular etapa
       </Button>
-    </>
+    </div>
+  );
+}
+
+function BannerMenu() {
+  const classes = useStyles();
+
+  return (
+    <Accordion
+      classes={{
+        root: classes.profileMenu,
+      }}
+      defaultExpanded
+    >
+      <AccordionSummary
+        expandIcon={<MenuIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+        classes={{
+          expandIcon: classes.expandIcon,
+        }}
+      >
+        <Grid container>
+          <Grid item className={classes.logoWhite} xs={12}>
+            <img
+              src={logoWhite}
+              alt="Logo da Ador em branco"
+              className={classes.logoWhite}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography
+              variant="h4"
+              component="h1"
+              className={classes.greenColor}
+            >
+              Olá, André!
+            </Typography>
+          </Grid>
+        </Grid>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography variant="body1">
+          Abaixo estão os questionários que foram Solicitados para que você
+          responda. Com os resultados destes questionários, o profissional Irá
+          conhecer e analisar sua dor e assim, planejar seu tratamento.
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
   );
 }
 
@@ -190,46 +255,7 @@ export default function PatientPage() {
     <div className={classes.root}>
       {hasOnboarded ? (
         <>
-          <Accordion className={classes.profileMenu}>
-            <AccordionSummary
-              expandIcon={<MenuIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Grid container>
-                <Grid item xs={12}>
-                  <img
-                    src={logoWhite}
-                    alt="Logo da Ador em branco"
-                    className={classes.logoWhite}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="h4" component="h1">
-                    Olá, André!
-                  </Typography>
-                </Grid>
-              </Grid>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography variant="body1">
-                Abaixo estão os questionários que foram Solicitados para que
-                você responda. Com os resultados destes questionários, o
-                profissional Irá conhecer e analisar sua dor e assim, planejar
-                seu tratamento.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-          {/* <Paper className={classes.profileMenu}>
-            <Typography variant="h4" component="h1">
-              Olá, André!
-            </Typography>
-            <Typography variant="body1">
-              Abaixo estão os questionários que foram Solicitados para que você
-              responda. Com os resultados destes questionários, o profissional
-              Irá conhecer e analisar sua dor e assim, planejar seu tratamento.{' '}
-            </Typography>
-          </Paper> */}
+          <BannerMenu />
         </>
       ) : (
         <OnBoard
