@@ -113,6 +113,14 @@ export enum ManagerPanelType {
   UserForm,
 }
 
+export interface PatientCommonPanelProps {
+  setCurrentPanel: (panel: PatientPanel) => void;
+}
+export enum PatientPanel {
+  INITIAL,
+  EPC,
+}
+
 export const RolesEnum = {
   ADMIN: 'admin',
   MANAGER: 'manager',
