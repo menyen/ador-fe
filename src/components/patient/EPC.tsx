@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       '& button': {
         display: 'block',
-        margin: '0 auto',
+        margin: '1rem auto',
       },
     },
     EPCReferenceInfo: {
