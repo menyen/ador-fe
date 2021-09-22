@@ -5,6 +5,7 @@ import { PatientPanel } from '../../interfaces';
 import OnBoard from './OnBoard';
 import EPC from './EPC';
 import QuestionaireList from './QuestionaireList';
+import useAuth from '../../hooks/useAuth';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,13 +32,17 @@ export default function PatientPage() {
   );
 
   const [currentPanel, setCurrentPanel] = React.useState(PatientPanel.INITIAL);
+  const [auth] = useAuth();
 
   return (
     <div className={classes.root}>
       {hasOnboarded ? (
         <>
           {currentPanel === PatientPanel.INITIAL && (
-            <QuestionaireList setCurrentPanel={setCurrentPanel} />
+            <QuestionaireList
+              setCurrentPanel={setCurrentPanel}
+              patientInfo={auth.patient!}
+            />
           )}
           {currentPanel === PatientPanel.EPC && (
             <EPC setCurrentPanel={setCurrentPanel} />

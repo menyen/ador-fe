@@ -100,7 +100,7 @@ export default function PatientsTable(props: PatientsTableProps) {
 
   useEffect(() => {
     setRows(setPatientsIntoTable(patients, deletePatient, openPatientForm));
-  }, [patients, deletePatient]);
+  }, [patients, deletePatient, openPatientForm]);
 
   return (
     <Grid

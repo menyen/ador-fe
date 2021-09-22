@@ -40,12 +40,6 @@ interface UserFormProps {
   ) => Promise<void>;
 }
 
-const roleOptions = [
-  { value: 'MANAGER', label: 'Gerente' },
-  { value: 'PHYSICIAN', label: 'Médico' },
-  { value: 'RECEPTIONIST', label: 'Recepcionista' },
-];
-
 export default function UserForm(props: UserFormProps) {
   const { currentPatient, setPatient } = props;
   const [patientName, setPatientName] = useState<string>(

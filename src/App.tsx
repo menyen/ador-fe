@@ -57,7 +57,7 @@ function App() {
             <Route exact path="/login">
               <Login />
             </Route>
-            <Route path="/login/patient">
+            <Route path="/login/patient/:clinic_id">
               <Login isPatient={true} />
             </Route>
             <Route exact path="/">

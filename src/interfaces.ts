@@ -1,6 +1,7 @@
 import { Clinic } from './models/Clinic';
 import { Patient } from './models/Patient';
 import { User } from './models/User';
+import { LoggedPatient } from './models/UserAuth';
 export interface TableColumn<K extends string = string> {
   id: K;
   label: string;
@@ -116,6 +117,11 @@ export enum ManagerPanelType {
 export interface PatientCommonPanelProps {
   setCurrentPanel: (panel: PatientPanel) => void;
 }
+
+export interface QuestionaireListProps extends PatientCommonPanelProps {
+  patientInfo: LoggedPatient;
+}
+
 export enum PatientPanel {
   INITIAL,
   EPC,

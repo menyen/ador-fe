@@ -14,7 +14,22 @@ interface LoggedUser {
   updated_at: Date;
 }
 
+export interface LoggedPatient {
+  birthdate: Date;
+  created_at: Date;
+  deleted_at: Date;
+  email: string;
+  gender: string;
+  id: number;
+  name: string;
+  phone: string;
+  physician_id: number;
+  tax_id: string;
+  updated_at: Date;
+}
+
 export interface UserAuth {
   token: string;
   user?: LoggedUser;
+  patient?: LoggedPatient;
 }

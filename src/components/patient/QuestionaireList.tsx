@@ -7,8 +7,9 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Grid from '@material-ui/core/Grid';
 
 import logoWhite from '../../image/logo-white.svg';
-import { PatientCommonPanelProps, PatientPanel } from '../../interfaces';
+import { PatientPanel, QuestionaireListProps } from '../../interfaces';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { LoggedPatient } from '../../models/UserAuth';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,7 +47,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function BannerMenu() {
+interface BannerInfoProps {
+  patientInfo: LoggedPatient;
+}
+
+function BannerMenu(props: BannerInfoProps) {
   const classes = useStyles();
 
   return (
@@ -78,8 +83,7 @@ function BannerMenu() {
               component="h1"
               className={classes.greenColor}
             >
-              {/* TODO: need to remove this name and replace it by the patient's name (not working in the back-end atm) */}
-              Olá, André!
+              Olá, {props.patientInfo.name}!
             </Typography>
           </Grid>
         </Grid>
@@ -95,16 +99,14 @@ function BannerMenu() {
   );
 }
 
-export default function QuestionaireList(props: PatientCommonPanelProps) {
+export default function QuestionaireList(props: QuestionaireListProps) {
   const classes = useStyles();
   return (
     <>
-      <BannerMenu />
+      <BannerMenu patientInfo={props.patientInfo} />
       <div className={classes.questionaireList}>
         <Typography variant="subtitle1">Questionários:</Typography>
-        <Button variant="contained" fullWidth>
-          Breve Inventário de Dor (BPI)
-        </Button>
+        <Button variant="contained">Breve Inventário de Dor (BPI)</Button>
         <Button variant="contained">Ansiedade e Depressão (HAD)</Button>
         <Button variant="contained">Qualidade de vida - SF36</Button>
         <Button variant="contained">Dor Neuropática (DN4)</Button>
