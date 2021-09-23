@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-To install dependencies, please favor `yarn install` instead of `npm install`. Yarn will keep the same lock file across different dev environment whereas npm will have slight changes that my get a bit annoying over time
+To install dependencies, please favor `yarn install` instead of `npm install`. Yarn will keep the same lock file across different dev environment whereas npm will have slight changes that might get a bit annoying over time
 
 ## Available Scripts
 
