@@ -77,8 +77,12 @@ const questions = [
   'Essa dor esta me deixando maluco.',
 ];
 
-function postEPCAnswers(auth: UserAuth, answers: number[]) {
-  return fetch(`${baseUrl}/api/v1/forms/patient/fill/epc`, {
+async function postEPCAnswers(
+  auth: UserAuth,
+  answers: number[],
+  goToQuestionaire: () => void
+) {
+  const response = await fetch(`${baseUrl}/api/v1/forms/patient/fill/epc`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${auth.token}`,
@@ -87,6 +91,10 @@ function postEPCAnswers(auth: UserAuth, answers: number[]) {
     },
     body: JSON.stringify({ answers }),
   });
+
+  if (response.ok) {
+    goToQuestionaire();
+  }
 }
 
 export default function EPC(props: EPCProps) {
@@ -218,7 +226,11 @@ export default function EPC(props: EPCProps) {
             <Button
               variant="contained"
               className={classes.EPCAppBar}
-              onClick={() => postEPCAnswers(props.patientAuth, answers)}
+              onClick={() =>
+                postEPCAnswers(props.patientAuth, answers, () =>
+                  props.setCurrentPanel(PatientPanel.INITIAL)
+                )
+              }
             >
               Finalizar
             </Button>
