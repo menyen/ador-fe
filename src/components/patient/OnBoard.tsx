@@ -99,7 +99,7 @@ export default function OnBoard(props: OnBoardProps) {
   const { setHasOnboardedToTrue } = props;
   return (
     <div className={classes.onboard}>
-      <img src={logo} className={classes.logo} />
+      <img src={logo} className={classes.logo} alt="Logo da Ador" />
       <img
         className={classes.img}
         src={tourSteps[activeStep].imgPath}

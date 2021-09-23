@@ -45,7 +45,7 @@ export default function PatientPage() {
             />
           )}
           {currentPanel === PatientPanel.EPC && (
-            <EPC setCurrentPanel={setCurrentPanel} />
+            <EPC setCurrentPanel={setCurrentPanel} patientAuth={auth} />
           )}
         </>
       ) : (

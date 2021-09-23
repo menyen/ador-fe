@@ -1,7 +1,7 @@
 import { Clinic } from './models/Clinic';
 import { Patient } from './models/Patient';
 import { User } from './models/User';
-import { LoggedPatient } from './models/UserAuth';
+import { LoggedPatient, UserAuth } from './models/UserAuth';
 export interface TableColumn<K extends string = string> {
   id: K;
   label: string;
@@ -120,6 +120,10 @@ export interface PatientCommonPanelProps {
 
 export interface QuestionaireListProps extends PatientCommonPanelProps {
   patientInfo: LoggedPatient;
+}
+
+export interface EPCProps extends PatientCommonPanelProps {
+  patientAuth: UserAuth;
 }
 
 export enum PatientPanel {

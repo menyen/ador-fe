@@ -9,7 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 
-import { PatientCommonPanelProps, PatientPanel } from '../../interfaces';
+import { EPCProps, PatientPanel } from '../../interfaces';
+import { baseUrl } from '../../utils/loggedUser';
+import { UserAuth } from '../../models/UserAuth';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -75,7 +77,19 @@ const questions = [
   'Essa dor esta me deixando maluco.',
 ];
 
-export default function EPC(props: PatientCommonPanelProps) {
+function postEPCAnswers(auth: UserAuth, answers: number[]) {
+  return fetch(`${baseUrl}/api/v1/forms/patient/fill/epc`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${auth.token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ answers }),
+  });
+}
+
+export default function EPC(props: EPCProps) {
   enum EPCFormPanel {
     DESCRIPTION,
     FORM,
@@ -84,6 +98,7 @@ export default function EPC(props: PatientCommonPanelProps) {
   const [currentEPCPanel, setCurrentEPCPanel] = React.useState(
     EPCFormPanel.DESCRIPTION
   );
+  const [answers, setAnswers] = React.useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   const marks = [
     {
@@ -178,11 +193,11 @@ export default function EPC(props: PatientCommonPanelProps) {
 
           {questions.map((question, index) => (
             <div className={classes.EPCFormItem}>
-              <Typography id={`question${index}`} gutterBottom>
+              <Typography id={`question_${index}`} gutterBottom>
                 {question}
               </Typography>
               <Slider
-                aria-labelledby={`question${index}`}
+                aria-labelledby={`question_${index}`}
                 defaultValue={0}
                 className={classes.EPCSlider}
                 step={1}
@@ -190,12 +205,21 @@ export default function EPC(props: PatientCommonPanelProps) {
                 marks={marks}
                 min={0}
                 max={5}
+                onChange={(e, v) => {
+                  const newAnswers = [...answers];
+                  newAnswers[index] = v as number;
+                  setAnswers(newAnswers);
+                }}
               />
             </div>
           ))}
 
           <div className={classes.EPCFooter}>
-            <Button variant="contained" className={classes.EPCAppBar}>
+            <Button
+              variant="contained"
+              className={classes.EPCAppBar}
+              onClick={() => postEPCAnswers(props.patientAuth, answers)}
+            >
               Finalizar
             </Button>
             <Button
