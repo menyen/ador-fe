@@ -10,7 +10,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { OrangeButton, OutlinedButton } from '../Buttons';
 import { User } from '../../models/User';
-import { RolesEnum, UserPayload } from '../../interfaces';
+import { UserPayload } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
