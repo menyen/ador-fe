@@ -1,3 +1,4 @@
+import { useEffect, useReducer } from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -5,11 +6,17 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 import logoWhite from '../../image/logo-white.svg';
-import { PatientPanel, QuestionaireListProps } from '../../interfaces';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {
+  PatientPanel,
+  QuestionaireListProps,
+  QUESTIONAIRE_LIST,
+} from '../../interfaces';
 import { LoggedPatient } from '../../models/UserAuth';
+import questionaireReducer from '../../reducers/questionaire';
+import { getQuestionairesForPatient } from '../../actions/questionaire';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -101,23 +108,37 @@ function BannerMenu(props: BannerInfoProps) {
 
 export default function QuestionaireList(props: QuestionaireListProps) {
   const classes = useStyles();
+
+  const [questionaires, questionairesDispatch] = useReducer(
+    questionaireReducer,
+    []
+  );
+
+  useEffect(() => {
+    getQuestionairesForPatient()(questionairesDispatch);
+  }, []);
+
   return (
     <>
       <BannerMenu patientInfo={props.patientInfo} />
       <div className={classes.questionaireList}>
         <Typography variant="subtitle1">Questionários:</Typography>
-        <Button variant="contained">Breve Inventário de Dor (BPI)</Button>
-        <Button variant="contained">Ansiedade e Depressão (HAD)</Button>
-        <Button variant="contained">Qualidade de vida - SF36</Button>
-        <Button variant="contained">Dor Neuropática (DN4)</Button>
-        <Button
-          variant="contained"
-          onClick={() => props.setCurrentPanel(PatientPanel.EPC)}
-        >
-          Escala de pensamento catastrófico
-        </Button>
-        <Button variant="contained">Índice de Dor da Fibromialgia</Button>
-        <Button variant="contained">Questionário de Oswestry</Button>
+        {QUESTIONAIRE_LIST.filter((item) =>
+          questionaires.includes(item.value)
+        ).map((item) => (
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (item.value in PatientPanel) {
+                props.setCurrentPanel(
+                  PatientPanel[item.value as keyof typeof PatientPanel]
+                );
+              }
+            }}
+          >
+            {item.label}
+          </Button>
+        ))}
       </div>
     </>
   );

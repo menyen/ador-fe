@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -9,7 +9,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { OrangeButton, OutlinedButton } from '../Buttons';
-import { PatientPayload } from '../../interfaces';
+import { PatientPayload, QUESTIONAIRE_LIST } from '../../interfaces';
 import { Patient } from '../../models/Patient';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -44,16 +44,6 @@ interface PatientFormProps {
     questionairePayload: string[]
   ) => Promise<void>;
 }
-
-const QUESTIONAIRE_LIST = [
-  { value: 'BPI', label: 'Breve Inventário de Dor (BPI)' },
-  { value: 'HAD', label: 'HAD' },
-  { value: 'SF36', label: 'Qualidade de vida - SF36' },
-  { value: 'DN4', label: 'Dor Neuropática (DN4)' },
-  { value: 'EPC', label: 'Escala de pensamento catastrófico' },
-  { value: 'FIBROMIALGIA', label: 'Fibromialgia' },
-  { value: 'OSWESTRY', label: 'Questionário de Oswestry' },
-];
 
 export default function PatientForm(props: PatientFormProps) {
   const { currentPatient, setPatient } = props;

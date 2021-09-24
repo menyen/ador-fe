@@ -66,6 +66,7 @@ function ReceptionistPage() {
   ) => {
     let newPatient;
     if (id) {
+      delete patientPayload.email;
       await updatePatient(id, patientPayload)(dispatch);
     } else {
       newPatient = await createPatient(patientPayload)(dispatch);
@@ -95,10 +96,10 @@ function ReceptionistPage() {
             deletePatient={(patient: Patient) =>
               deletePatient(patient)(dispatch)
             }
-            openPatientForm={(patient?: Patient) => {
+            openPatientForm={async (patient?: Patient) => {
               setCurrentPatient(patient);
               patient
-                ? getQuestionaires(patient.id)(questionairesDispatch)
+                ? await getQuestionaires(patient.id)(questionairesDispatch)
                 : clearQuestionaires()(questionairesDispatch);
               setPanel(ReceptionistPanelType.PatientForm);
             }}

@@ -30,6 +30,22 @@ export function getQuestionaires(patient_id: number) {
   };
 }
 
+export function getQuestionairesForPatient() {
+  return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
+    const response = await fetch(`${baseUrl}/api/v1/forms/patient`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${getAuth().token}`,
+      },
+    }).then((data) => data.json());
+
+    dispatch({
+      type: IActions.QUESTIONAIRES_FETCHED,
+      questionaires: response.forms.map(({ type }: { type: string }) => type),
+    });
+  };
+}
+
 export function sendQuestionaires(patient_id: number, forms: string[]) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/forms/request`, {

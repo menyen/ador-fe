@@ -177,9 +177,19 @@ export interface UserPayload {
 export interface PatientPayload {
   name: string;
   tax_id: string;
-  email: string;
+  email?: string;
   phone: string;
   birthdate: string;
   gender: string;
   physician_id: number;
 }
+
+export const QUESTIONAIRE_LIST = [
+  { value: 'BPI', label: 'Breve Inventário de Dor (BPI)' },
+  { value: 'HAD', label: 'HAD' },
+  { value: 'SF36', label: 'Qualidade de vida - SF36' },
+  { value: 'DN4', label: 'Dor Neuropática (DN4)' },
+  { value: 'EPC', label: 'Escala de pensamento catastrófico' },
+  { value: 'FIBROMIALGIA', label: 'Fibromialgia' },
+  { value: 'OSWESTRY', label: 'Questionário de Oswestry' },
+];
