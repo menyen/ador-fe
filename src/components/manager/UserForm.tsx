@@ -10,7 +10,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { OrangeButton, OutlinedButton } from '../Buttons';
 import { User } from '../../models/User';
-import { UserPayload } from '../../interfaces';
+import { RolesEnum, UserPayload } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,7 +67,7 @@ export default function UserForm(props: UserFormProps) {
     (Array.isArray(currentUser.roles)
       ? currentUser.roles[0]
       : currentUser.roles);
-  const [role, setRole] = useState<string>(currentRole || '');
+  const [role, setRole] = useState<string>(currentRole || roleOptions[0].value);
   const classes = useStyles();
 
   const handleSetUser = async (e: React.SyntheticEvent) => {
@@ -84,7 +84,10 @@ export default function UserForm(props: UserFormProps) {
       crm,
       role,
     };
-    setUser(currentUser?.id, payload);
+    setUser(
+      currentUser?.id,
+      currentUser?.id ? payload : { ...payload, email: email }
+    );
   };
   return (
     <Paper className={classes.root}>

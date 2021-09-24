@@ -33,6 +33,7 @@ import {
   AdminPanelType,
   ManagerPanelType,
   PhysicianPanelType,
+  ReceptionistPanelType,
   RolesEnum,
 } from '../interfaces';
 import { AuthContext } from '../utils/loggedUser';
@@ -146,7 +147,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface LeftNavProps {
   role: string;
-  currentPanel: AdminPanelType | PhysicianPanelType | ManagerPanelType;
+  currentPanel:
+    | AdminPanelType
+    | PhysicianPanelType
+    | ManagerPanelType
+    | ReceptionistPanelType;
   openClinicsTablePage?: () => void;
   openTermsOfUsePage?: () => void;
 }
@@ -286,6 +291,22 @@ export default function LeftNav(props: LeftNavProps) {
                 <FavoriteIcon />
               </ListItemIcon>
               <ListItemText primary="Acolhimento" />
+            </ListItem>
+            <ListItem button key="PieChartIcon">
+              <ListItemIcon>
+                <PieChartIcon />
+              </ListItemIcon>
+              <ListItemText primary="Relatórios" />
+            </ListItem>
+          </List>
+        )}
+        {role === RolesEnum.RECEPTIONIST && (
+          <List>
+            <ListItem button key="PersonIcon" selected>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary="Patientes" />
             </ListItem>
             <ListItem button key="PieChartIcon">
               <ListItemIcon>

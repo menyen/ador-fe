@@ -26,25 +26,10 @@ const columns: PatientTableColumn[] = [
             arg1 + '.' + arg2 + '.' + arg3 + '-' + arg4
         ),
   },
-  { id: 'phone', label: 'Telefone', minWidth: 100 },
-  { id: 'birthdate', label: 'Nascimento', minWidth: 100 },
-  { id: 'gender', label: 'Sexo', minWidth: 100 },
+  // { id: 'phone', label: 'Telefone', minWidth: 100 },
+  // { id: 'birthdate', label: 'Nascimento', minWidth: 100 },
+  // { id: 'gender', label: 'Sexo', minWidth: 100 },
   { id: 'details', label: 'Detalhes', minWidth: 50 },
-  // {
-  //   id: 'lastQnaireDate',
-  //   label: 'Data do último questionário',
-  //   minWidth: 170,
-  //   format: (value: number) => {
-  //     const dateFormat = new Date(value);
-  //     return (
-  //       dateFormat.getDate() +
-  //       '/' +
-  //       (dateFormat.getMonth() + 1) +
-  //       '/' +
-  //       dateFormat.getFullYear()
-  //     );
-  //   },
-  // },
 ];
 
 function setPatientsIntoTable(

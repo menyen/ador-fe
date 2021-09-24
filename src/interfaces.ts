@@ -109,6 +109,12 @@ export enum PhysicianPanelType {
   ReportsTable,
 }
 
+export enum ReceptionistPanelType {
+  PatientsTable,
+  PatientForm,
+  ReportsTable,
+}
+
 export enum ManagerPanelType {
   UsersTable,
   UserForm,
@@ -157,7 +163,7 @@ export interface ClinicPayload {
 export interface UserPayload {
   name: string;
   tax_id: string;
-  // email: string;
+  email?: string;
   password: string;
   address_zipcode: string;
   address_street: string;
@@ -173,7 +179,7 @@ export interface PatientPayload {
   tax_id: string;
   email: string;
   phone: string;
-  birthdate: Date;
+  birthdate: string;
   gender: string;
   physician_id: number;
 }

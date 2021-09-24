@@ -54,6 +54,7 @@ export function createPatient(patient: PatientPayload) {
       body: JSON.stringify(patient),
     }).then((data) => data.json());
     dispatch({ type: IActions.PATIENT_CREATED, patients: [response.patient] });
+    return response.patient;
   };
 }
 

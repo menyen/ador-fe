@@ -16,6 +16,7 @@ import AdminPage from './components/admin/AdminPage';
 import './App.css';
 import ManagerPage from './components/manager/ManagerPage';
 import PatientPage from './components/patient/PatientPage';
+import ReceptionistPage from './components/receptionist/ReceptionistPage';
 
 function App() {
   const [auth, setAuth] = useAuth();
@@ -71,6 +72,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path="/physician">
               <PhysicianPage />
+            </PrivateRoute>
+            <PrivateRoute path="/receptionist">
+              <ReceptionistPage />
             </PrivateRoute>
             <PrivateRoute path="/patient">
               <PatientPage />
