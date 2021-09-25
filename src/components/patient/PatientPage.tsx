@@ -6,6 +6,7 @@ import OnBoard from './OnBoard';
 import EPC from './EPC';
 import QuestionaireList from './QuestionaireList';
 import useAuth from '../../hooks/useAuth';
+import DN4 from './DN4';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,6 +47,9 @@ export default function PatientPage() {
           )}
           {currentPanel === PatientPanel.EPC && (
             <EPC setCurrentPanel={setCurrentPanel} patientAuth={auth} />
+          )}
+          {currentPanel === PatientPanel.DN4 && (
+            <DN4 setCurrentPanel={setCurrentPanel} patientAuth={auth} />
           )}
         </>
       ) : (

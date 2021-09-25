@@ -143,6 +143,7 @@ export interface EPCProps extends PatientCommonPanelProps {
 export enum PatientPanel {
   INITIAL,
   EPC,
+  DN4,
 }
 
 export const RolesEnum = {

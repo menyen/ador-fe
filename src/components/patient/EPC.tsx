@@ -200,7 +200,7 @@ export default function EPC(props: EPCProps) {
           </Typography>
 
           {questions.map((question, index) => (
-            <div className={classes.EPCFormItem}>
+            <div className={classes.EPCFormItem} key={`question_${index}`}>
               <Typography id={`question_${index}`} gutterBottom>
                 {question}
               </Typography>
@@ -237,7 +237,7 @@ export default function EPC(props: EPCProps) {
             <Button
               variant="text"
               className={classes.greenColor}
-              onClick={() => props.setCurrentPanel(PatientPanel.INITIAL)}
+              onClick={() => setCurrentEPCPanel(EPCFormPanel.DESCRIPTION)}
             >
               Anterior
             </Button>
