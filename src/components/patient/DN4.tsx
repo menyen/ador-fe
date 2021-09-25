@@ -16,7 +16,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
-import { Grid } from '@material-ui/core';
+import { Grid, LinearProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -187,6 +187,10 @@ export default function DN4(props: DN4Props) {
       )}
       {currentPanel > 0 && (
         <div className={classes.form}>
+          <LinearProgress
+            variant="determinate"
+            value={(currentPanel / questions.length) * 100}
+          />
           {questions.map(
             (question, qIndex) =>
               currentPanel - 1 === qIndex && (
