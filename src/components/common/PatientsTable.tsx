@@ -26,9 +26,9 @@ const columns: PatientTableColumn[] = [
             arg1 + '.' + arg2 + '.' + arg3 + '-' + arg4
         ),
   },
-  // { id: 'phone', label: 'Telefone', minWidth: 100 },
-  // { id: 'birthdate', label: 'Nascimento', minWidth: 100 },
-  // { id: 'gender', label: 'Sexo', minWidth: 100 },
+  { id: 'phone', label: 'Telefone', minWidth: 100 },
+  { id: 'birthdate', label: 'Nascimento', minWidth: 100 },
+  { id: 'gender', label: 'Sexo', minWidth: 100 },
   { id: 'details', label: 'Detalhes', minWidth: 50 },
 ];
 

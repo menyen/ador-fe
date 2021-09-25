@@ -6,7 +6,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import LeftNav from '../LeftNav';
 import ClinicsTable from './ClinicsTable';
 import ClinicForm from './ClinicForm';
-import { AdminPanelType, ClinicPayload } from '../../interfaces';
+import { AdminPanelType, AllPanelTypes, ClinicPayload } from '../../interfaces';
 import { Clinic } from '../../models/Clinic';
 import Settings from './Settings';
 import clinicReducer from '../../reducers/clinic';
@@ -70,6 +70,7 @@ function AdminPage() {
         currentPanel={panel}
         openClinicsTablePage={() => setPanel(AdminPanelType.ClinicsTable)}
         openTermsOfUsePage={() => setPanel(AdminPanelType.Settings)}
+        setPanel={(panel: AllPanelTypes) => setPanel(panel as AdminPanelType)}
       />
       <main className={classes.content}>
         {panel === AdminPanelType.ClinicsTable && (

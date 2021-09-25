@@ -118,7 +118,15 @@ export enum ReceptionistPanelType {
 export enum ManagerPanelType {
   UsersTable,
   UserForm,
+  PatientsTable,
+  PatientForm,
 }
+
+export type AllPanelTypes =
+  | AdminPanelType
+  | PhysicianPanelType
+  | ManagerPanelType
+  | ReceptionistPanelType;
 
 export interface PatientCommonPanelProps {
   setCurrentPanel: (panel: PatientPanel) => void;

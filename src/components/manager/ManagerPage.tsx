@@ -4,7 +4,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import LeftNav from '../LeftNav';
-import { ManagerPanelType, UserPayload } from '../../interfaces';
+import {
+  AllPanelTypes,
+  ManagerPanelType,
+  PatientPayload,
+  UserPayload,
+} from '../../interfaces';
 import UsersTable from './UsersTable';
 import userReducer from '../../reducers/user';
 import {
@@ -15,6 +20,18 @@ import {
 } from '../../actions/user';
 import { User } from '../../models/User';
 import UserForm from './UserForm';
+import patientReducer from '../../reducers/patient';
+import questionaireReducer from '../../reducers/questionaire';
+import { Patient } from '../../models/Patient';
+import {
+  createPatient,
+  deletePatient,
+  getPatients,
+  updatePatient,
+} from '../../actions/patient';
+import { sendQuestionaires } from '../../actions/questionaire';
+import PatientsTable from '../common/PatientsTable';
+import PatientForm from '../common/PatientForm';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,19 +59,49 @@ export default function ManagerPage() {
     ManagerPanelType.UsersTable
   );
   const [currentUser, setCurrentUser] = useState<User>();
-  const [users, dispatch] = useReducer(userReducer, []);
+  const [users, usersDispatch] = useReducer(userReducer, []);
+  const [currentPatient, setCurrentPatient] = useState<Patient>();
+
+  const [patients, patientDispatch] = useReducer(patientReducer, []);
+  const [questionaires, questionairesDispatch] = useReducer(
+    questionaireReducer,
+    []
+  );
 
   useEffect(() => {
-    getUsers()(dispatch);
+    getUsers()(usersDispatch);
+  }, []);
+
+  useEffect(() => {
+    getPatients()(patientDispatch);
   }, []);
 
   const setUser = async (id: number | undefined, payload: UserPayload) => {
     if (id) {
-      await updateUser(id, payload)(dispatch);
+      await updateUser(id, payload)(usersDispatch);
     } else {
-      await createUser(payload)(dispatch);
+      await createUser(payload)(usersDispatch);
     }
     setPanel(ManagerPanelType.UsersTable);
+  };
+
+  const setPatient = async (
+    id: number | undefined,
+    patientPayload: PatientPayload,
+    questionairePayload: string[]
+  ) => {
+    let newPatient;
+    if (id) {
+      delete patientPayload.email;
+      await updatePatient(id, patientPayload)(patientDispatch);
+    } else {
+      newPatient = await createPatient(patientPayload)(patientDispatch);
+    }
+    await sendQuestionaires(
+      id ?? newPatient.id,
+      questionairePayload
+    )(questionairesDispatch);
+    setPanel(ManagerPanelType.PatientsTable);
   };
 
   return (
@@ -64,12 +111,16 @@ export default function ManagerPage() {
       })}
     >
       <CssBaseline />
-      <LeftNav role="manager" currentPanel={panel} />
+      <LeftNav
+        role="manager"
+        currentPanel={panel}
+        setPanel={(panel: AllPanelTypes) => setPanel(panel as ManagerPanelType)}
+      />
       <main className={classes.content}>
         {panel === ManagerPanelType.UsersTable && (
           <UsersTable
             users={users}
-            deleteUser={(user: User) => deleteUser(user)(dispatch)}
+            deleteUser={(user: User) => deleteUser(user)(usersDispatch)}
             openUserForm={(user?: User) => {
               setCurrentUser(user);
               setPanel(ManagerPanelType.UserForm);
@@ -81,6 +132,28 @@ export default function ManagerPage() {
             currentUser={currentUser}
             setUser={setUser}
             openUsersTablePage={() => setPanel(ManagerPanelType.UsersTable)}
+          />
+        )}
+        {panel === ManagerPanelType.PatientsTable && (
+          <PatientsTable
+            patients={patients}
+            deletePatient={(patient: Patient) =>
+              deletePatient(patient)(patientDispatch)
+            }
+            openPatientForm={(patient?: Patient) => {
+              setCurrentPatient(patient);
+              setPanel(ManagerPanelType.PatientForm);
+            }}
+          />
+        )}
+        {panel === ManagerPanelType.PatientForm && (
+          <PatientForm
+            currentPatient={currentPatient}
+            setPatient={setPatient}
+            questionaires={questionaires}
+            openPatientsTablePage={() =>
+              setPanel(ManagerPanelType.PatientsTable)
+            }
           />
         )}
       </main>

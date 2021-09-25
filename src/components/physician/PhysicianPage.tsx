@@ -4,17 +4,23 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import LeftNav from '../LeftNav';
-import PatientsTable from './PatientsTable';
-import { PatientPayload, PhysicianPanelType } from '../../interfaces';
+import PatientsTable from '../common/PatientsTable';
+import {
+  AllPanelTypes,
+  PatientPayload,
+  PhysicianPanelType,
+} from '../../interfaces';
 import { Patient } from '../../models/Patient';
 import patientReducer from '../../reducers/patient';
+import questionaireReducer from '../../reducers/questionaire';
 import {
   createPatient,
   deletePatient,
   getPatients,
   updatePatient,
 } from '../../actions/patient';
-import PatientForm from './PatientForm';
+import PatientForm from '../common/PatientForm';
+import { sendQuestionaires } from '../../actions/questionaire';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,6 +50,10 @@ function PhysicianPage() {
   const [currentPatient, setCurrentPatient] = useState<Patient>();
 
   const [patients, dispatch] = useReducer(patientReducer, []);
+  const [questionaires, questionairesDispatch] = useReducer(
+    questionaireReducer,
+    []
+  );
 
   useEffect(() => {
     getPatients()(dispatch);
@@ -51,13 +61,20 @@ function PhysicianPage() {
 
   const setPatient = async (
     id: number | undefined,
-    payload: PatientPayload
+    patientPayload: PatientPayload,
+    questionairePayload: string[]
   ) => {
+    let newPatient;
     if (id) {
-      await updatePatient(id, payload)(dispatch);
+      delete patientPayload.email;
+      await updatePatient(id, patientPayload)(dispatch);
     } else {
-      await createPatient(payload)(dispatch);
+      newPatient = await createPatient(patientPayload)(dispatch);
     }
+    await sendQuestionaires(
+      id ?? newPatient.id,
+      questionairePayload
+    )(questionairesDispatch);
     setPanel(PhysicianPanelType.PatientsTable);
   };
 
@@ -71,6 +88,9 @@ function PhysicianPage() {
       <LeftNav
         role="physician"
         currentPanel={PhysicianPanelType.PatientsTable}
+        setPanel={(panel: AllPanelTypes) =>
+          setPanel(panel as PhysicianPanelType)
+        }
       />
       <main className={classes.content}>
         {panel === PhysicianPanelType.PatientsTable && (
@@ -89,6 +109,7 @@ function PhysicianPage() {
           <PatientForm
             currentPatient={currentPatient}
             setPatient={setPatient}
+            questionaires={questionaires}
             openPatientsTablePage={() =>
               setPanel(PhysicianPanelType.PatientsTable)
             }

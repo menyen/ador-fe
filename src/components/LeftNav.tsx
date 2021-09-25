@@ -27,13 +27,13 @@ import PieChartIcon from '@material-ui/icons/PieChart';
 import SearchIcon from '@material-ui/icons/Search';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import SettingsIcon from '@material-ui/icons/Settings';
+import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
 import logo from '../image/logo.svg';
 import minilogo from '../image/mini-logo.svg';
 import {
   AdminPanelType,
+  AllPanelTypes,
   ManagerPanelType,
-  PhysicianPanelType,
-  ReceptionistPanelType,
   RolesEnum,
 } from '../interfaces';
 import { AuthContext } from '../utils/loggedUser';
@@ -147,13 +147,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface LeftNavProps {
   role: string;
-  currentPanel:
-    | AdminPanelType
-    | PhysicianPanelType
-    | ManagerPanelType
-    | ReceptionistPanelType;
+  currentPanel: AllPanelTypes;
   openClinicsTablePage?: () => void;
   openTermsOfUsePage?: () => void;
+  setPanel: (panelType: AllPanelTypes) => void;
 }
 
 export default function LeftNav(props: LeftNavProps) {
@@ -162,7 +159,7 @@ export default function LeftNav(props: LeftNavProps) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const history = useHistory();
-  const { role, currentPanel } = props;
+  const { role, currentPanel, setPanel } = props;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -270,11 +267,35 @@ export default function LeftNav(props: LeftNavProps) {
         )}
         {role === RolesEnum.MANAGER && (
           <List>
-            <ListItem button key="PersonIcon" selected>
+            <ListItem
+              button
+              key="PersonIcon"
+              selected={
+                ManagerPanelType.UsersTable ===
+                (currentPanel as ManagerPanelType)
+              }
+            >
               <ListItemIcon>
-                <PersonIcon />
+                <PersonIcon
+                  onClick={() => setPanel(ManagerPanelType.UsersTable)}
+                />
               </ListItemIcon>
               <ListItemText primary="Usuários" />
+            </ListItem>
+            <ListItem
+              button
+              key="AirlineSeatFlatIcon"
+              selected={
+                ManagerPanelType.PatientsTable ===
+                (currentPanel as ManagerPanelType)
+              }
+            >
+              <ListItemIcon>
+                <AirlineSeatFlatIcon
+                  onClick={() => setPanel(ManagerPanelType.PatientsTable)}
+                />
+              </ListItemIcon>
+              <ListItemText primary="Pacientes" />
             </ListItem>
           </List>
         )}
@@ -284,7 +305,7 @@ export default function LeftNav(props: LeftNavProps) {
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary="Patientes" />
+              <ListItemText primary="Pacientes" />
             </ListItem>
             <ListItem button key="FavoriteIcon">
               <ListItemIcon>
@@ -306,7 +327,7 @@ export default function LeftNav(props: LeftNavProps) {
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary="Patientes" />
+              <ListItemText primary="Pacientes" />
             </ListItem>
             <ListItem button key="PieChartIcon">
               <ListItemIcon>

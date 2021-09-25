@@ -4,8 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import LeftNav from '../LeftNav';
-import PatientsTable from './PatientsTable';
-import { PatientPayload, ReceptionistPanelType } from '../../interfaces';
+import {
+  AllPanelTypes,
+  PatientPayload,
+  ReceptionistPanelType,
+} from '../../interfaces';
 import { Patient } from '../../models/Patient';
 import patientReducer from '../../reducers/patient';
 import questionaireReducer from '../../reducers/questionaire';
@@ -15,12 +18,13 @@ import {
   getPatients,
   updatePatient,
 } from '../../actions/patient';
-import PatientForm from './PatientForm';
+import PatientForm from '../common/PatientForm';
 import {
   clearQuestionaires,
   getQuestionaires,
   sendQuestionaires,
 } from '../../actions/questionaire';
+import PatientsTable from '../common/PatientsTable';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,6 +92,9 @@ function ReceptionistPage() {
       <LeftNav
         role="receptionist"
         currentPanel={ReceptionistPanelType.PatientsTable}
+        setPanel={(panel: AllPanelTypes) =>
+          setPanel(panel as ReceptionistPanelType)
+        }
       />
       <main className={classes.content}>
         {panel === ReceptionistPanelType.PatientsTable && (

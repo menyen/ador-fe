@@ -1,6 +1,6 @@
 import { IActions, IQuestionairesDispatchProps } from '../actions/questionaire';
 
-export default function clinicReducer(
+export default function questionaireReducer(
   state: string[],
   action: IQuestionairesDispatchProps
 ) {
