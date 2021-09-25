@@ -74,7 +74,8 @@ const questions = [
     ],
   },
   {
-    step: 'A dor está localizada em uma área onde o exame físico pode revelar uma ou mais das seguintes características:',
+    title:
+      'A dor está localizada em uma área onde o exame físico pode revelar uma ou mais das seguintes características:',
     subtitle: '(Pergunta para profissional de saúde responder)',
     sections: [
       'Hipoestesia (diminuição da sensibilidade) ao toque',
@@ -82,7 +83,7 @@ const questions = [
     ],
   },
   {
-    step: 'Na área dolorosa, a dor pode ser causada ou aumentada por:',
+    title: 'Na área dolorosa, a dor pode ser causada ou aumentada por:',
     subtitle: '(Pergunta para profissional de saúde responder)',
     sections: ['Escovação'],
   },
