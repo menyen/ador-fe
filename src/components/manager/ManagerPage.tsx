@@ -29,7 +29,11 @@ import {
   getPatients,
   updatePatient,
 } from '../../actions/patient';
-import { sendQuestionaires } from '../../actions/questionaire';
+import {
+  clearQuestionaires,
+  getQuestionaires,
+  sendQuestionaires,
+} from '../../actions/questionaire';
 import PatientsTable from '../common/PatientsTable';
 import PatientForm from '../common/PatientForm';
 
@@ -140,8 +144,11 @@ export default function ManagerPage() {
             deletePatient={(patient: Patient) =>
               deletePatient(patient)(patientDispatch)
             }
-            openPatientForm={(patient?: Patient) => {
+            openPatientForm={async (patient?: Patient) => {
               setCurrentPatient(patient);
+              patient
+                ? await getQuestionaires(patient.id)(questionairesDispatch)
+                : clearQuestionaires()(questionairesDispatch);
               setPanel(ManagerPanelType.PatientForm);
             }}
           />

@@ -20,7 +20,11 @@ import {
   updatePatient,
 } from '../../actions/patient';
 import PatientForm from '../common/PatientForm';
-import { sendQuestionaires } from '../../actions/questionaire';
+import {
+  clearQuestionaires,
+  getQuestionaires,
+  sendQuestionaires,
+} from '../../actions/questionaire';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -99,8 +103,11 @@ function PhysicianPage() {
             deletePatient={(patient: Patient) =>
               deletePatient(patient)(dispatch)
             }
-            openPatientForm={(patient?: Patient) => {
+            openPatientForm={async (patient?: Patient) => {
               setCurrentPatient(patient);
+              patient
+                ? await getQuestionaires(patient.id)(questionairesDispatch)
+                : clearQuestionaires()(questionairesDispatch);
               setPanel(PhysicianPanelType.PatientForm);
             }}
           />
