@@ -144,6 +144,7 @@ export enum PatientPanel {
   INITIAL,
   EPC,
   DN4,
+  OSWESTRY
 }
 
 export const RolesEnum = {

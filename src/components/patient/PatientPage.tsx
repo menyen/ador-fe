@@ -7,6 +7,7 @@ import EPC from './EPC';
 import QuestionaireList from './QuestionaireList';
 import useAuth from '../../hooks/useAuth';
 import DN4 from './DN4';
+import OSWESTRY from './OSWESTRY';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,6 +51,9 @@ export default function PatientPage() {
           )}
           {currentPanel === PatientPanel.DN4 && (
             <DN4 setCurrentPanel={setCurrentPanel} patientAuth={auth} />
+          )}
+          {currentPanel === PatientPanel.OSWESTRY && (
+            <OSWESTRY setCurrentPanel={setCurrentPanel} patientAuth={auth} />
           )}
         </>
       ) : (
