@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 
-import { EPCProps, PatientPanel } from '../../interfaces';
+import { PatientFormProps, PatientPanel } from '../../interfaces';
 import { baseUrl } from '../../utils/loggedUser';
 import { UserAuth } from '../../models/UserAuth';
 
@@ -97,7 +97,7 @@ async function postEPCAnswers(
   }
 }
 
-export default function EPC(props: EPCProps) {
+export default function EPC(props: PatientFormProps) {
   enum EPCFormPanel {
     DESCRIPTION,
     FORM,

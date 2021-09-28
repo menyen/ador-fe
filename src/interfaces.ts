@@ -136,7 +136,7 @@ export interface QuestionaireListProps extends PatientCommonPanelProps {
   patientInfo: LoggedPatient;
 }
 
-export interface EPCProps extends PatientCommonPanelProps {
+export interface PatientFormProps extends PatientCommonPanelProps {
   patientAuth: UserAuth;
 }
 
@@ -144,7 +144,7 @@ export enum PatientPanel {
   INITIAL,
   EPC,
   DN4,
-  OSWESTRY
+  OSWESTRY,
 }
 
 export const RolesEnum = {

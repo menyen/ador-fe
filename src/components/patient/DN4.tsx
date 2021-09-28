@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 
-import { EPCProps as DN4Props, PatientPanel } from '../../interfaces';
+import { PatientFormProps, PatientPanel } from '../../interfaces';
 import { baseUrl } from '../../utils/loggedUser';
 import { UserAuth } from '../../models/UserAuth';
 import FormControl from '@material-ui/core/FormControl';
@@ -120,7 +120,7 @@ const getRealIndex = (questionIndex: number, sectionIndex: number) => {
   }, 0);
 };
 
-export default function DN4(props: DN4Props) {
+export default function DN4(props: PatientFormProps) {
   const classes = useStyles();
   const [currentPanel, setCurrentPanel] = React.useState(0);
   const [answers, setAnswers] = React.useState(new Array(10));
