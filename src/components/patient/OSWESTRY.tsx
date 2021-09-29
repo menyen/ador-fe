@@ -19,7 +19,7 @@ import { UserAuth } from '../../models/UserAuth';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    greenColor: {
+    mainColor: {
       color: '#7A3FE1',
     },
     appBar: {
@@ -55,6 +55,12 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '0.75rem',
       color: grey[500],
     },
+    progressBarRoot: {
+      margin: '15px 0',
+    },
+    progressBarLine: {
+      backgroundColor: '#7A3FE1',
+    },
   })
 );
 
@@ -75,7 +81,7 @@ const questions = [
     alternatives: [
       'Posso me cuidar normalmente sem que isso cause mais dor',
       'Posso me cuidar normalmente, mas isso causa mais dor',
-      'Dói para ,eu me cuidar e eu sou lento e cuidadoso',
+      'Dói para eu me cuidar e eu sou lento e cuidadoso',
       'Preciso de alguma ajuda, mas consigo realizar a maioria dos meus cuidados pessoais',
       'Preciso de ajuda todos os dias para a maioria dos meus cuidados pessoais',
       'Não consigo me vestir, me lavo com dificuldades e fico na cama',
@@ -258,6 +264,10 @@ export default function OSWESTRY(props: PatientFormProps) {
           <LinearProgress
             variant="determinate"
             value={(currentPanel / questions.length) * 100}
+            classes={{
+              root: classes.progressBarRoot,
+              bar: classes.progressBarLine,
+            }}
           />
           {currentPanel === 1 && (
             <div>
@@ -326,7 +336,7 @@ export default function OSWESTRY(props: PatientFormProps) {
             </Button>
             <Button
               variant="text"
-              className={classes.greenColor}
+              className={classes.mainColor}
               onClick={() => setCurrentPanel(currentPanel - 1)}
             >
               Anterior

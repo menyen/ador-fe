@@ -20,7 +20,7 @@ import { UserAuth } from '../../models/UserAuth';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    greenColor: {
+    mainColor: {
       color: '#205072',
     },
     appBar: {
@@ -54,6 +54,12 @@ const useStyles = makeStyles((theme: Theme) =>
     referenceInfo: {
       fontSize: '0.75rem',
       color: grey[500],
+    },
+    progressBarRoot: {
+      margin: '15px 0',
+    },
+    progressBarLine: {
+      backgroundColor: '#205072',
     },
   })
 );
@@ -190,6 +196,10 @@ export default function DN4(props: PatientFormProps) {
           <LinearProgress
             variant="determinate"
             value={(currentPanel / questions.length) * 100}
+            classes={{
+              root: classes.progressBarRoot,
+              bar: classes.progressBarLine,
+            }}
           />
           {questions.map(
             (question, qIndex) =>
@@ -270,7 +280,7 @@ export default function DN4(props: PatientFormProps) {
             </Button>
             <Button
               variant="text"
-              className={classes.greenColor}
+              className={classes.mainColor}
               onClick={() => setCurrentPanel(currentPanel - 1)}
             >
               Anterior
