@@ -7,16 +7,15 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
-
-import { PatientFormProps, PatientPanel } from '../../interfaces';
-import { baseUrl } from '../../utils/loggedUser';
-import { UserAuth } from '../../models/UserAuth';
 import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import { Grid, LinearProgress } from '@material-ui/core';
+
+import { PatientFormProps, PatientPanel } from '../../interfaces';
+import { baseUrl } from '../../utils/loggedUser';
+import { UserAuth } from '../../models/UserAuth';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
     formItem: {
       margin: theme.spacing(3, 0, 6),
     },
+    formLabel: { fontSize: '0.875rem', margin: '5px 0' },
     footer: {
       textAlign: 'center',
       '& button': {
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const questions = [
   {
     title: 'Seção 1 - Intensidade da dor',
-    sections: [
+    alternatives: [
       'Posso tolerar a dor que estou sentindo sem ter que  tomar analgésicos',
       'A dor é forte, mas suporto-a sem tomar analgésicos',
       'Os analgésicos aliviam completamente a dor',
@@ -72,7 +72,7 @@ const questions = [
   },
   {
     title: 'Seção 2 - Cuidados pessoais (lavar-se, vestir-se, etc)',
-    sections: [
+    alternatives: [
       'Posso me cuidar normalmente sem que isso cause mais dor',
       'Posso me cuidar normalmente, mas isso causa mais dor',
       'Dói para ,eu me cuidar e eu sou lento e cuidadoso',
@@ -83,7 +83,7 @@ const questions = [
   },
   {
     title: 'Seção 3 - Levantar pesos',
-    sections: [
+    alternatives: [
       'Posso levantar pesos consideráveis sem sentir mais dor',
       'Posso levantar pesos consideráveis, mas isso causa mais dor',
       'A dor me impede de levantar coisas pesadas, mas posso levantá-las se bem posicionadas. Ex: Em cima de uma mesa',
@@ -94,7 +94,7 @@ const questions = [
   },
   {
     title: 'Seção 4 - Caminhar',
-    sections: [
+    alternatives: [
       'A dor não me impede de andar qualquer distância',
       'A dor me impede de andar mais de 1,6 quilômetros',
       'A dor me impede de andar mais de 800 metros',
@@ -105,7 +105,7 @@ const questions = [
   },
   {
     title: 'Seção 5 - Sentar',
-    sections: [
+    alternatives: [
       'Posso me sentar em qualquer cadeira, por quanto tempo quiser',
       'Só posso me sentar na minha cadeira favorita, por quanto tempo quiser',
       'A dor me impede de sentar por mais de 1 hora',
@@ -116,7 +116,7 @@ const questions = [
   },
   {
     title: 'Seção 6 - Ficar em pé',
-    sections: [
+    alternatives: [
       'Posso ficar em pé o quanto tempo quiser, sem sentir mais dor',
       'Posso ficar em pé o quanto tempo quiser, mas isso me causa mais dor',
       'A dor me impede de ficar em pé por mais de 1 hora',
@@ -127,7 +127,7 @@ const questions = [
   },
   {
     title: 'Seção 7 - Dormir',
-    sections: [
+    alternatives: [
       'A dor não me impede de dormir bem',
       'Só posso dormir bem tomando comprimidos',
       'Mesmo quando tomo os comprimidos, só consigo dormir menos de seis horas',
@@ -138,7 +138,7 @@ const questions = [
   },
   {
     title: 'Seção 8 - Vida sexual',
-    sections: [
+    alternatives: [
       'Minha vida sexual é normal e não causa mais dor',
       'Minha vida sexual é normal, mas causa alguma dor adicional',
       'Minha vida sexual é quase normal, mas com muita dor',
@@ -149,7 +149,7 @@ const questions = [
   },
   {
     title: 'Seção 9 - Vida social',
-    sections: [
+    alternatives: [
       'Minha vida social é normal e não me causa mais dor',
       'Minha vida social é normal, mas aumenta o grau de dor',
       'A dor não tem efeito significativo na minha vida social, com exceção de limitar meus interesses energéticos, como por exemplo, dançar, etc.',
@@ -160,7 +160,7 @@ const questions = [
   },
   {
     title: 'Seção 10 - Viajar',
-    sections: [
+    alternatives: [
       'Posso viajar para qualquer lugar sem me causar mais dor',
       'Posso viajar para qualquer lugar, mas isso causa mais dor',
       'A dor é forte, mas consigo fazer jornadas de mais de duas horas',
@@ -194,17 +194,6 @@ async function postOSWAnswers(
   }
 }
 
-const getRealIndex = (questionIndex: number) => {
-  return questions.reduce((acc, q, i) => {
-    if (i < questionIndex) {
-      return acc + q.sections.length;
-    } else if (i === questionIndex) {
-      return acc;
-    }
-    return acc;
-  }, 0);
-};
-
 export default function OSWESTRY(props: PatientFormProps) {
   const classes = useStyles();
   const [currentPanel, setCurrentPanel] = React.useState(0);
@@ -216,7 +205,6 @@ export default function OSWESTRY(props: PatientFormProps) {
     questionIndex: number
   ): void => {
     const newAnswers = [...answers];
-    const questionRealIndex = getRealIndex(questionIndex);
     newAnswers[questionIndex] = Number(value);
     setAnswers(newAnswers);
   };
@@ -305,12 +293,13 @@ export default function OSWESTRY(props: PatientFormProps) {
                         aria-label={question.title}
                         name={`question${qIndex}`}
                       >
-                        {question.sections.map((section, sIndex) => (
+                        {question.alternatives.map((alternative, aIndex) => (
                           <FormControlLabel
-                            value={sIndex}
+                            value={aIndex}
                             control={<Radio />}
-                            label={section}
-                            checked={answers[qIndex] === sIndex}
+                            label={alternative}
+                            checked={answers[qIndex] === aIndex}
+                            classes={{ label: classes.formLabel }}
                           />
                         ))}
                       </RadioGroup>
@@ -325,7 +314,7 @@ export default function OSWESTRY(props: PatientFormProps) {
               variant="contained"
               className={classes.appBar}
               onClick={() =>
-                currentPanel === 10
+                currentPanel === questions.length
                   ? postOSWAnswers(props.patientAuth, answers, () =>
                       props.setCurrentPanel(PatientPanel.INITIAL)
                     )
@@ -333,7 +322,7 @@ export default function OSWESTRY(props: PatientFormProps) {
               }
               disabled={answers[currentPanel - 1] === undefined}
             >
-              {currentPanel === 10 ? 'Finalizar' : 'Próximo'}
+              {currentPanel === questions.length ? 'Finalizar' : 'Próximo'}
             </Button>
             <Button
               variant="text"

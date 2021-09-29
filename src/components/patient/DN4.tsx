@@ -7,16 +7,16 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
-
-import { PatientFormProps, PatientPanel } from '../../interfaces';
-import { baseUrl } from '../../utils/loggedUser';
-import { UserAuth } from '../../models/UserAuth';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import { Grid, LinearProgress } from '@material-ui/core';
+
+import { PatientFormProps, PatientPanel } from '../../interfaces';
+import { baseUrl } from '../../utils/loggedUser';
+import { UserAuth } from '../../models/UserAuth';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -255,7 +255,7 @@ export default function DN4(props: PatientFormProps) {
               variant="contained"
               className={classes.appBar}
               onClick={() =>
-                currentPanel === 4
+                currentPanel === questions.length
                   ? postDN4Answers(props.patientAuth, answers, () =>
                       props.setCurrentPanel(PatientPanel.INITIAL)
                     )
@@ -266,7 +266,7 @@ export default function DN4(props: PatientFormProps) {
                   answers[getRealIndex(currentPanel - 1, sIndex)] === undefined
               )}
             >
-              {currentPanel === 4 ? 'Finalizar' : 'Próximo'}
+              {currentPanel === questions.length ? 'Finalizar' : 'Próximo'}
             </Button>
             <Button
               variant="text"
