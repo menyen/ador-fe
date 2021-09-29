@@ -1,25 +1,29 @@
 {
   "files": {
     "main.css": "/static/css/main.be3a1887.chunk.css",
-    "main.js": "/static/js/main.fb84dd4c.chunk.js",
-    "main.js.map": "/static/js/main.fb84dd4c.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.2d6cb85b.js",
-    "runtime-main.js.map": "/static/js/runtime-main.2d6cb85b.js.map",
-    "static/js/2.f7779ff7.chunk.js": "/static/js/2.f7779ff7.chunk.js",
-    "static/js/2.f7779ff7.chunk.js.map": "/static/js/2.f7779ff7.chunk.js.map",
-    "static/js/3.8b9c729c.chunk.js": "/static/js/3.8b9c729c.chunk.js",
-    "static/js/3.8b9c729c.chunk.js.map": "/static/js/3.8b9c729c.chunk.js.map",
+    "main.js": "/static/js/main.af072f75.chunk.js",
+    "main.js.map": "/static/js/main.af072f75.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.ad3cf629.js",
+    "runtime-main.js.map": "/static/js/runtime-main.ad3cf629.js.map",
+    "static/js/2.c937e0b3.chunk.js": "/static/js/2.c937e0b3.chunk.js",
+    "static/js/2.c937e0b3.chunk.js.map": "/static/js/2.c937e0b3.chunk.js.map",
+    "static/js/3.17e3197a.chunk.js": "/static/js/3.17e3197a.chunk.js",
+    "static/js/3.17e3197a.chunk.js.map": "/static/js/3.17e3197a.chunk.js.map",
     "index.html": "/index.html",
     "static/css/main.be3a1887.chunk.css.map": "/static/css/main.be3a1887.chunk.css.map",
-    "static/js/2.f7779ff7.chunk.js.LICENSE.txt": "/static/js/2.f7779ff7.chunk.js.LICENSE.txt",
+    "static/js/2.c937e0b3.chunk.js.LICENSE.txt": "/static/js/2.c937e0b3.chunk.js.LICENSE.txt",
+    "static/media/logo-white.b205485d.svg": "/static/media/logo-white.b205485d.svg",
     "static/media/logo.1480c7f8.svg": "/static/media/logo.1480c7f8.svg",
     "static/media/mini-logo-white.d2319d1d.svg": "/static/media/mini-logo-white.d2319d1d.svg",
-    "static/media/mini-logo.b070b62c.svg": "/static/media/mini-logo.b070b62c.svg"
+    "static/media/mini-logo.b070b62c.svg": "/static/media/mini-logo.b070b62c.svg",
+    "static/media/onboard-step-1.21fc026a.svg": "/static/media/onboard-step-1.21fc026a.svg",
+    "static/media/onboard-step-2.813ac00c.svg": "/static/media/onboard-step-2.813ac00c.svg",
+    "static/media/onboard-step-3.e02cc440.svg": "/static/media/onboard-step-3.e02cc440.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.2d6cb85b.js",
-    "static/js/2.f7779ff7.chunk.js",
+    "static/js/runtime-main.ad3cf629.js",
+    "static/js/2.c937e0b3.chunk.js",
     "static/css/main.be3a1887.chunk.css",
-    "static/js/main.fb84dd4c.chunk.js"
+    "static/js/main.af072f75.chunk.js"
   ]
 }
