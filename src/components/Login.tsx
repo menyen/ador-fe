@@ -81,23 +81,31 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 async function loginUser(credentials: Credentials) {
-  return fetch(`${baseUrl}/api/v1/login`, {
+  const response = await fetch(`${baseUrl}/api/v1/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(credentials),
-  }).then((data) => data.json());
+  });
+  if (!response.ok) {
+    throw new Error('Could not login');
+  }
+  return response.json();
 }
 
 async function loginPatient(tax_id: string, clinicId: number) {
-  return fetch(`${baseUrl}/api/v1/patient/login/${clinicId}`, {
+  const response = await fetch(`${baseUrl}/api/v1/patient/login/${clinicId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ tax_id }),
-  }).then((data) => data.json());
+  });
+  if (!response.ok) {
+    throw new Error('Could not login');
+  }
+  return response.json();
 }
 
 const DefaultButton = withStyles((theme: Theme) => ({
