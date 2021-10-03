@@ -289,7 +289,7 @@ async function postHADAnswers(
 export default function HAD(props: PatientFormProps) {
   const classes = useStyles();
   const [currentPanel, setCurrentPanel] = React.useState(0);
-  const [answers, setAnswers] = React.useState(new Array(14));
+  const [answers, setAnswers] = React.useState(new Array(questions.length));
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,

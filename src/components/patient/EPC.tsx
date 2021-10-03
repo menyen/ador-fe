@@ -106,7 +106,7 @@ export default function EPC(props: PatientFormProps) {
   const [currentEPCPanel, setCurrentEPCPanel] = React.useState(
     EPCFormPanel.DESCRIPTION
   );
-  const [answers, setAnswers] = React.useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [answers, setAnswers] = React.useState(new Array(questions.length));
 
   const marks = [
     {

@@ -129,7 +129,9 @@ const getRealIndex = (questionIndex: number, sectionIndex: number) => {
 export default function DN4(props: PatientFormProps) {
   const classes = useStyles();
   const [currentPanel, setCurrentPanel] = React.useState(0);
-  const [answers, setAnswers] = React.useState(new Array(10));
+  const [answers, setAnswers] = React.useState(
+    new Array(questions.reduce((acc, q) => acc + q.sections.length, 0))
+  );
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
