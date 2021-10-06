@@ -11,7 +11,8 @@ import FormControl from '@material-ui/core/FormControl';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
-import { Grid, LinearProgress } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { PatientFormProps, PatientPanel } from '../../interfaces';
 import { baseUrl } from '../../utils/loggedUser';

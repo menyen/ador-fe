@@ -494,7 +494,6 @@ export default function SF36(props: PatientFormProps) {
                           )}
                           {question.type === 'slider' && (
                             <Slider
-                              // aria-labelledby={`question_${index}`}
                               defaultValue={1}
                               classes={{
                                 root: classes.slider,

@@ -5,13 +5,19 @@ import IconButton from '@material-ui/core/IconButton';
 import { ArrowBack } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  createStyles,
+  Theme,
+  withStyles,
+} from '@material-ui/core/styles';
 import { green, grey, orange, red, yellow } from '@material-ui/core/colors';
 import FormControl from '@material-ui/core/FormControl';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio, { RadioProps } from '@material-ui/core/Radio';
-import { Grid, LinearProgress, withStyles } from '@material-ui/core';
 import clsx from 'clsx';
 
 import { PatientFormProps, PatientPanel } from '../../interfaces';
