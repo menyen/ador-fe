@@ -12,7 +12,15 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
-import { Grid, LinearProgress } from '@material-ui/core';
+import LooksOneIcon from '@material-ui/icons/LooksOne';
+import LooksTwoIcon from '@material-ui/icons/LooksTwo';
+import Looks3Icon from '@material-ui/icons/Looks3';
+import Looks4Icon from '@material-ui/icons/Looks4';
+import Looks5Icon from '@material-ui/icons/Looks5';
+import Slider from '@material-ui/core/Slider';
+import FormGroup from '@material-ui/core/FormGroup';
+import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { PatientFormProps, PatientPanel } from '../../interfaces';
 import { baseUrl } from '../../utils/loggedUser';
@@ -60,6 +68,42 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     progressBarLine: {
       backgroundColor: '#7A3FE1',
+    },
+    section: {
+      margin: '12px 0',
+    },
+    numberButtonPrimary: {
+      color: '#E6E6E6',
+    },
+    numberButtonSecondary: {
+      color: '#7A3FE1',
+    },
+    numberSpacing: {
+      margin: '0 auto',
+      textAlign: 'center',
+    },
+    numberOptionLabel: {
+      textAlign: 'center',
+      fontSize: '0.625rem',
+    },
+    radioLabel: {
+      width: '75px',
+      textAlign: 'center',
+    },
+    radioSpanLabel: {
+      fontSize: '0.75rem',
+    },
+    radioGroup: {
+      justifyContent: 'center',
+    },
+    slider: {
+      textAlign: 'center',
+      color: '#7A3FE1',
+      width: '90%',
+      marginLeft: '1rem',
+    },
+    sliderMakrLabel: {
+      fontSize: '0.625rem',
     },
   })
 );
@@ -161,7 +205,7 @@ const questions = [
   {
     title: null,
     sections: ['Quanta dor no corpo você teve durante as últimas 4 semanas?'],
-    types: 'slider',
+    type: 'slider',
     alternatives: [
       { label: 'Nenhuma', value: 1 },
       { label: 'Muito leve', value: 2 },
@@ -279,7 +323,6 @@ export default function SF36(props: PatientFormProps) {
   const [answers, setAnswers] = React.useState(new Array(36));
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
     value: string,
     questionIndex: number,
     sectionIndex: number
@@ -360,29 +403,117 @@ export default function SF36(props: PatientFormProps) {
                         item
                         xs={12}
                         key={`question${qIndex}-section${sIndex}`}
+                        className={classes.section}
                       >
                         <FormControl component="fieldset">
                           <FormLabel component="legend">{section}</FormLabel>
-                          <RadioGroup
-                            row
-                            aria-label={section}
-                            name={`question${qIndex}-section${sIndex}`}
-                            onChange={(e, v) =>
-                              handleChange(e, v, qIndex, sIndex)
-                            }
-                          >
-                            {question.alternatives.map((alternative) => (
-                              <FormControlLabel
-                                value={alternative.value}
-                                control={<Radio />}
-                                label={alternative.label}
-                                checked={
-                                  answers[getRealIndex(qIndex, sIndex)] ===
-                                  alternative.value
-                                }
-                              />
-                            ))}
-                          </RadioGroup>
+                          {question.type === 'number' && (
+                            <FormGroup row>
+                              {question.alternatives.map((alternative) => {
+                                return (
+                                  <Grid
+                                    item
+                                    xs={2}
+                                    className={classes.numberSpacing}
+                                  >
+                                    <IconButton
+                                      color={
+                                        answers[
+                                          getRealIndex(qIndex, sIndex)
+                                        ] === alternative.value
+                                          ? 'secondary'
+                                          : 'primary'
+                                      }
+                                      onClick={(e) =>
+                                        handleChange(
+                                          alternative.value.toString(),
+                                          qIndex,
+                                          sIndex
+                                        )
+                                      }
+                                      classes={{
+                                        colorPrimary:
+                                          classes.numberButtonPrimary,
+                                        colorSecondary:
+                                          classes.numberButtonSecondary,
+                                      }}
+                                    >
+                                      {alternative.value === 1 && (
+                                        <LooksOneIcon />
+                                      )}
+                                      {alternative.value === 2 && (
+                                        <LooksTwoIcon />
+                                      )}
+                                      {alternative.value === 3 && (
+                                        <Looks3Icon />
+                                      )}
+                                      {alternative.value === 4 && (
+                                        <Looks4Icon />
+                                      )}
+                                      {alternative.value === 5 && (
+                                        <Looks5Icon />
+                                      )}
+                                    </IconButton>
+                                    <Typography
+                                      className={classes.numberOptionLabel}
+                                    >
+                                      {alternative.label}
+                                    </Typography>
+                                  </Grid>
+                                );
+                              })}
+                            </FormGroup>
+                          )}
+                          {question.type === 'radio' && (
+                            <RadioGroup
+                              row
+                              aria-label={section}
+                              name={`question${qIndex}-section${sIndex}`}
+                              onChange={(e, v) =>
+                                handleChange(v, qIndex, sIndex)
+                              }
+                              classes={{ row: classes.radioGroup }}
+                            >
+                              {question.alternatives.map((alternative) => (
+                                <FormControlLabel
+                                  value={alternative.value}
+                                  control={<Radio />}
+                                  classes={{
+                                    labelPlacementBottom: classes.radioLabel,
+                                    label: classes.radioSpanLabel,
+                                  }}
+                                  label={alternative.label}
+                                  labelPlacement="bottom"
+                                  checked={
+                                    answers[getRealIndex(qIndex, sIndex)] ===
+                                    alternative.value
+                                  }
+                                />
+                              ))}
+                            </RadioGroup>
+                          )}
+                          {question.type === 'slider' && (
+                            <Slider
+                              // aria-labelledby={`question_${index}`}
+                              defaultValue={1}
+                              classes={{
+                                root: classes.slider,
+                                markLabel: classes.sliderMakrLabel,
+                              }}
+                              step={1}
+                              valueLabelDisplay="auto"
+                              marks={question.alternatives}
+                              min={1}
+                              max={6}
+                              onChange={(e, v) => {
+                                handleChange(
+                                  (v as number).toString(),
+                                  qIndex,
+                                  sIndex
+                                );
+                              }}
+                            />
+                          )}
                         </FormControl>
                       </Grid>
                     ))}
