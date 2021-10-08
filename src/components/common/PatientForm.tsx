@@ -8,12 +8,14 @@ import { deepOrange } from '@material-ui/core/colors';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import { OrangeButton, OutlinedButton } from '../Buttons';
-import { PatientPayload, QUESTIONAIRE_LIST } from '../../interfaces';
-import { Patient } from '../../models/Patient';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+
+import { OrangeButton, OutlinedButton } from '../Buttons';
+import { PatientPayload, QUESTIONAIRE_LIST } from '../../interfaces';
+import { Patient } from '../../models/Patient';
+import { PatientForm as PatientFormModel } from '../../models/PatientForm';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface PatientFormProps {
   currentPatient?: Patient;
-  questionaires: string[];
+  questionaires: PatientFormModel[];
   openPatientsTablePage: () => void;
   setPatient: (
     id: number | undefined,
@@ -63,7 +65,7 @@ export default function PatientForm(props: PatientFormProps) {
   );
 
   const [questionaires, setQuestionaires] = useState<string[]>(
-    props.questionaires
+    props.questionaires.map((q) => q.type)
   );
   const classes = useStyles();
 

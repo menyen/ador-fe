@@ -25,6 +25,7 @@ import {
   getQuestionaires,
   sendQuestionaires,
 } from '../../actions/questionaire';
+import PatientSummary from './PatientSummary';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -113,14 +114,17 @@ function PhysicianPage() {
           />
         )}
         {panel === PhysicianPanelType.PatientForm && (
-          <PatientForm
-            currentPatient={currentPatient}
-            setPatient={setPatient}
-            questionaires={questionaires}
-            openPatientsTablePage={() =>
-              setPanel(PhysicianPanelType.PatientsTable)
-            }
-          />
+          <>
+            <PatientForm
+              currentPatient={currentPatient}
+              setPatient={setPatient}
+              questionaires={questionaires}
+              openPatientsTablePage={() =>
+                setPanel(PhysicianPanelType.PatientsTable)
+              }
+            />
+            <PatientSummary questionaires={questionaires} />
+          </>
         )}
       </main>
     </div>

@@ -237,7 +237,7 @@ export default function QuestionaireList(props: QuestionaireListProps) {
       <div className={classes.questionaireList}>
         <Typography variant="subtitle1">Questionários:</Typography>
         {QUESTIONAIRE_LIST.filter((item) =>
-          questionaires.includes(item.value)
+          questionaires.map((q) => q.type).includes(item.value)
         ).map((item) => (
           <Button
             variant="contained"

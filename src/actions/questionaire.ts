@@ -1,4 +1,5 @@
 import { Dispatch } from 'react';
+import { PatientForm } from '../models/PatientForm';
 import { baseUrl, getAuth } from '../utils/loggedUser';
 
 export enum IActions {
@@ -8,7 +9,7 @@ export enum IActions {
 
 export interface IQuestionairesDispatchProps {
   type: IActions;
-  questionaires: string[];
+  questionaires: PatientForm[];
 }
 
 export function getQuestionaires(patient_id: number) {
@@ -25,7 +26,7 @@ export function getQuestionaires(patient_id: number) {
 
     dispatch({
       type: IActions.QUESTIONAIRES_FETCHED,
-      questionaires: response.forms.map(({ type }: { type: string }) => type),
+      questionaires: response.forms,
     });
   };
 }
@@ -41,7 +42,7 @@ export function getQuestionairesForPatient() {
 
     dispatch({
       type: IActions.QUESTIONAIRES_FETCHED,
-      questionaires: response.forms.map(({ type }: { type: string }) => type),
+      questionaires: response.forms,
     });
   };
 }
@@ -56,8 +57,8 @@ export function sendQuestionaires(patient_id: number, forms: string[]) {
       },
       body: JSON.stringify({ patient_id, forms }),
     });
-    if (response.ok) {
-      dispatch({ type: IActions.QUESTIONAIRES_SENT, questionaires: forms });
+    if (!response.ok) {
+      throw new Error('Could not send questionaire list');
     }
   };
 }
