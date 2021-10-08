@@ -10,7 +10,11 @@ import {
   Theme,
   withStyles,
 } from '@material-ui/core/styles';
-import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
+import {
+  PatientBasicResult,
+  PatientForm,
+  PatientHADResult,
+} from '../../models/PatientForm';
 import { deepOrange } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,6 +46,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     oswPercentage: {
       color: deepOrange[500],
+    },
+    hadTextResult: {
+      margin: theme.spacing(1),
     },
   })
 );
@@ -192,6 +199,47 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
+  const hadForms = props?.questionaires?.filter(
+    (q) => q.type === 'HAD' && q.status === 'DONE'
+  );
+  const hadLatestForm = hadForms && hadForms[hadForms.length - 1];
+  const hadResult = hadLatestForm?.results as PatientHADResult;
+  const hadAnsiety = hadResult?.ansiedade;
+  const hadDepression = hadResult?.depressao;
+  const hadCard = (
+    <Paper classes={{ root: classes.paper }}>
+      <Typography variant="h6">Oswestry De Lombalgia</Typography>
+      <Typography variant="caption">
+        {`Preenchido em: ${
+          hadLatestForm &&
+          new Date(hadLatestForm.updated_at).toLocaleDateString('pt-BR')
+        }`}
+      </Typography>
+      <Grid container>
+        <Grid item xs={6}>
+          <Typography variant="subtitle1">Ansiedade</Typography>
+          <Typography variant="caption">{`Resultado: ${hadAnsiety?.score}`}</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="subtitle1" className={classes.hadTextResult}>
+            {hadAnsiety?.text}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={6}>
+          <Typography variant="subtitle1">Depressão</Typography>
+          <Typography variant="caption">{`Resultado: ${hadDepression?.score}`}</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="subtitle1" className={classes.hadTextResult}>
+            {hadDepression?.text}
+          </Typography>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+
   return (
     <Grid container spacing={1} className={classes.root}>
       <Grid item xs={3}>
@@ -202,6 +250,9 @@ function PatientSummary(props: PatientSummaryProps) {
       </Grid>
       <Grid item xs={3}>
         {oswCard}
+      </Grid>
+      <Grid item xs={3}>
+        {hadCard}
       </Grid>
     </Grid>
   );
