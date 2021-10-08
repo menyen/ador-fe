@@ -70,7 +70,9 @@ interface PatientSummaryProps {
 function PatientSummary(props: PatientSummaryProps) {
   const classes = useStyles();
 
-  const epcForms = props?.questionaires?.filter((q) => q.type === 'EPC');
+  const epcForms = props?.questionaires?.filter(
+    (q) => q.type === 'EPC' && q.status === 'DONE'
+  );
   const epcLatestForm = epcForms && epcForms[epcForms.length - 1];
   const epcResult = epcLatestForm?.results as PatientBasicResult;
   const scoreEPC = epcResult?.score || 0;
@@ -119,7 +121,9 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
-  const dn4Forms = props?.questionaires?.filter((q) => q.type === 'DN4');
+  const dn4Forms = props?.questionaires?.filter(
+    (q) => q.type === 'DN4' && q.status === 'DONE'
+  );
   const dn4LatestForm = dn4Forms && dn4Forms[dn4Forms.length - 1];
   const dn4Result = dn4LatestForm?.results as PatientBasicResult;
   const scoreDN4 = dn4Result?.score || 0;
@@ -160,7 +164,9 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
-  const oswForms = props?.questionaires?.filter((q) => q.type === 'OSWESTRY');
+  const oswForms = props?.questionaires?.filter(
+    (q) => q.type === 'OSWESTRY' && q.status === 'DONE'
+  );
   const oswLatestForm = oswForms && oswForms[oswForms.length - 1];
   const oswResult = oswLatestForm?.results as PatientBasicResult;
   const scorOSW = oswResult?.score || 0;
