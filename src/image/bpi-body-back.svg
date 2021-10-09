@@ -1,5 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="178" height="372.509" viewBox="0 0 178 372.509">
-  <g id="Group_1678" data-name="Group 1678" transform="translate(-18435 6177)">
+<svg xmlns="http://www.w3.org/2000/svg" width="264.485" height="471.732" viewBox="0 0 264.485 471.732">
+  <text id="Costas" transform="translate(144 14)" font-size="14" font-family="Montserrat-SemiBold, Montserrat" font-weight="600"><tspan x="0" y="0">Costas</tspan></text>
+  <g id="Group_1628" data-name="Group 1628" transform="translate(-20 -213)">
+    <text id="Direito" transform="translate(277 283)" font-size="10" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="-34.25" y="0">Direito</tspan></text>
+    <text id="Esquerdo" transform="translate(99 283)" font-size="10" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Esquerdo</tspan></text>
+  </g>
+  <g id="Group_1631" data-name="Group 1631" transform="translate(-272 200)">
+    <text id="Frente" transform="translate(292 264)" font-size="12" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Frente</tspan></text>
+    <g id="girar-objeto" transform="translate(296 208.275)">
+      <path id="Path_2878" data-name="Path 2878" d="M31.084,26.057a.511.511,0,0,0-.51.51c0,3.327-6.768,6.136-14.778,6.137S1.017,29.893,1.017,26.567c0-1.536,1.521-3.08,4.171-4.232a27.23,27.23,0,0,1,10.429-1.9L13.8,22.25a.51.51,0,0,0,.722.72l3.05-3.047-3.05-3.05a.509.509,0,0,0-.72.72l1.823,1.823A28.321,28.321,0,0,0,4.784,21.4C1.7,22.742,0,24.578,0,26.568c0,4.014,6.94,7.156,15.8,7.156s15.8-3.146,15.8-7.158A.514.514,0,0,0,31.084,26.057Z" transform="translate(0 0)"/>
+    </g>
+  </g>
+  <g data-name="body-map" transform="translate(80 50) scale(1.215)">
+  <g id="Group_1678" data-name="Group 1678" transform="translate(-18451.397 6146.608)">
     <path id="Path_2868" data-name="Path 2868" d="M13561.381-2258.169s2.667,13.574,1.429,15.682c-.431.731-2.5,2.178-5.6,2.377-5.814.373-14.606-1.409-19.22-3.014s-6.785-3.027-5.321-5.268,10.292-2.034,12.464-3.9c3.087-1.009,3.577-6.513,3.577-6.513a21.726,21.726,0,0,0,6.47,1.587A17.885,17.885,0,0,0,13561.381-2258.169Z" transform="translate(4957.509 -3565.728)" fill="#f6f665"/>
     <path id="Path_2867" data-name="Path 2867" d="M14046.137-2251.2h13.082a5.821,5.821,0,0,0,.535,3.405c.844,1.274,5.26,1.966,5.693,2.255,4.027,2.689,10.938,2.821,10.141,5.571s-7.451,4.464-13.322,5.431c-4.086.674-8.219,1.551-11.494,1.623a12.067,12.067,0,0,1-5.416-1.012C14043.725-2234.848,14046.137-2251.2,14046.137-2251.2Z" transform="translate(4487.477 -3572.7)" fill="#f6f665"/>
     <path id="Path_2865" data-name="Path 2865" d="M13640.169-2989.8a72.152,72.152,0,0,1,11.059-1.722,62.426,62.426,0,0,1,10.619.348,31.217,31.217,0,0,1,2.125,5.428c1.379,4.195-.529,12.53-.529,12.53a165.146,165.146,0,0,0-2.172,18.365c-.713,10.784-.674,24.771-.674,24.771a10.58,10.58,0,0,1-5.613.976,35.066,35.066,0,0,1-7.363-1.858,132.578,132.578,0,0,0-2.916-24.4c-1-4.933-1.541-9.567-2.7-15.543l-1.334-9.235Z" transform="translate(4858.516 -2893.73)" fill="#44afab"/>
@@ -29,12 +41,7 @@
     <path id="Path_2874" data-name="Path 2874" d="M15296.713-5600.292a37.584,37.584,0,0,1,9.123-2.446,31.531,31.531,0,0,1,8.566.271s2.467,1.005,4.129,11.836c.379,2.47.48,5.976,1.047,9.85,1.918,13.066,5.041,30.881,5.041,30.881a15,15,0,0,1-5.1,3.121,15.291,15.291,0,0,1-6.178.427,208.031,208.031,0,0,1-11.006-27.553C15300.572-5576.174,15296.713-5600.292,15296.713-5600.292Z" transform="translate(3260.527 -423.792)" fill="#f6f665"/>
     <path id="Path_2859" data-name="Path 2859" d="M13844.684-4389.549a41.788,41.788,0,0,0,11.086,1.663,55.3,55.3,0,0,0,12.1-1.663" transform="translate(4670.975 -1611.485)" fill="none"/>
   </g>
-  <text id="Costas" transform="translate(68 14)" font-size="14" font-family="Montserrat-SemiBold, Montserrat" font-weight="600"><tspan x="0" y="0">Costas</tspan></text>
-  <g id="Group_1644" data-name="Group 1644" transform="translate(-99 -213)">
-    <text id="Direito" transform="translate(277 283)" font-size="10" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="-34.25" y="0">Direito</tspan></text>
-    <text id="Esquerdo" transform="translate(99 283)" font-size="10" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Esquerdo</tspan></text>
-  </g>
-  <g id="Group_1643" data-name="Group 1643" transform="translate(-96 -225)">
+  <g id="Group_1643" data-name="Group 1643" transform="translate(-112.397 -255.392)">
     <g id="Group_1627" data-name="Group 1627" transform="translate(113 256)">
       <path id="Path_2639" data-name="Path 2639" d="M3123.224,817.224c5.573,5.4,22.572,10.353,27.183,13.49a15.656,15.656,0,0,1,5.252,6.8,28.81,28.81,0,0,1,1.777,7.231s-.3,33.915,1.523,38.952a51.575,51.575,0,0,1,3.657,10.9c1.556,15.865,6.029,42.047,6.029,42.047s14.46,8.257,16.238,11.01-5.609,1.578-9.125,0,5.39,17.858,4.829,20.89-5.912-12.593-7.4-11.549,3.6,15.7,1.446,15.724-4.49-14-5.988-14,1.8,13.068,0,14-3.631-13.337-4.842-14,1.265,11.3,0,11.342-7.332-24.106-6.389-29.112c.469-2.488-6.38-15.089-10.523-27.848a150.718,150.718,0,0,1-5.673-25.928s-.127-16.887,3.81-28.68" transform="translate(-3035.763 -764.276)" fill="none" stroke="#000" stroke-width="1"/>
       <path id="Path_2640" data-name="Path 2640" d="M2180.58,293.186c-1.618,1.524-3.265,36.8-.372,43.183s4.181,26.565,4.181,26.565a200.648,200.648,0,0,1-1.475,21.3c-1.4,11.647-4.384,25.929-5.773,37.8-1.37,11.712-1.166,21.089-.4,22.9,1.443,3.388-3.3,25.116-5.868,41.665a114.027,114.027,0,0,0-1.362,19.079,5.939,5.939,0,0,0,0,3.23c.468,2.023,13.426,4.224,15.942,7.217s-5.875,4.755-5.875,4.755-17.819,3.6-20.881,3.132-3.127-1.056-3.547-2.64c-.158-.138-.491-10.559,1.087-15.694,1.493-5.29-3.083-47.662-2.386-54.088s1.855-14.838,1.855-14.838l-6.573-67.938s-6.161,75.979-6.05,76.119-.073-.427,0,0c.432,2.553,2.775,3.239,2.491,11.964-3.7,18.359-3.728,48.78-3.728,48.78s.146,2.175.7,5.977a77.947,77.947,0,0,1,.539,9.225c-.11,1.608-3.144,3.132-6.718,3.132-6.272,0-18.369-3.132-18.369-3.132s-4.619-2.235-5.388-3.752,2.31-2.315,2.31-2.315l6.363-1.8s7.563-.649,7.333-8.226c.933-11.094-3.862-28.9-5.836-42.3a133.311,133.311,0,0,1-1.42-16.416,147.949,147.949,0,0,0,0-23.8,293.22,293.22,0,0,1-5.932-35.685c-.975-10.394-1.336-20-1.573-22.848-.564-6.774,3.561-25.567,4.236-28.353s1.51-23.281,1.907-28.5-5.019-29.286-5.5-29.6,5.112,25.039,3.589,28.328c-.28.6.076,5.489-.834,10.368a95.172,95.172,0,0,1-3.7,13.247s-10.107,27.957-11.141,30.318a1.208,1.208,0,0,1-.153.28c.174,2.294-4.285,30.122-6.29,29.4s1.3-11.769,0-11.111-2.793,14.232-5.185,13.743,1.412-12.965,0-12.965-3.418,11.7-5.646,12.965,2.376-14.49.8-15.148-4.561,13.3-7.1,12.517,6.578-17.1,5.268-20.791-9.391,2.089-9.6-.843,15.78-11.325,15.78-11.325l3.8-18.742,1.942-20.46,3.433-13.676s2.622-22.447,3.052-26.146-5.889-12.643,3.935-24.814c7.541-9.342,16-8.4,20.664-11.222.02-.011,8.219-1.443,9.048-4.941,2.909-12.261.863-8.554.509-11.642a19.831,19.831,0,0,0-1.245-3.419,54.585,54.585,0,0,1-4.632-11.122c-.978-3.76.639-3.419.722-3.917.825-4.927-2.034-22.784,16.78-23.1,8.407-.143,13.754,3.645,16.109,8.369,2.716,5.449,1.737,12,1.713,12.807,0,.032,0,.062,0,.062s2.231,1.442,1.729,5.12-3.736,9.591-3.736,9.591l-3.209,7.571s-.2,7.38,1.042,9.383" transform="translate(-2074.511 -183.052)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="1"/>
@@ -93,4 +100,18 @@
     <text id="_21" data-name="21" transform="translate(215 339)" font-size="9" font-family="Helvetica"><tspan x="-5.005" y="0">21</tspan></text>
     <path id="Path_2879" data-name="Path 2879" d="M6069.658,197.78a46.509,46.509,0,0,0,11.921,2.009A44.154,44.154,0,0,0,6092.921,198" transform="translate(-5893 204)" fill="none" stroke="#000" stroke-width="1"/>
   </g>
+  </g>
+  
+  <g id="Group_1006" data-name="Group 1006" transform="translate(0 141.816)">
+    <rect id="Rectangle_1922" data-name="Rectangle 1922" width="18" height="18" rx="4" transform="translate(0 0.184)" fill="#44afab"/>
+  </g>
+  <g id="Group_1629" data-name="Group 1629" transform="translate(0 90)">
+    <rect id="Rectangle_1922-2" data-name="Rectangle 1922" width="18" height="18" rx="4" fill="#f66569"/>
+  </g>
+  <g id="Group_1630" data-name="Group 1630" transform="translate(0 115.908)">
+    <rect id="Rectangle_1922-3" data-name="Rectangle 1922" width="18" height="18" rx="4" transform="translate(0 0.092)" fill="#f6f665"/>
+  </g>
+  <text id="Dor_forte" data-name="Dor forte" transform="translate(24 102)" font-size="10" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Dor forte</tspan></text>
+  <text id="Dor_moderada" data-name="Dor moderada" transform="translate(24 128)" font-size="10" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Dor moderada</tspan></text>
+  <text id="Dor_leve" data-name="Dor leve" transform="translate(24 154)" font-size="10" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Dor leve</tspan></text>
 </svg>
