@@ -140,6 +140,11 @@ export interface PatientFormProps extends PatientCommonPanelProps {
   patientAuth: UserAuth;
 }
 
+export interface BodyMapBPIProps {
+  markBodyPartsForBPI: (bodyMapNumber: number[]) => void;
+  disabledBodyMapClick: boolean;
+}
+
 export enum PatientPanel {
   INITIAL,
   EPC,
@@ -147,6 +152,7 @@ export enum PatientPanel {
   OSWESTRY,
   HAD,
   SF36,
+  BodyMapBPI,
 }
 
 export const RolesEnum = {

@@ -1,17 +1,21 @@
 import React from 'react';
+import { BodyMapBPIProps } from '../../interfaces';
 
 const colorArray = ['#fff', '#44afab', '#f6f665', '#f66569'] as const;
 
-function BodyMapBPI() {
-  const [bodyMap, setBoadyMap] = React.useState(new Array(52).fill(0));
+function BodyMapBPI(props: BodyMapBPIProps) {
+  const [bodyMap, setBodyMap] = React.useState(new Array(52).fill(0));
   const [isFrontSide, setIsBodyFrontSide] = React.useState(true);
   const handleClickArea = (bodyPartNumber: number) =>
-    setBoadyMap((s) => {
+    props.disabledBodyMapClick &&
+    setBodyMap((s) => {
       const newValues = [...s];
       newValues[bodyPartNumber] =
         s[bodyPartNumber] < 3 ? s[bodyPartNumber] + 1 : 0;
       return newValues;
     });
+
+  React.useEffect(() => props.markBodyPartsForBPI(bodyMap), [bodyMap]);
 
   const frontSide = (
     <svg
