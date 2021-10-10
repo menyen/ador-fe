@@ -10,6 +10,7 @@ import DN4 from './DN4';
 import OSWESTRY from './OSWESTRY';
 import HAD from './HAD';
 import SF36 from './SF36';
+import BPI from './BPI';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,6 +63,9 @@ export default function PatientPage() {
           )}
           {currentPanel === PatientPanel.SF36 && (
             <SF36 setCurrentPanel={setCurrentPanel} patientAuth={auth} />
+          )}
+          {currentPanel === PatientPanel.BPI && (
+            <BPI setCurrentPanel={setCurrentPanel} patientAuth={auth} />
           )}
         </>
       ) : (
