@@ -1,4 +1,12 @@
-import { Slider, Typography } from '@material-ui/core';
+import {
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Slider,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
@@ -12,10 +20,12 @@ import {
 } from '@material-ui/core/styles';
 import {
   PatientBasicResult,
+  PatientBPIResult,
   PatientForm,
   PatientHADResult,
 } from '../../models/PatientForm';
 import { deepOrange } from '@material-ui/core/colors';
+import BodyMapBPI from '../patient/BodyMapBPI';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,6 +59,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     hadTextResult: {
       margin: theme.spacing(1),
+    },
+    slider: {
+      margin: '30px 0',
+    },
+    divider: {
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(1),
     },
   })
 );
@@ -240,6 +257,128 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
+  const bpiForms = props?.questionaires?.filter(
+    (q) => q.type === 'BPI' && q.status === 'DONE'
+  );
+  const bpiLatestForm = bpiForms && bpiForms[bpiForms.length - 1];
+  const bpiResult = bpiLatestForm?.results as PatientBPIResult;
+  const gradesLabels = [
+    'Pior dor que sentiu nas últimas 24 horas:',
+    'Dor mais fraca das últimas 24 horas:',
+    'Média de dor do paciente:',
+    'Dor do momento:',
+  ];
+  const percentagesLabels = [
+    'Atividades em geral',
+    'Humor',
+    'Habilidade de caminhar',
+    'Trabalho',
+    'Relacionamento com outras pessoas',
+    'Habilidade para apreciar a vida',
+  ];
+  const bpiCard = (
+    <Paper classes={{ root: classes.paper }}>
+      <Typography variant="h6">Breve Inventário de Dor (BPI)</Typography>
+      <Typography variant="caption">
+        {`Preenchido em: ${
+          bpiLatestForm &&
+          new Date(bpiLatestForm.updated_at).toLocaleDateString('pt-BR')
+        }`}
+      </Typography>
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <BodyMapBPI
+            disabledBodyMapClick={true}
+            preSelectedValues={bpiResult.body_pain.reduce((acc, body) => {
+              acc[body.area - 1] = body.pain_level;
+              return acc;
+            }, new Array(53).fill(0))}
+          />
+        </Grid>
+        <Grid item xs={5}>
+          {bpiResult.grades.map((grade, gradeIndex) => (
+            <>
+              <Typography variant="subtitle1">
+                {gradesLabels[gradeIndex]}
+              </Typography>
+              <Slider
+                defaultValue={0}
+                classes={{
+                  root: classes.slider,
+                  // markLabel: classes.sliderMakrLabel,
+                }}
+                step={1}
+                valueLabelDisplay="on"
+                marks={[
+                  { label: 'Sem dor', value: 0 },
+                  { label: 'Pior dor', value: 10 },
+                ]}
+                min={0}
+                max={10}
+                disabled={true}
+                value={grade}
+              />
+            </>
+          ))}
+        </Grid>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          {bpiResult.treatments.map((treatment, treatmentIndex) => (
+            <>
+              <Typography variant="subtitle1">{`Tratamento ${
+                treatmentIndex + 1
+              }`}</Typography>
+              <List>
+                <ListItem>
+                  <ListItemText
+                    primary="Nome do tratamento"
+                    secondary={treatment?.name}
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="Quando iniciou?"
+                    secondary={treatment?.started_at}
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="Qual a dose/frequência do tratamento?"
+                    secondary={treatment?.frequency}
+                  />
+                </ListItem>
+              </List>
+              <Divider className={classes.divider} variant="middle" />
+            </>
+          ))}
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="subtitle1">
+            Como a dor interferiu nas últimas 24 horas em:
+          </Typography>
+          <List>
+            {bpiResult.percentages.map((percentage, percentageIndex) => (
+              <ListItem>
+                <ListItemText
+                  primary={percentagesLabels[percentageIndex]}
+                  secondary={percentage}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Grid>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left" paragraph>
+            {`Intensidade da melhora proporcionada pelos tratamentos ou medicações nas últimas 24 horas: ${bpiResult.slider}`}
+          </Typography>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+
   return (
     <Grid container spacing={1} className={classes.root}>
       <Grid item xs={3}>
@@ -253,6 +392,9 @@ function PatientSummary(props: PatientSummaryProps) {
       </Grid>
       <Grid item xs={3}>
         {hadCard}
+      </Grid>
+      <Grid item xs={9}>
+        {bpiCard}
       </Grid>
     </Grid>
   );

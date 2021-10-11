@@ -141,7 +141,7 @@ export interface PatientFormProps extends PatientCommonPanelProps {
 }
 
 export interface BodyMapBPIProps {
-  markBodyPartsForBPI: (bodyMapNumber: number[]) => void;
+  markBodyPartsForBPI?: (bodyMapNumber: number[]) => void;
   disabledBodyMapClick: boolean;
   preSelectedValues?: number[];
 }

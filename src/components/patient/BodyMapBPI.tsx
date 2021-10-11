@@ -4,12 +4,14 @@ import { BodyMapBPIProps } from '../../interfaces';
 const colorArray = ['#fff', '#44afab', '#f6f665', '#f66569'] as const;
 
 function BodyMapBPI(props: BodyMapBPIProps) {
+  const { preSelectedValues, markBodyPartsForBPI, disabledBodyMapClick } =
+    props;
   const [bodyMap, setBodyMap] = React.useState(
-    props.preSelectedValues ?? new Array(53).fill(0)
+    preSelectedValues ?? new Array(53).fill(0)
   );
   const [isFrontSide, setIsBodyFrontSide] = React.useState(true);
   const handleClickArea = (bodyPartNumber: number) =>
-    !props.disabledBodyMapClick &&
+    !disabledBodyMapClick &&
     setBodyMap((s) => {
       const newValues = [...s];
       newValues[bodyPartNumber] =
@@ -17,7 +19,10 @@ function BodyMapBPI(props: BodyMapBPIProps) {
       return newValues;
     });
 
-  React.useEffect(() => props.markBodyPartsForBPI(bodyMap), [bodyMap]);
+  React.useEffect(
+    () => markBodyPartsForBPI && markBodyPartsForBPI(bodyMap),
+    [bodyMap, markBodyPartsForBPI]
+  );
 
   const frontSide = (
     <svg
@@ -721,6 +726,7 @@ function BodyMapBPI(props: BodyMapBPIProps) {
           fontSize="12"
           fontWeight="500"
           transform="translate(292 264)"
+          style={{ cursor: 'pointer' }}
         >
           <tspan x="0" y="0">
             Costas
@@ -781,6 +787,7 @@ function BodyMapBPI(props: BodyMapBPIProps) {
           fontSize="12"
           fontWeight="500"
           transform="translate(292 264)"
+          style={{ cursor: 'pointer' }}
         >
           <tspan x="0" y="0">
             Frente
