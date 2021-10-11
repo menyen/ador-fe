@@ -36,6 +36,7 @@ import {
 } from '../../actions/questionaire';
 import PatientsTable from '../common/PatientsTable';
 import PatientForm from '../common/PatientForm';
+import PatientSummary from '../common/PatientSummary';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -154,14 +155,17 @@ export default function ManagerPage() {
           />
         )}
         {panel === ManagerPanelType.PatientForm && (
-          <PatientForm
-            currentPatient={currentPatient}
-            setPatient={setPatient}
-            questionaires={questionaires}
-            openPatientsTablePage={() =>
-              setPanel(ManagerPanelType.PatientsTable)
-            }
-          />
+          <>
+            <PatientForm
+              currentPatient={currentPatient}
+              setPatient={setPatient}
+              questionaires={questionaires}
+              openPatientsTablePage={() =>
+                setPanel(ManagerPanelType.PatientsTable)
+              }
+            />
+            <PatientSummary questionaires={questionaires} />
+          </>
         )}
       </main>
     </div>

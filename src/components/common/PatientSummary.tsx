@@ -4,7 +4,6 @@ import {
   ListItem,
   ListItemText,
   Slider,
-  TextField,
   Typography,
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';

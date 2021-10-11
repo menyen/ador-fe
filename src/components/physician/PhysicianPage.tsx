@@ -25,7 +25,7 @@ import {
   getQuestionaires,
   sendQuestionaires,
 } from '../../actions/questionaire';
-import PatientSummary from './PatientSummary';
+import PatientSummary from '../common/PatientSummary';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
