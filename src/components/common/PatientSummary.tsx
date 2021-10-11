@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       padding: theme.spacing(1),
+      marginTop: theme.spacing(1),
     },
     dn4Slider: {
       width: '80%',
@@ -102,7 +103,7 @@ function PatientSummary(props: PatientSummaryProps) {
   const epcCard = (
     <Paper classes={{ root: classes.paper }}>
       <Typography variant="h6">Escala de pensamento catastrófico</Typography>
-      <Typography variant="caption">
+      <Typography variant="caption" display="block">
         {`Preenchido em: ${
           epcLatestForm &&
           new Date(epcLatestForm.updated_at).toLocaleDateString('pt-BR')
@@ -380,20 +381,14 @@ function PatientSummary(props: PatientSummaryProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={3}>
-        {epcCard}
-      </Grid>
-      <Grid item xs={3}>
-        {dn4Card}
-      </Grid>
-      <Grid item xs={3}>
-        {oswCard}
-      </Grid>
-      <Grid item xs={3}>
-        {hadCard}
-      </Grid>
       <Grid item xs={9}>
         {bpiCard}
+      </Grid>
+      <Grid item xs={3}>
+        {epcCard}
+        {dn4Card}
+        {oswCard}
+        {hadCard}
       </Grid>
     </Grid>
   );
