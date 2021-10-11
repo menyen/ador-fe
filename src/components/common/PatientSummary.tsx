@@ -289,14 +289,14 @@ function PatientSummary(props: PatientSummaryProps) {
         <Grid item xs={6}>
           <BodyMapBPI
             disabledBodyMapClick={true}
-            preSelectedValues={bpiResult.body_pain.reduce((acc, body) => {
+            preSelectedValues={bpiResult?.body_pain?.reduce((acc, body) => {
               acc[body.area - 1] = body.pain_level;
               return acc;
             }, new Array(53).fill(0))}
           />
         </Grid>
         <Grid item xs={5}>
-          {bpiResult.grades.map((grade, gradeIndex) => (
+          {bpiResult?.grades?.map((grade, gradeIndex) => (
             <>
               <Typography variant="subtitle1">
                 {gradesLabels[gradeIndex]}
@@ -324,7 +324,7 @@ function PatientSummary(props: PatientSummaryProps) {
       </Grid>
       <Grid container spacing={1}>
         <Grid item xs={6}>
-          {bpiResult.treatments.map((treatment, treatmentIndex) => (
+          {bpiResult?.treatments?.map((treatment, treatmentIndex) => (
             <>
               <Typography variant="subtitle1">{`Tratamento ${
                 treatmentIndex + 1
@@ -358,7 +358,7 @@ function PatientSummary(props: PatientSummaryProps) {
             Como a dor interferiu nas últimas 24 horas em:
           </Typography>
           <List>
-            {bpiResult.percentages.map((percentage, percentageIndex) => (
+            {bpiResult?.percentages?.map((percentage, percentageIndex) => (
               <ListItem>
                 <ListItemText
                   primary={percentagesLabels[percentageIndex]}
@@ -372,10 +372,19 @@ function PatientSummary(props: PatientSummaryProps) {
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <Typography variant="subtitle1" align="left" paragraph>
-            {`Intensidade da melhora proporcionada pelos tratamentos ou medicações nas últimas 24 horas: ${bpiResult.slider}`}
+            {`Intensidade da melhora proporcionada pelos tratamentos ou medicações nas últimas 24 horas: ${bpiResult?.slider}`}
           </Typography>
         </Grid>
       </Grid>
+    </Paper>
+  );
+
+  const sf36Forms = props?.questionaires?.filter(
+    (q) => q.type === 'SF36' && q.status === 'DONE'
+  );
+  const sf36Card = (
+    <Paper classes={{ root: classes.paper }}>
+      <Typography variant="h6">Qualidade de vida (SF-36)</Typography>
     </Paper>
   );
 
