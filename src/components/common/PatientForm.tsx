@@ -204,7 +204,11 @@ export default function PatientForm(props: PatientFormProps) {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={questionaires.includes(item.value)}
+                      checked={
+                        props.questionaires
+                          .filter((q) => q.type === item.value)
+                          ?.slice(-1)[0]?.status === 'PENDING'
+                      }
                       onChange={handleCheckboxOnChange}
                       name={item.value}
                     />
