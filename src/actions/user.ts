@@ -16,9 +16,9 @@ export interface IUsersDispatchProps {
   users: User[];
 }
 
-export function getUsers() {
+export function getUsers(role?: string) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/users`, {
+    const response = await fetch(`${baseUrl}/api/v1/users${role ? `?role=${role}` : ''}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${getAuth().token}`,

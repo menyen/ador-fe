@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -16,6 +16,8 @@ import { OrangeButton, OutlinedButton } from '../Buttons';
 import { PatientPayload, QUESTIONAIRE_LIST } from '../../interfaces';
 import { Patient } from '../../models/Patient';
 import { PatientForm as PatientFormModel } from '../../models/PatientForm';
+import userReducer from '../../reducers/user';
+import { getUsers } from '../../actions/user';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -78,7 +80,13 @@ export default function PatientForm(props: PatientFormProps) {
   }, []);
   const [questionaires, setQuestionaires] =
     useState<string[]>(initialQuestionaires);
+
+  const [physicians, physiciansDispatch] = useReducer(userReducer, []);
   const classes = useStyles();
+
+  useEffect(() => {
+    getUsers('PHYSICIAN')(physiciansDispatch);
+  }, []);
 
   const handleSetPatient = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -141,7 +149,9 @@ export default function PatientForm(props: PatientFormProps) {
             />
           </Grid>
           <Grid item xs={4}>
-            <InputLabel htmlFor="birthdate-input">Data de Nascimento</InputLabel>
+            <InputLabel htmlFor="birthdate-input">
+              Data de Nascimento
+            </InputLabel>
             <TextField
               fullWidth
               type="date"
@@ -186,21 +196,23 @@ export default function PatientForm(props: PatientFormProps) {
               defaultValue={physicianId}
               onChange={(e) => setPhysicianId(Number(e.target.value))}
             /> */}
-              <InputLabel htmlFor="physician-id-input">Médico Responsável</InputLabel>
-              <Select
+            <InputLabel htmlFor="physician-id-input">
+              Médico Responsável
+            </InputLabel>
+            <Select
               fullWidth
-                native
-                id="physician-id-input"
-                value={physicianId}
-                onChange={(e) => setPhysicianId(Number(e.target.value))}
-              >
-                <option value="0">
-                  Lorem ipsum dolor 0
-                </option>
-                <option value="1">
-                  Lorem ipsum dolor 1
-                </option>
-              </Select>
+              native
+              id="physician-id-input"
+              value={physicianId}
+              onChange={(e) => setPhysicianId(Number(e.target.value))}
+            >
+              {physicians?.length &&
+                physicians.map((physician) => (
+                  <option key={physician.id} value={physician.id}>
+                    {physician.name}
+                  </option>
+                ))}
+            </Select>
           </Grid>
           <Grid item xs={4}>
             <TextField
