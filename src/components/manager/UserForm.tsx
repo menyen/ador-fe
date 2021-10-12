@@ -72,10 +72,9 @@ export default function UserForm(props: UserFormProps) {
 
   const handleSetUser = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const payload = {
+    const pseudoPayload = {
       name: userName,
       tax_id: taxId,
-      password,
       address_zipcode: zipcode,
       address_street: streetAddress,
       address_city: city,
@@ -84,6 +83,7 @@ export default function UserForm(props: UserFormProps) {
       crm,
       role,
     };
+    const payload = !!password ? { ...pseudoPayload, password } : pseudoPayload;
     setUser(
       currentUser?.id,
       currentUser?.id ? payload : { ...payload, email: email }

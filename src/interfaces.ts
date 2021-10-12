@@ -183,7 +183,7 @@ export interface UserPayload {
   name: string;
   tax_id: string;
   email?: string;
-  password: string;
+  password?: string;
   address_zipcode: string;
   address_street: string;
   address_city: string;
