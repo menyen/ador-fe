@@ -141,11 +141,11 @@ export default function PatientForm(props: PatientFormProps) {
             />
           </Grid>
           <Grid item xs={4}>
+            <InputLabel htmlFor="birthdate-input">Data de Nascimento</InputLabel>
             <TextField
               fullWidth
               type="date"
               id="birthdate-input"
-              label="Data de aniversário"
               defaultValue={birthdate}
               onChange={(e) => setBirthdate(e.target.value)}
             />
@@ -179,13 +179,28 @@ export default function PatientForm(props: PatientFormProps) {
             </FormControl>
           </Grid>
           <Grid item xs={4}>
-            <TextField
+            {/* <TextField
               fullWidth
               id="physician-id-input"
               label="Médico"
               defaultValue={physicianId}
               onChange={(e) => setPhysicianId(Number(e.target.value))}
-            />
+            /> */}
+              <InputLabel htmlFor="physician-id-input">Médico Responsável</InputLabel>
+              <Select
+              fullWidth
+                native
+                id="physician-id-input"
+                value={physicianId}
+                onChange={(e) => setPhysicianId(Number(e.target.value))}
+              >
+                <option value="0">
+                  Lorem ipsum dolor 0
+                </option>
+                <option value="1">
+                  Lorem ipsum dolor 1
+                </option>
+              </Select>
           </Grid>
           <Grid item xs={4}>
             <TextField
