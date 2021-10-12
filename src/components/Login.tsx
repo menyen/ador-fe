@@ -21,6 +21,7 @@ import minilogo from '../image/mini-logo-white.svg';
 import logo from '../image/logo.svg';
 import { OutlinedButton } from './Buttons';
 import { AuthContext, baseUrl } from '../utils/loggedUser';
+import { AlertContext } from '../utils/alert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -80,7 +81,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-async function loginUser(credentials: Credentials) {
+async function loginUser(
+  credentials: Credentials,
+  setAlertMessage?: (message: string) => void
+) {
   const response = await fetch(`${baseUrl}/api/v1/login`, {
     method: 'POST',
     headers: {
@@ -89,7 +93,9 @@ async function loginUser(credentials: Credentials) {
     body: JSON.stringify(credentials),
   });
   if (!response.ok) {
-    throw new Error('Could not login');
+    const error = await response.json();
+    setAlertMessage!(error.message);
+    return error;
   }
   return response.json();
 }
@@ -188,6 +194,7 @@ function InitialPanel(props: PanelCommonProps) {
 
 function LoginPanel(props: PanelCommonProps) {
   const [, setAuth] = useContext(AuthContext);
+  const [, setAlertMessage] = useContext(AlertContext);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const classes = useStyles();
@@ -198,10 +205,13 @@ function LoginPanel(props: PanelCommonProps) {
   const handleLoginSubmit = async (e: React.SyntheticEvent) => {
     const { from } = location.state || { from: { pathname: '/' } };
     e.preventDefault();
-    const token = await loginUser({
-      email,
-      password,
-    });
+    const token = await loginUser(
+      {
+        email,
+        password,
+      },
+      setAlertMessage
+    );
     setAuth(token);
     history.replace(from);
   };
