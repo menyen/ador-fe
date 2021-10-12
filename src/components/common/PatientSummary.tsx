@@ -389,14 +389,26 @@ function PatientSummary(props: PatientSummaryProps) {
   const sf36Forms = props?.questionaires?.filter(
     (q) => q.type === 'SF36' && q.status === 'DONE'
   );
-  const chartData: Series[] = sf36Forms.map((sf36) => ({
-    label: `Resultado do paciente em ${new Date(
-      sf36.updated_at
-    ).toLocaleDateString('pt-BR')}`,
-    data: (sf36.results as PatientSF36Result).raw_scale.filter(
-      (result) => result.text !== 'Total'
-    ),
-  }));
+  const chartData: Series[] = useMemo(
+    () =>
+      sf36Forms?.reduce((acc: Series[], sf36) => {
+        if (sf36.status === 'PENDING') {
+          return acc;
+        }
+        return [
+          ...acc,
+          {
+            label: `Resultado do paciente em ${new Date(
+              sf36?.updated_at
+            ).toLocaleDateString('pt-BR')}`,
+            data: (sf36?.results as PatientSF36Result)?.raw_scale?.filter(
+              (result) => result.text !== 'Total'
+            ),
+          },
+        ];
+      }, []),
+    [sf36Forms]
+  );
   const primaryAxis = useMemo(
     (): AxisOptions<PatientBasicResult> => ({
       getValue: (datum) => datum.text,
@@ -407,6 +419,7 @@ function PatientSummary(props: PatientSummaryProps) {
     (): AxisOptions<PatientBasicResult>[] => [
       {
         getValue: (datum) => datum.score,
+        elementType: 'line',
       },
     ],
     []
@@ -415,29 +428,29 @@ function PatientSummary(props: PatientSummaryProps) {
   const sf36Card = (
     <Paper classes={{ root: classes.paper }}>
       <Typography variant="h6">Qualidade de vida (SF-36)</Typography>
-      <Chart
-        options={{
-          data: chartData,
-          primaryAxis,
-          secondaryAxes,
-        }}
-      />
+      <div style={{ height: '500px', paddingBottom: '10px' }}>
+        <Chart
+          options={{
+            data: chartData,
+            primaryAxis,
+            secondaryAxes,
+          }}
+        />
+      </div>
     </Paper>
   );
 
   return (
     <Grid container spacing={1} className={classes.root}>
       <Grid item xs={9}>
-        {bpiCard}
+        {bpiForms?.length ? bpiCard : null}
+        {chartData?.length ? sf36Card : null}
       </Grid>
       <Grid item xs={3}>
-        {epcCard}
-        {dn4Card}
-        {oswCard}
-        {hadCard}
-      </Grid>
-      <Grid item xs={9} style={{ height: '300px' }}>
-        {sf36Card}
+        {epcForms?.length ? epcCard : null}
+        {dn4Forms?.length ? dn4Card : null}
+        {oswForms?.length ? oswCard : null}
+        {hadForms?.length ? hadCard : null}
       </Grid>
     </Grid>
   );
