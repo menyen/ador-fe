@@ -268,6 +268,7 @@ export default function LeftNav(props: LeftNavProps) {
         {role === RolesEnum.MANAGER && (
           <List>
             <ListItem
+              onClick={() => setPanel(ManagerPanelType.UsersTable)}
               button
               key="PersonIcon"
               selected={
@@ -277,12 +278,13 @@ export default function LeftNav(props: LeftNavProps) {
             >
               <ListItemIcon>
                 <PersonIcon
-                  onClick={() => setPanel(ManagerPanelType.UsersTable)}
+                  
                 />
               </ListItemIcon>
               <ListItemText primary="Usuários" />
             </ListItem>
             <ListItem
+             onClick={() => setPanel(ManagerPanelType.PatientsTable)}
               button
               key="AirlineSeatFlatIcon"
               selected={
@@ -292,7 +294,7 @@ export default function LeftNav(props: LeftNavProps) {
             >
               <ListItemIcon>
                 <AirlineSeatFlatIcon
-                  onClick={() => setPanel(ManagerPanelType.PatientsTable)}
+                 
                 />
               </ListItemIcon>
               <ListItemText primary="Pacientes" />
