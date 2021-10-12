@@ -28,13 +28,17 @@ export interface PatientBPIResult {
   percentages: string[];
 }
 
+export interface PatientSF36Result {
+  raw_scale: PatientBasicResult[];
+}
+
 export interface PatientForm {
   answers: number[];
   created_at: string;
   deleted_at: string;
   id: number;
   patient_id: number;
-  results: PatientBasicResult | PatientHADResult | PatientBPIResult;
+  results: PatientBasicResult | PatientHADResult | PatientBPIResult | PatientSF36Result;
   status: string;
   type: string;
   updated_at: string;

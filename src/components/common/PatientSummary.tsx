@@ -22,9 +22,12 @@ import {
   PatientBPIResult,
   PatientForm,
   PatientHADResult,
+  PatientSF36Result,
 } from '../../models/PatientForm';
 import { deepOrange } from '@material-ui/core/colors';
 import BodyMapBPI from '../patient/BodyMapBPI';
+import { useMemo } from 'react';
+import { AxisOptions, Chart } from 'react-charts';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -379,12 +382,46 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
+  type Series = {
+    label: string;
+    data: PatientBasicResult[];
+  };
   const sf36Forms = props?.questionaires?.filter(
     (q) => q.type === 'SF36' && q.status === 'DONE'
   );
+  const chartData: Series[] = sf36Forms.map((sf36) => ({
+    label: `Resultado do paciente em ${new Date(
+      sf36.updated_at
+    ).toLocaleDateString('pt-BR')}`,
+    data: (sf36.results as PatientSF36Result).raw_scale.filter(
+      (result) => result.text !== 'Total'
+    ),
+  }));
+  const primaryAxis = useMemo(
+    (): AxisOptions<PatientBasicResult> => ({
+      getValue: (datum) => datum.text,
+    }),
+    []
+  );
+  const secondaryAxes = useMemo(
+    (): AxisOptions<PatientBasicResult>[] => [
+      {
+        getValue: (datum) => datum.score,
+      },
+    ],
+    []
+  );
+
   const sf36Card = (
     <Paper classes={{ root: classes.paper }}>
       <Typography variant="h6">Qualidade de vida (SF-36)</Typography>
+      <Chart
+        options={{
+          data: chartData,
+          primaryAxis,
+          secondaryAxes,
+        }}
+      />
     </Paper>
   );
 
@@ -398,6 +435,9 @@ function PatientSummary(props: PatientSummaryProps) {
         {dn4Card}
         {oswCard}
         {hadCard}
+      </Grid>
+      <Grid item xs={9} style={{ height: '300px' }}>
+        {sf36Card}
       </Grid>
     </Grid>
   );

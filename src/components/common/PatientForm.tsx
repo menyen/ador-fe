@@ -64,9 +64,20 @@ export default function PatientForm(props: PatientFormProps) {
     currentPatient?.physician_id || 0
   );
 
-  const [questionaires, setQuestionaires] = useState<string[]>(
-    props.questionaires.map((q) => q.type)
+  const questionairesClassified = props.questionaires.reduce(
+    (acc, q) => ({ ...acc, [q.type]: q }),
+    {}
   );
+  const initialQuestionaires: any = Object.values(
+    questionairesClassified
+  ).reduce((acc, q) => {
+    if ((q as PatientFormModel).status === 'PENDING') {
+      return [...(acc as string[]), (q as PatientFormModel).type];
+    }
+    return acc;
+  }, []);
+  const [questionaires, setQuestionaires] =
+    useState<string[]>(initialQuestionaires);
   const classes = useStyles();
 
   const handleSetPatient = async (e: React.SyntheticEvent) => {
@@ -204,11 +215,7 @@ export default function PatientForm(props: PatientFormProps) {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={
-                        props.questionaires
-                          .filter((q) => q.type === item.value)
-                          ?.slice(-1)[0]?.status === 'PENDING'
-                      }
+                      checked={questionaires.includes(item.value)}
                       onChange={handleCheckboxOnChange}
                       name={item.value}
                     />
