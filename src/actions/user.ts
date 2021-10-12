@@ -57,7 +57,7 @@ export function createUser(user: UserPayload) {
   };
 }
 
-export function updateUser(id: number, user: UserPayload) {
+export function updateUser(id: number, user: UserPayload, setAlertMessage: (message: string) => void) { 
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/users/${id}`, {
       method: 'PUT',
@@ -66,8 +66,13 @@ export function updateUser(id: number, user: UserPayload) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(user),
-    }).then((data) => data.json());
+    });
 
-    dispatch({ type: IActions.USER_UPDATED, users: [response.user] });
+    const dataResponse = await response.json();
+    if (!response.ok) {
+      setAlertMessage!(dataResponse.message);
+      return;
+    }
+    dispatch({ type: IActions.USER_UPDATED, users: [dataResponse.user] });
   };
 }

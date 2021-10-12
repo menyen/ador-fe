@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -37,6 +37,7 @@ import {
 import PatientsTable from '../common/PatientsTable';
 import PatientForm from '../common/PatientForm';
 import PatientSummary from '../common/PatientSummary';
+import { AlertContext } from '../../utils/alert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -72,6 +73,7 @@ export default function ManagerPage() {
     questionaireReducer,
     []
   );
+  const [, setAlertMessage] = useContext(AlertContext);
 
   useEffect(() => {
     getUsers()(usersDispatch);
@@ -83,7 +85,7 @@ export default function ManagerPage() {
 
   const setUser = async (id: number | undefined, payload: UserPayload) => {
     if (id) {
-      await updateUser(id, payload)(usersDispatch);
+      await updateUser(id, payload, setAlertMessage)(usersDispatch);
     } else {
       await createUser(payload)(usersDispatch);
     }
