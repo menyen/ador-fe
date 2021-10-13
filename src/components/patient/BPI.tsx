@@ -289,17 +289,6 @@ async function postBPIAnswers(
   }
 }
 
-// const getRealIndex = (questionIndex: number, sectionIndex: number) => {
-//   return questions.reduce((acc, q, i) => {
-//     if (i < questionIndex) {
-//       return acc + q.sections.length;
-//     } else if (i === questionIndex) {
-//       return acc + sectionIndex;
-//     }
-//     return acc;
-//   }, 0);
-// };
-
 export default function BPI(props: PatientFormProps) {
   const classes = useStyles();
   const [currentPanel, setCurrentPanel] = React.useState(0);

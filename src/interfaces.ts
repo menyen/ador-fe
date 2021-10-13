@@ -146,6 +146,12 @@ export interface BodyMapBPIProps {
   preSelectedValues?: number[];
 }
 
+export interface BodyMapFibromialgiaProps {
+  markBodyParts?: (bodyMapNumber: number[]) => void;
+  disabledBodyMapClick: boolean;
+  preSelectedValues?: boolean[];
+}
+
 export enum PatientPanel {
   INITIAL,
   EPC,
@@ -154,6 +160,7 @@ export enum PatientPanel {
   HAD,
   SF36,
   BPI,
+  FIBROMIALGIA
 }
 
 export const RolesEnum = {
