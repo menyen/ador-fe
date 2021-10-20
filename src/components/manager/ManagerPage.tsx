@@ -106,7 +106,8 @@ export default function ManagerPage() {
     }
     await sendQuestionaires(
       id ?? newPatient.id,
-      questionairePayload
+      questionairePayload,
+      setAlertMessage
     )(questionairesDispatch);
     setPanel(ManagerPanelType.PatientsTable);
   };

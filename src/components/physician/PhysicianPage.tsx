@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -26,6 +26,7 @@ import {
   sendQuestionaires,
 } from '../../actions/questionaire';
 import PatientSummary from '../common/PatientSummary';
+import { AlertContext } from '../../utils/alert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,6 +60,7 @@ function PhysicianPage() {
     questionaireReducer,
     []
   );
+  const [, setAlertMessage] = useContext(AlertContext);
 
   useEffect(() => {
     getPatients()(dispatch);
@@ -78,7 +80,8 @@ function PhysicianPage() {
     }
     await sendQuestionaires(
       id ?? newPatient.id,
-      questionairePayload
+      questionairePayload,
+      setAlertMessage
     )(questionairesDispatch);
     setPanel(PhysicianPanelType.PatientsTable);
   };

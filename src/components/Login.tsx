@@ -95,12 +95,16 @@ async function loginUser(
   if (!response.ok) {
     const error = await response.json();
     setAlertMessage!(error.message);
-    return error;
+    return null;
   }
   return response.json();
 }
 
-async function loginPatient(tax_id: string, clinicId: number) {
+async function loginPatient(
+  tax_id: string,
+  clinicId: number,
+  setAlertMessage?: (message: string) => void
+) {
   const response = await fetch(`${baseUrl}/api/v1/patient/login/${clinicId}`, {
     method: 'POST',
     headers: {
@@ -109,7 +113,9 @@ async function loginPatient(tax_id: string, clinicId: number) {
     body: JSON.stringify({ tax_id }),
   });
   if (!response.ok) {
-    throw new Error('Could not login');
+    const error = await response.json();
+    setAlertMessage!(error.message);
+    return null;
   }
   return response.json();
 }
@@ -212,8 +218,10 @@ function LoginPanel(props: PanelCommonProps) {
       },
       setAlertMessage
     );
-    setAuth(token);
-    history.replace(from);
+    if (token) {
+      setAuth(token);
+      history.replace(from);
+    }
   };
 
   return (
@@ -331,6 +339,7 @@ interface RouterParams {
 function PatientPanel() {
   const [taxId, setTaxId] = useState('');
   const [, setAuth] = useContext(AuthContext);
+  const [, setAlertMessage] = useContext(AlertContext);
   const classes = useStyles();
 
   const history = useHistory();
@@ -339,9 +348,11 @@ function PatientPanel() {
   const handleLoginSubmit = async (e: React.SyntheticEvent) => {
     const { from } = location.state || { from: { pathname: '/' } };
     e.preventDefault();
-    const token = await loginPatient(taxId, Number(clinic_id));
-    setAuth(token);
-    history.replace(from);
+    const token = await loginPatient(taxId, Number(clinic_id), setAlertMessage);
+    if (token) {
+      setAuth(token);
+      history.replace(from);
+    }
   };
 
   return (

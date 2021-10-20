@@ -47,7 +47,7 @@ export function getQuestionairesForPatient() {
   };
 }
 
-export function sendQuestionaires(patient_id: number, forms: string[]) {
+export function sendQuestionaires(patient_id: number, forms: string[], setAlertMessage: (message: string) => void) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/forms/request`, {
       method: 'POST',
@@ -58,7 +58,8 @@ export function sendQuestionaires(patient_id: number, forms: string[]) {
       body: JSON.stringify({ patient_id, forms }),
     });
     if (!response.ok) {
-      throw new Error('Could not send questionaire list');
+      const error = await response.json();
+      setAlertMessage!(error.message);
     }
   };
 }
