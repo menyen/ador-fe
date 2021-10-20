@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -23,6 +23,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import { ArrowBack } from '@material-ui/icons';
 import TextField from '@material-ui/core/TextField';
+import { AlertContext } from '../../utils/alert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -226,10 +227,11 @@ export default function QuestionaireList(props: QuestionaireListProps) {
     questionaireReducer,
     []
   );
+  const [, setAlertMessage] = useContext(AlertContext);
 
   useEffect(() => {
-    getQuestionairesForPatient()(questionairesDispatch);
-  }, []);
+    getQuestionairesForPatient(setAlertMessage)(questionairesDispatch);
+  }, [setAlertMessage]);
 
   return (
     <>

@@ -12,7 +12,10 @@ export interface IQuestionairesDispatchProps {
   questionaires: PatientForm[];
 }
 
-export function getQuestionaires(patient_id: number) {
+export function getQuestionaires(
+  patient_id: number,
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
     const response = await fetch(
       `${baseUrl}/api/v1/forms/patient/${patient_id}`,
@@ -22,32 +25,48 @@ export function getQuestionaires(patient_id: number) {
           Authorization: `Bearer ${getAuth().token}`,
         },
       }
-    ).then((data) => data.json());
+    );
+    const data = await response.json();
 
-    dispatch({
-      type: IActions.QUESTIONAIRES_FETCHED,
-      questionaires: response.forms,
-    });
+    if (!response.ok) {
+      setAlertMessage!(data.message);
+    } else {
+      dispatch({
+        type: IActions.QUESTIONAIRES_FETCHED,
+        questionaires: data.forms,
+      });
+    }
   };
 }
 
-export function getQuestionairesForPatient() {
+export function getQuestionairesForPatient(
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/forms/patient`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${getAuth().token}`,
       },
-    }).then((data) => data.json());
-
-    dispatch({
-      type: IActions.QUESTIONAIRES_FETCHED,
-      questionaires: response.forms,
     });
+    const data = await response.json();
+
+    if (!response.ok) {
+      setAlertMessage!(data.message);
+    } else {
+      dispatch({
+        type: IActions.QUESTIONAIRES_FETCHED,
+        questionaires: data.forms,
+      });
+    }
   };
 }
 
-export function sendQuestionaires(patient_id: number, forms: string[], setAlertMessage: (message: string) => void) {
+export function sendQuestionaires(
+  patient_id: number,
+  forms: string[],
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/forms/request`, {
       method: 'POST',

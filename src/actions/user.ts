@@ -16,20 +16,33 @@ export interface IUsersDispatchProps {
   users: User[];
 }
 
-export function getUsers(role?: string) {
+export function getUsers(
+  setAlertMessage: (message: string) => void,
+  role?: string
+) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/users${role ? `?role=${role}` : ''}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-      },
-    }).then((data) => data.json());
-
-    dispatch({ type: IActions.USERS_FETCHED, users: response.users });
+    const response = await fetch(
+      `${baseUrl}/api/v1/users${role ? `?role=${role}` : ''}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    if (response.ok) {
+      dispatch({ type: IActions.USERS_FETCHED, users: data.users });
+    } else {
+      setAlertMessage!(data.message);
+    }
   };
 }
 
-export function deleteUser(user: User) {
+export function deleteUser(
+  user: User,
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/users/${user.id}`, {
       method: 'DELETE',
@@ -39,11 +52,17 @@ export function deleteUser(user: User) {
     });
     if (response.ok) {
       dispatch({ type: IActions.USER_DELETED, users: [user] });
+    } else {
+      const error = await response.json();
+      setAlertMessage!(error.message);
     }
   };
 }
 
-export function createUser(user: UserPayload) {
+export function createUser(
+  user: UserPayload,
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/users`, {
       method: 'POST',
@@ -52,12 +71,21 @@ export function createUser(user: UserPayload) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(user),
-    }).then((data) => data.json());
-    dispatch({ type: IActions.USER_CREATED, users: [response.user] });
+    });
+    const data = await response.json();
+    if (response.ok) {
+      dispatch({ type: IActions.USER_CREATED, users: [data.user] });
+    } else {
+      setAlertMessage!(data.message);
+    }
   };
 }
 
-export function updateUser(id: number, user: UserPayload, setAlertMessage: (message: string) => void) { 
+export function updateUser(
+  id: number,
+  user: UserPayload,
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/users/${id}`, {
       method: 'PUT',

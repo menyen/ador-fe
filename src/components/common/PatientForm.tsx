@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -18,6 +18,7 @@ import { Patient } from '../../models/Patient';
 import { PatientForm as PatientFormModel } from '../../models/PatientForm';
 import userReducer from '../../reducers/user';
 import { getUsers } from '../../actions/user';
+import { AlertContext } from '../../utils/alert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,11 +83,12 @@ export default function PatientForm(props: PatientFormProps) {
     useState<string[]>(initialQuestionaires);
 
   const [physicians, physiciansDispatch] = useReducer(userReducer, []);
+  const [, setAlertMessage] = useContext(AlertContext);
   const classes = useStyles();
 
   useEffect(() => {
-    getUsers('PHYSICIAN')(physiciansDispatch);
-  }, []);
+    getUsers(setAlertMessage, 'PHYSICIAN')(physiciansDispatch);
+  }, [setAlertMessage]);
 
   const handleSetPatient = async (e: React.SyntheticEvent) => {
     e.preventDefault();

@@ -63,8 +63,8 @@ function PhysicianPage() {
   const [, setAlertMessage] = useContext(AlertContext);
 
   useEffect(() => {
-    getPatients()(dispatch);
-  }, []);
+    getPatients(setAlertMessage)(dispatch);
+  }, [setAlertMessage]);
 
   const setPatient = async (
     id: number | undefined,
@@ -74,16 +74,21 @@ function PhysicianPage() {
     let newPatient;
     if (id) {
       delete patientPayload.email;
-      await updatePatient(id, patientPayload)(dispatch);
+      await updatePatient(id, patientPayload, setAlertMessage)(dispatch);
     } else {
-      newPatient = await createPatient(patientPayload)(dispatch);
+      newPatient = await createPatient(
+        patientPayload,
+        setAlertMessage
+      )(dispatch);
     }
-    await sendQuestionaires(
-      id ?? newPatient.id,
-      questionairePayload,
-      setAlertMessage
-    )(questionairesDispatch);
-    setPanel(PhysicianPanelType.PatientsTable);
+    if (newPatient) {
+      await sendQuestionaires(
+        id ?? newPatient.id,
+        questionairePayload,
+        setAlertMessage
+      )(questionairesDispatch);
+      setPanel(PhysicianPanelType.PatientsTable);
+    }
   };
 
   return (
@@ -105,12 +110,15 @@ function PhysicianPage() {
           <PatientsTable
             patients={patients}
             deletePatient={(patient: Patient) =>
-              deletePatient(patient)(dispatch)
+              deletePatient(patient, setAlertMessage)(dispatch)
             }
             openPatientForm={async (patient?: Patient) => {
               setCurrentPatient(patient);
               patient
-                ? await getQuestionaires(patient.id)(questionairesDispatch)
+                ? await getQuestionaires(
+                    patient.id,
+                    setAlertMessage
+                  )(questionairesDispatch)
                 : clearQuestionaires()(questionairesDispatch);
               setPanel(PhysicianPanelType.PatientForm);
             }}

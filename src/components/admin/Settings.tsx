@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -8,6 +8,7 @@ import { deepOrange } from '@material-ui/core/colors';
 import { OrangeButton } from '../Buttons';
 import termsReducer from '../../reducers/term';
 import { getTermsOfUse, setTermsOfUse } from '../../actions/term';
+import { AlertContext } from '../../utils/alert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,14 +29,17 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Settings() {
   const classes = useStyles();
   const [tou, dispatch] = useReducer(termsReducer, '');
+  const [, setAlertMessage] = useContext(AlertContext);
+
   useEffect(() => {
-    getTermsOfUse()(dispatch);
-  }, []);
+    getTermsOfUse(setAlertMessage)(dispatch);
+  }, [setAlertMessage]);
 
   const handleSetTerms = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setTermsOfUse(
-      ((e.target as HTMLFormElement)[0] as HTMLTextAreaElement).value
+      ((e.target as HTMLFormElement)[0] as HTMLTextAreaElement).value,
+      setAlertMessage
     )(dispatch);
   };
 

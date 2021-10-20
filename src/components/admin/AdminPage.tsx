@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -16,6 +16,7 @@ import {
   getClinics,
   updateClinic,
 } from '../../actions/clinic';
+import { AlertContext } from '../../utils/alert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,19 +45,20 @@ function AdminPage() {
   );
   const [currentClinic, setCurrentClinic] = useState<Clinic>();
   const [clinics, dispatch] = useReducer(clinicReducer, []);
+  const [, setAlertMessage] = useContext(AlertContext);
 
   const setClinic = async (id: number | undefined, payload: ClinicPayload) => {
     if (id) {
-      await updateClinic(id, payload)(dispatch);
+      await updateClinic(id, payload, setAlertMessage)(dispatch);
     } else {
-      await createClinic(payload)(dispatch);
+      await createClinic(payload, setAlertMessage)(dispatch);
     }
     setPanel(AdminPanelType.ClinicsTable);
   };
 
   useEffect(() => {
-    getClinics()(dispatch);
-  }, []);
+    getClinics(setAlertMessage)(dispatch);
+  }, [setAlertMessage]);
 
   return (
     <div
@@ -76,7 +78,9 @@ function AdminPage() {
         {panel === AdminPanelType.ClinicsTable && (
           <ClinicsTable
             clinics={clinics}
-            deleteClinic={(clinic: Clinic) => deleteClinic(clinic)(dispatch)}
+            deleteClinic={(clinic: Clinic) =>
+              deleteClinic(clinic, setAlertMessage)(dispatch)
+            }
             openClinicForm={(clinic?: Clinic) => {
               setCurrentClinic(clinic);
               setPanel(AdminPanelType.ClinicForm);

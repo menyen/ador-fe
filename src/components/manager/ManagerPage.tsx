@@ -76,18 +76,18 @@ export default function ManagerPage() {
   const [, setAlertMessage] = useContext(AlertContext);
 
   useEffect(() => {
-    getUsers()(usersDispatch);
-  }, []);
+    getUsers(setAlertMessage)(usersDispatch);
+  }, [setAlertMessage]);
 
   useEffect(() => {
-    getPatients()(patientDispatch);
-  }, []);
+    getPatients(setAlertMessage)(patientDispatch);
+  }, [setAlertMessage]);
 
   const setUser = async (id: number | undefined, payload: UserPayload) => {
     if (id) {
       await updateUser(id, payload, setAlertMessage)(usersDispatch);
     } else {
-      await createUser(payload)(usersDispatch);
+      await createUser(payload, setAlertMessage)(usersDispatch);
     }
     setPanel(ManagerPanelType.UsersTable);
   };
@@ -100,16 +100,21 @@ export default function ManagerPage() {
     let newPatient;
     if (id) {
       delete patientPayload.email;
-      await updatePatient(id, patientPayload)(patientDispatch);
+      await updatePatient(id, patientPayload, setAlertMessage)(patientDispatch);
     } else {
-      newPatient = await createPatient(patientPayload)(patientDispatch);
+      newPatient = await createPatient(
+        patientPayload,
+        setAlertMessage
+      )(patientDispatch);
     }
-    await sendQuestionaires(
-      id ?? newPatient.id,
-      questionairePayload,
-      setAlertMessage
-    )(questionairesDispatch);
-    setPanel(ManagerPanelType.PatientsTable);
+    if (newPatient) {
+      await sendQuestionaires(
+        id ?? newPatient.id,
+        questionairePayload,
+        setAlertMessage
+      )(questionairesDispatch);
+      setPanel(ManagerPanelType.PatientsTable);
+    }
   };
 
   return (
@@ -128,7 +133,9 @@ export default function ManagerPage() {
         {panel === ManagerPanelType.UsersTable && (
           <UsersTable
             users={users}
-            deleteUser={(user: User) => deleteUser(user)(usersDispatch)}
+            deleteUser={(user: User) =>
+              deleteUser(user, setAlertMessage)(usersDispatch)
+            }
             openUserForm={(user?: User) => {
               setCurrentUser(user);
               setPanel(ManagerPanelType.UserForm);
@@ -146,12 +153,15 @@ export default function ManagerPage() {
           <PatientsTable
             patients={patients}
             deletePatient={(patient: Patient) =>
-              deletePatient(patient)(patientDispatch)
+              deletePatient(patient, setAlertMessage)(patientDispatch)
             }
             openPatientForm={async (patient?: Patient) => {
               setCurrentPatient(patient);
               patient
-                ? await getQuestionaires(patient.id)(questionairesDispatch)
+                ? await getQuestionaires(
+                    patient.id,
+                    setAlertMessage
+                  )(questionairesDispatch)
                 : clearQuestionaires()(questionairesDispatch);
               setPanel(ManagerPanelType.PatientForm);
             }}

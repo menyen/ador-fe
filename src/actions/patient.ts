@@ -16,20 +16,27 @@ export interface IPatientsDispatchProps {
   patients: Patient[];
 }
 
-export function getPatients() {
+export function getPatients(setAlertMessage: (message: string) => void) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/patients`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${getAuth().token}`,
       },
-    }).then((data) => data.json());
-
-    dispatch({ type: IActions.PATIENTS_FETCHED, patients: response.patients });
+    });
+    const data = await response.json();
+    if (response.ok) {
+      dispatch({ type: IActions.PATIENTS_FETCHED, patients: data.patients });
+    } else {
+      setAlertMessage!(data.message);
+    }
   };
 }
 
-export function deletePatient(patient: Patient) {
+export function deletePatient(
+  patient: Patient,
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/patients/${patient.id}`, {
       method: 'DELETE',
@@ -39,11 +46,17 @@ export function deletePatient(patient: Patient) {
     });
     if (response.ok) {
       dispatch({ type: IActions.PATIENT_DELETED, patients: [patient] });
+    } else {
+      const error = await response.json();
+      setAlertMessage!(error.message);
     }
   };
 }
 
-export function createPatient(patient: PatientPayload) {
+export function createPatient(
+  patient: PatientPayload,
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/patients`, {
       method: 'POST',
@@ -52,13 +65,23 @@ export function createPatient(patient: PatientPayload) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(patient),
-    }).then((data) => data.json());
-    dispatch({ type: IActions.PATIENT_CREATED, patients: [response.patient] });
-    return response.patient;
+    });
+    const data = await response.json();
+    if (response.ok) {
+      dispatch({ type: IActions.PATIENT_CREATED, patients: [data.patient] });
+      return data.patient;
+    } else {
+      setAlertMessage!(data.message);
+      return null;
+    }
   };
 }
 
-export function updatePatient(id: number, patient: PatientPayload) {
+export function updatePatient(
+  id: number,
+  patient: PatientPayload,
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/patients/${id}`, {
       method: 'PUT',
@@ -67,8 +90,13 @@ export function updatePatient(id: number, patient: PatientPayload) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(patient),
-    }).then((data) => data.json());
+    });
+    const data = await response.json();
 
-    dispatch({ type: IActions.PATIENT_UPDATED, patients: [response.patient] });
+    if (response.ok) {
+      dispatch({ type: IActions.PATIENT_UPDATED, patients: [data.patient] });
+    } else {
+      setAlertMessage!(data.message);
+    }
   };
 }

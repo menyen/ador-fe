@@ -16,16 +16,20 @@ export interface IClinicsDispatchProps {
   clinics: Clinic[];
 }
 
-export function getClinics() {
+export function getClinics(setAlertMessage: (message: string) => void) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/clinics`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${getAuth().token}`,
       },
-    }).then((data) => data.json());
-
-    dispatch({ type: IActions.CLINICS_FETCHED, clinics: response.clinics });
+    });
+    const data = await response.json();
+    if (response.ok) {
+      dispatch({ type: IActions.CLINICS_FETCHED, clinics: data.clinics });
+    } else {
+      setAlertMessage!(data.message);
+    }
   };
 }
 
@@ -38,7 +42,10 @@ export function getClinics() {
 //   }).then((data) => data.json());
 // }
 
-export function deleteClinic(clinic: Clinic) {
+export function deleteClinic(
+  clinic: Clinic,
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/clinics/${clinic.id}`, {
       method: 'DELETE',
@@ -48,11 +55,17 @@ export function deleteClinic(clinic: Clinic) {
     });
     if (response.ok) {
       dispatch({ type: IActions.CLINIC_DELETED, clinics: [clinic] });
+    } else {
+      const error = await response.json();
+      setAlertMessage!(error.message);
     }
   };
 }
 
-export function createClinic(clinic: ClinicPayload) {
+export function createClinic(
+  clinic: ClinicPayload,
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/clinics`, {
       method: 'POST',
@@ -61,12 +74,21 @@ export function createClinic(clinic: ClinicPayload) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(clinic),
-    }).then((data) => data.json());
-    dispatch({ type: IActions.CLINIC_CREATED, clinics: [response.clinic] });
+    });
+    const data = await response.json();
+    if (response.ok) {
+      dispatch({ type: IActions.CLINIC_CREATED, clinics: [data.clinic] });
+    } else {
+      setAlertMessage!(data.message);
+    }
   };
 }
 
-export function updateClinic(id: number, clinic: ClinicPayload) {
+export function updateClinic(
+  id: number,
+  clinic: ClinicPayload,
+  setAlertMessage: (message: string) => void
+) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/clinics/${id}`, {
       method: 'PUT',
@@ -75,8 +97,12 @@ export function updateClinic(id: number, clinic: ClinicPayload) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(clinic),
-    }).then((data) => data.json());
-
-    dispatch({ type: IActions.CLINIC_UPDATED, clinics: [response.clinic] });
+    });
+    const data = await response.json();
+    if (response.ok) {
+      dispatch({ type: IActions.CLINIC_UPDATED, clinics: [data.clinic] });
+    } else {
+      setAlertMessage!(data.message);
+    }
   };
 }
