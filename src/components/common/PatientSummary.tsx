@@ -20,6 +20,7 @@ import {
 import {
   PatientBasicResult,
   PatientBPIResult,
+  PatientFibromialgiaResult,
   PatientForm,
   PatientHADResult,
   PatientSF36Result,
@@ -69,6 +70,10 @@ const useStyles = makeStyles((theme: Theme) =>
     divider: {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(1),
+    },
+    fibromialgiaDiagnosis: {
+      color: deepOrange[500],
+      margin: theme.spacing(2),
     },
   })
 );
@@ -228,7 +233,7 @@ function PatientSummary(props: PatientSummaryProps) {
   const hadDepression = hadResult?.depressao;
   const hadCard = (
     <Paper classes={{ root: classes.paper }}>
-      <Typography variant="h6">Oswestry De Lombalgia</Typography>
+      <Typography variant="h6">HAD</Typography>
       <Typography variant="caption">
         {`Preenchido em: ${
           hadLatestForm &&
@@ -440,6 +445,78 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
+  const fibromialgiaForms = props?.questionaires?.filter(
+    (q) => q.type === 'FIBROMIALGIA' && q.status === 'DONE'
+  );
+  const fibromialgiaLatestForm =
+    fibromialgiaForms && fibromialgiaForms[fibromialgiaForms.length - 1];
+  const fibromialgiaResult =
+    fibromialgiaLatestForm?.results as PatientFibromialgiaResult;
+  const fibromialgiaCard = (
+    <Paper classes={{ root: classes.paper }}>
+      <Typography variant="h6">Fibromialgia</Typography>
+      <Typography variant="caption">
+        {`Preenchido em: ${
+          fibromialgiaLatestForm &&
+          new Date(fibromialgiaLatestForm.updated_at).toLocaleDateString(
+            'pt-BR'
+          )
+        }`}
+      </Typography>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography
+            variant="subtitle1"
+            className={classes.fibromialgiaDiagnosis}
+          >
+            {fibromialgiaResult?.diagnosis?.criteria}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            Índice de Dor Generalizada
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography
+            variant="caption"
+            align="left"
+            paragraph
+          >{`Resultado: ${fibromialgiaResult?.diagnosis?.idg_score}`}</Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            Escala de Severidade dos Sintomas
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography
+            variant="caption"
+            align="left"
+            paragraph
+          >{`Resultado: ${fibromialgiaResult?.diagnosis?.ess_score}`}</Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            Tem sintomas há mais de 3 meses?
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="caption" align="left" paragraph>{`Resultado: ${
+            fibromialgiaResult?.booleans?.length > 2 &&
+            fibromialgiaResult?.booleans[3]
+          }`}</Typography>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+
   return (
     <Grid container spacing={1} className={classes.root}>
       <Grid item xs={9}>
@@ -451,6 +528,7 @@ function PatientSummary(props: PatientSummaryProps) {
         {dn4Forms?.length ? dn4Card : null}
         {oswForms?.length ? oswCard : null}
         {hadForms?.length ? hadCard : null}
+        {fibromialgiaForms?.length ? fibromialgiaCard : null}
       </Grid>
     </Grid>
   );

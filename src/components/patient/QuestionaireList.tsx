@@ -139,7 +139,7 @@ function BannerMenu(props: BannerInfoProps) {
             <Typography variant="body1">
               Abaixo estão os questionários que foram Solicitados para que você
               responda. Com os resultados destes questionários, o profissional
-              Irá conhecer e analisar sua dor e assim, planejar seu tratamento.
+              irá conhecer e analisar sua dor e assim, planejar seu tratamento.
             </Typography>
           </Grid>
           <Grid item xs={12}>
