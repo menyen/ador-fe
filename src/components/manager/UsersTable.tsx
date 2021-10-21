@@ -18,7 +18,7 @@ const columns: UserTableColumn[] = [
   { id: 'address_street', label: 'Endereço', minWidth: 100 },
   { id: 'address_city', label: 'Cidade', minWidth: 50 },
   { id: 'address_state', label: 'Estado', minWidth: 10 },
-  { id: 'crm', label: 'CRM', minWidth: 50 },
+  { id: 'crm', label: 'Conselho Regional', minWidth: 50 },
   { id: 'phone', label: 'Telefone', minWidth: 50 },
   { id: 'details', label: 'Detalhes', minWidth: 50 },
 ];
