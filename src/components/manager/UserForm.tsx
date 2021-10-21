@@ -129,7 +129,7 @@ export default function UserForm(props: UserFormProps) {
             <TextField
               fullWidth
               id="crm-input"
-              label="CRM"
+              label="Conselho Regional"
               defaultValue={crm}
               onChange={(e) => setCrm(e.target.value)}
             />

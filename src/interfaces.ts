@@ -160,7 +160,7 @@ export enum PatientPanel {
   HAD,
   SF36,
   BPI,
-  FIBROMIALGIA
+  FIBROMIALGIA,
 }
 
 export const RolesEnum = {
@@ -219,3 +219,7 @@ export const QUESTIONAIRE_LIST = [
   { value: 'FIBROMIALGIA', label: 'Fibromialgia' },
   { value: 'OSWESTRY', label: 'Questionário de Oswestry' },
 ];
+
+export interface RouterParams {
+  clinic_id?: string;
+}

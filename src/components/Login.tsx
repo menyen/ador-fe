@@ -16,7 +16,12 @@ import clsx from 'clsx';
 import { green } from '@material-ui/core/colors';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 
-import { Credentials, LoginPanelType, PanelCommonProps } from '../interfaces';
+import {
+  Credentials,
+  LoginPanelType,
+  PanelCommonProps,
+  RouterParams,
+} from '../interfaces';
 import minilogo from '../image/mini-logo-white.svg';
 import logo from '../image/logo.svg';
 import { OutlinedButton } from './Buttons';
@@ -332,10 +337,6 @@ function ForgotPasswordPanel(props: PanelCommonProps) {
   );
 }
 
-interface RouterParams {
-  clinic_id?: string;
-}
-
 function PatientPanel() {
   const [taxId, setTaxId] = useState('');
   const [, setAuth] = useContext(AuthContext);
@@ -346,7 +347,9 @@ function PatientPanel() {
   const location = useLocation<{ from: { pathname: string } }>();
   const { clinic_id } = useParams<RouterParams>();
   const handleLoginSubmit = async (e: React.SyntheticEvent) => {
-    const { from } = location.state || { from: { pathname: '/' } };
+    const { from } = location.state || {
+      from: { pathname: `/patient/${Number(clinic_id)}` },
+    };
     e.preventDefault();
     const token = await loginPatient(taxId, Number(clinic_id), setAlertMessage);
     if (token) {

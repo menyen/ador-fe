@@ -14,6 +14,7 @@ import {
   PatientPanel,
   QuestionaireListProps,
   QUESTIONAIRE_LIST,
+  RouterParams,
 } from '../../interfaces';
 import { LoggedPatient } from '../../models/UserAuth';
 import questionaireReducer from '../../reducers/questionaire';
@@ -24,6 +25,8 @@ import IconButton from '@material-ui/core/IconButton';
 import { ArrowBack } from '@material-ui/icons';
 import TextField from '@material-ui/core/TextField';
 import { AlertContext } from '../../utils/alert';
+import { AuthContext } from '../../utils/loggedUser';
+import { useHistory, useParams } from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -227,11 +230,19 @@ export default function QuestionaireList(props: QuestionaireListProps) {
     questionaireReducer,
     []
   );
+  const [, setAuth] = useContext(AuthContext);
   const [, setAlertMessage] = useContext(AlertContext);
+  const { clinic_id } = useParams<RouterParams>();
+  const history = useHistory();
 
   useEffect(() => {
     getQuestionairesForPatient(setAlertMessage)(questionairesDispatch);
   }, [setAlertMessage]);
+
+  const signout = () => {
+    setAuth();
+    history.push(`/login/patient/${clinic_id}`);
+  };
 
   return (
     <>
@@ -254,6 +265,7 @@ export default function QuestionaireList(props: QuestionaireListProps) {
             {item.label}
           </Button>
         ))}
+        <Button onClick={signout}>SAIR</Button>
       </div>
     </>
   );

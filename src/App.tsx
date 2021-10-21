@@ -107,7 +107,7 @@ function App() {
               <PrivateRoute path="/receptionist">
                 <ReceptionistPage />
               </PrivateRoute>
-              <PrivateRoute path="/patient">
+              <PrivateRoute path="/patient/:clinic_id">
                 <PatientPage />
               </PrivateRoute>
             </Switch>

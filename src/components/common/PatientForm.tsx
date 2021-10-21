@@ -191,13 +191,6 @@ export default function PatientForm(props: PatientFormProps) {
             </FormControl>
           </Grid>
           <Grid item xs={4}>
-            {/* <TextField
-              fullWidth
-              id="physician-id-input"
-              label="Médico"
-              defaultValue={physicianId}
-              onChange={(e) => setPhysicianId(Number(e.target.value))}
-            /> */}
             <InputLabel htmlFor="physician-id-input">
               Médico Responsável
             </InputLabel>
