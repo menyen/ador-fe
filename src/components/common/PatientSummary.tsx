@@ -1,16 +1,18 @@
-import {
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  Slider,
-  Typography,
-} from '@material-ui/core';
+import { useMemo } from 'react';
+import { AxisOptions, Chart } from 'react-charts';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Slider from '@material-ui/core/Slider';
+import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
+import { deepOrange } from '@material-ui/core/colors';
 import {
   createStyles,
   makeStyles,
@@ -25,10 +27,7 @@ import {
   PatientHADResult,
   PatientSF36Result,
 } from '../../models/PatientForm';
-import { deepOrange } from '@material-ui/core/colors';
 import BodyMapBPI from '../patient/BodyMapBPI';
-import { useMemo } from 'react';
-import { AxisOptions, Chart } from 'react-charts';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -150,6 +149,19 @@ function PatientSummary(props: PatientSummaryProps) {
         </Box>
       </Box>
       <Typography variant="subtitle1">{epcResult?.text}</Typography>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => {
+              console.info("I'm a button.");
+            }}
+          >
+            Ver respostas
+          </Link>
+        </Grid>
+      </Grid>
     </Paper>
   );
 
@@ -193,6 +205,19 @@ function PatientSummary(props: PatientSummaryProps) {
         className={classes.dn4Slider}
       />
       <Typography variant="subtitle1">{dn4Result?.text}</Typography>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => {
+              console.info("I'm a button.");
+            }}
+          >
+            Ver respostas
+          </Link>
+        </Grid>
+      </Grid>
     </Paper>
   );
 
@@ -221,6 +246,19 @@ function PatientSummary(props: PatientSummaryProps) {
         className={classes.oswPercentage}
       >{`${scorOSW}%`}</Typography>
       <Typography variant="subtitle1">{oswResult?.text}</Typography>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => {
+              console.info("I'm a button.");
+            }}
+          >
+            Ver respostas
+          </Link>
+        </Grid>
+      </Grid>
     </Paper>
   );
 
@@ -260,6 +298,19 @@ function PatientSummary(props: PatientSummaryProps) {
           <Typography variant="subtitle1" className={classes.hadTextResult}>
             {hadDepression?.text}
           </Typography>
+        </Grid>
+      </Grid>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => {
+              console.info("I'm a button.");
+            }}
+          >
+            Ver respostas
+          </Link>
         </Grid>
       </Grid>
     </Paper>
@@ -512,6 +563,19 @@ function PatientSummary(props: PatientSummaryProps) {
             fibromialgiaResult?.booleans?.length > 2 &&
             fibromialgiaResult?.booleans[3]
           }`}</Typography>
+        </Grid>
+      </Grid>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => {
+              console.info("I'm a button.");
+            }}
+          >
+            Ver respostas
+          </Link>
         </Grid>
       </Grid>
     </Paper>
