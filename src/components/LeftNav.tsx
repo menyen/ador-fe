@@ -277,14 +277,12 @@ export default function LeftNav(props: LeftNavProps) {
               }
             >
               <ListItemIcon>
-                <PersonIcon
-                  
-                />
+                <PersonIcon />
               </ListItemIcon>
               <ListItemText primary="Usuários" />
             </ListItem>
             <ListItem
-             onClick={() => setPanel(ManagerPanelType.PatientsTable)}
+              onClick={() => setPanel(ManagerPanelType.PatientsTable)}
               button
               key="AirlineSeatFlatIcon"
               selected={
@@ -293,9 +291,7 @@ export default function LeftNav(props: LeftNavProps) {
               }
             >
               <ListItemIcon>
-                <AirlineSeatFlatIcon
-                 
-                />
+                <AirlineSeatFlatIcon />
               </ListItemIcon>
               <ListItemText primary="Pacientes" />
             </ListItem>
@@ -308,12 +304,6 @@ export default function LeftNav(props: LeftNavProps) {
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary="Pacientes" />
-            </ListItem>
-            <ListItem button key="FavoriteIcon">
-              <ListItemIcon>
-                <FavoriteIcon />
-              </ListItemIcon>
-              <ListItemText primary="Acolhimento" />
             </ListItem>
             <ListItem button key="PieChartIcon">
               <ListItemIcon>
