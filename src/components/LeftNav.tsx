@@ -22,7 +22,6 @@ import InputBase from '@material-ui/core/InputBase';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import PersonIcon from '@material-ui/icons/Person';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import PieChartIcon from '@material-ui/icons/PieChart';
 import SearchIcon from '@material-ui/icons/Search';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';

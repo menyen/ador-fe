@@ -25,8 +25,8 @@ import {
   getQuestionaires,
   sendQuestionaires,
 } from '../../actions/questionaire';
-import PatientSummary from '../common/PatientSummary';
 import { AlertContext } from '../../utils/alert';
+import PatientReports from '../common/PatientReports';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -134,7 +134,7 @@ function PhysicianPage() {
                 setPanel(PhysicianPanelType.PatientsTable)
               }
             />
-            <PatientSummary questionaires={questionaires} />
+            <PatientReports questionaires={questionaires} />
           </>
         )}
       </main>

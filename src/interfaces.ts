@@ -122,6 +122,17 @@ export enum ManagerPanelType {
   PatientForm,
 }
 
+export enum PatientReportPanelType {
+  Summary,
+  EPC,
+  DN4,
+  OSWESTRY,
+  HAD,
+  BPI,
+  SF36,
+  FIBROMIALGIA,
+}
+
 export type AllPanelTypes =
   | AdminPanelType
   | PhysicianPanelType

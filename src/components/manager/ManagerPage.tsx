@@ -36,8 +36,8 @@ import {
 } from '../../actions/questionaire';
 import PatientsTable from '../common/PatientsTable';
 import PatientForm from '../common/PatientForm';
-import PatientSummary from '../common/PatientSummary';
 import { AlertContext } from '../../utils/alert';
+import PatientReports from '../common/PatientReports';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -107,7 +107,7 @@ export default function ManagerPage() {
         setAlertMessage
       )(patientDispatch);
     }
-    if (newPatient) {
+    if (id || newPatient.id) {
       await sendQuestionaires(
         id ?? newPatient.id,
         questionairePayload,
@@ -177,7 +177,7 @@ export default function ManagerPage() {
                 setPanel(ManagerPanelType.PatientsTable)
               }
             />
-            <PatientSummary questionaires={questionaires} />
+            <PatientReports questionaires={questionaires} />
           </>
         )}
       </main>

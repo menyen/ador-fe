@@ -28,6 +28,7 @@ import {
   PatientSF36Result,
 } from '../../models/PatientForm';
 import BodyMapBPI from '../patient/BodyMapBPI';
+import { PatientReportPanelType } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -96,12 +97,15 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
 
 interface PatientSummaryProps {
   questionaires: PatientForm[];
+  setReportPanel: (panel: PatientReportPanelType) => void;
 }
 
 function PatientSummary(props: PatientSummaryProps) {
   const classes = useStyles();
 
-  const epcForms = props?.questionaires?.filter(
+  const { questionaires, setReportPanel } = props;
+
+  const epcForms = questionaires?.filter(
     (q) => q.type === 'EPC' && q.status === 'DONE'
   );
   const epcLatestForm = epcForms && epcForms[epcForms.length - 1];
@@ -122,7 +126,6 @@ function PatientSummary(props: PatientSummaryProps) {
           className={classes.bottom}
           size={100}
           thickness={5}
-          {...props}
           value={100}
         />
         <CircularProgress
@@ -154,9 +157,7 @@ function PatientSummary(props: PatientSummaryProps) {
           <Link
             component="button"
             variant="body2"
-            onClick={() => {
-              console.info("I'm a button.");
-            }}
+            onClick={() => setReportPanel(PatientReportPanelType.EPC)}
           >
             Ver respostas
           </Link>
@@ -165,7 +166,7 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
-  const dn4Forms = props?.questionaires?.filter(
+  const dn4Forms = questionaires?.filter(
     (q) => q.type === 'DN4' && q.status === 'DONE'
   );
   const dn4LatestForm = dn4Forms && dn4Forms[dn4Forms.length - 1];
@@ -210,9 +211,7 @@ function PatientSummary(props: PatientSummaryProps) {
           <Link
             component="button"
             variant="body2"
-            onClick={() => {
-              console.info("I'm a button.");
-            }}
+            onClick={() => setReportPanel(PatientReportPanelType.DN4)}
           >
             Ver respostas
           </Link>
@@ -221,7 +220,7 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
-  const oswForms = props?.questionaires?.filter(
+  const oswForms = questionaires?.filter(
     (q) => q.type === 'OSWESTRY' && q.status === 'DONE'
   );
   const oswLatestForm = oswForms && oswForms[oswForms.length - 1];
@@ -251,9 +250,7 @@ function PatientSummary(props: PatientSummaryProps) {
           <Link
             component="button"
             variant="body2"
-            onClick={() => {
-              console.info("I'm a button.");
-            }}
+            onClick={() => setReportPanel(PatientReportPanelType.OSWESTRY)}
           >
             Ver respostas
           </Link>
@@ -262,7 +259,7 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
-  const hadForms = props?.questionaires?.filter(
+  const hadForms = questionaires?.filter(
     (q) => q.type === 'HAD' && q.status === 'DONE'
   );
   const hadLatestForm = hadForms && hadForms[hadForms.length - 1];
@@ -305,9 +302,7 @@ function PatientSummary(props: PatientSummaryProps) {
           <Link
             component="button"
             variant="body2"
-            onClick={() => {
-              console.info("I'm a button.");
-            }}
+            onClick={() => setReportPanel(PatientReportPanelType.HAD)}
           >
             Ver respostas
           </Link>
@@ -316,7 +311,7 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
-  const bpiForms = props?.questionaires?.filter(
+  const bpiForms = questionaires?.filter(
     (q) => q.type === 'BPI' && q.status === 'DONE'
   );
   const bpiLatestForm = bpiForms && bpiForms[bpiForms.length - 1];
@@ -442,7 +437,7 @@ function PatientSummary(props: PatientSummaryProps) {
     label: string;
     data: PatientBasicResult[];
   };
-  const sf36Forms = props?.questionaires?.filter(
+  const sf36Forms = questionaires?.filter(
     (q) => q.type === 'SF36' && q.status === 'DONE'
   );
   const chartData: Series[] = useMemo(
@@ -496,7 +491,7 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
-  const fibromialgiaForms = props?.questionaires?.filter(
+  const fibromialgiaForms = questionaires?.filter(
     (q) => q.type === 'FIBROMIALGIA' && q.status === 'DONE'
   );
   const fibromialgiaLatestForm =
@@ -570,9 +565,7 @@ function PatientSummary(props: PatientSummaryProps) {
           <Link
             component="button"
             variant="body2"
-            onClick={() => {
-              console.info("I'm a button.");
-            }}
+            onClick={() => setReportPanel(PatientReportPanelType.FIBROMIALGIA)}
           >
             Ver respostas
           </Link>
