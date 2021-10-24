@@ -5,6 +5,7 @@ import PatientSummary from './PatientSummary';
 import { PatientReportPanelType } from '../../interfaces';
 import EPCReport from './EPCReport';
 import DN4Report from './DN4Report';
+import HADReport from './HADReport';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -33,6 +34,14 @@ function PatientReports(props: PatientReportsProps) {
         <DN4Report
           data={questionaires?.filter(
             (q) => q.type === 'DN4' && q.status === 'DONE'
+          )}
+          goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+        />
+      )}
+      {panel === PatientReportPanelType.HAD && (
+        <HADReport
+          data={questionaires?.filter(
+            (q) => q.type === 'HAD' && q.status === 'DONE'
           )}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
         />
