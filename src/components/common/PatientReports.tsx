@@ -6,6 +6,7 @@ import { PatientReportPanelType } from '../../interfaces';
 import EPCReport from './EPCReport';
 import DN4Report from './DN4Report';
 import HADReport from './HADReport';
+import OswestryReport from './OswestryReport';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -42,6 +43,14 @@ function PatientReports(props: PatientReportsProps) {
         <HADReport
           data={questionaires?.filter(
             (q) => q.type === 'HAD' && q.status === 'DONE'
+          )}
+          goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+        />
+      )}
+      {panel === PatientReportPanelType.OSWESTRY && (
+        <OswestryReport
+          data={questionaires?.filter(
+            (q) => q.type === 'OSWESTRY' && q.status === 'DONE'
           )}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
         />
