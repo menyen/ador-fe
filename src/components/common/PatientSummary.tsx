@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { AxisOptions, Chart } from 'react-charts';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -573,6 +573,24 @@ function PatientSummary(props: PatientSummaryProps) {
       </Grid>
     </Paper>
   );
+
+  useEffect(() => {
+    setTimeout(() => {
+      const tickLabelsY = document.querySelectorAll(
+        'svg > .axes:first-child > g:nth-child(2) > .Axis-Group.inner:first-child .tickLabel'
+      );
+      const indexOfLabel50 = Array.from(tickLabelsY).reduce(
+        (acc, el, index) => (el.textContent === '50' ? index : acc),
+        0
+      );
+      if (indexOfLabel50) {
+        const lineOfLabel50 = document.querySelectorAll(
+          'svg > .axes:first-child > g:nth-child(2) > .Axis-Group.inner:first-child .Axis:first-child > .grid .tick line'
+        )[indexOfLabel50];
+        lineOfLabel50.setAttribute('stroke', 'yellow');
+      }
+    }, 1000);
+  }, []);
 
   return (
     <Grid container spacing={1} className={classes.root}>
