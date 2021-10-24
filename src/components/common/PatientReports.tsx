@@ -4,6 +4,7 @@ import { PatientForm } from '../../models/PatientForm';
 import PatientSummary from './PatientSummary';
 import { PatientReportPanelType } from '../../interfaces';
 import EPCReport from './EPCReport';
+import DN4Report from './DN4Report';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -24,6 +25,14 @@ function PatientReports(props: PatientReportsProps) {
         <EPCReport
           data={questionaires?.filter(
             (q) => q.type === 'EPC' && q.status === 'DONE'
+          )}
+          goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+        />
+      )}
+      {panel === PatientReportPanelType.DN4 && (
+        <DN4Report
+          data={questionaires?.filter(
+            (q) => q.type === 'DN4' && q.status === 'DONE'
           )}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
         />
