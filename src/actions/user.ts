@@ -22,7 +22,7 @@ export function getUsers(
 ) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
     const response = await fetch(
-      `${baseUrl}/api/v1/users${role ? `?role=${role}` : ''}`,
+      `${baseUrl}/api/v1/users${role ? `/${role}` : ''}`,
       {
         method: 'GET',
         headers: {

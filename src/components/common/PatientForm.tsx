@@ -87,7 +87,7 @@ export default function PatientForm(props: PatientFormProps) {
   const classes = useStyles();
 
   useEffect(() => {
-    getUsers(setAlertMessage, 'PHYSICIAN')(physiciansDispatch);
+    getUsers(setAlertMessage, 'physicians')(physiciansDispatch);
   }, [setAlertMessage]);
 
   const handleSetPatient = async (e: React.SyntheticEvent) => {

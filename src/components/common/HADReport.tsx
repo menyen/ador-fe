@@ -179,12 +179,14 @@ function HADReport(props: HADReportProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link color="inherit" href="/" onClick={handleClick}>
-          Resultados
-        </Link>
-        <Typography color="textPrimary">HAD</Typography>
-      </Breadcrumbs>
+      <Grid item xs={12}>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link color="inherit" href="/" onClick={handleClick}>
+            Resultados
+          </Link>
+          <Typography color="textPrimary">HAD</Typography>
+        </Breadcrumbs>
+      </Grid>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">HAD</Typography>
@@ -202,7 +204,7 @@ function HADReport(props: HADReportProps) {
                 <Typography variant="body1" align="left">
                   {
                     question.alternatives.find(
-                      (alt, altIndex) => answers[qIndex] === altIndex
+                      (alt) => answers[qIndex] === alt.value
                     )?.label
                   }
                 </Typography>
