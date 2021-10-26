@@ -555,7 +555,7 @@ function PatientSummary(props: PatientSummaryProps) {
         </Grid>
         <Grid item xs={12}>
           <Typography variant="caption" align="left" paragraph>{`Resultado: ${
-            fibromialgiaResult?.booleans?.length > 2 &&
+            fibromialgiaResult?.booleans?.length > 3 &&
             fibromialgiaResult?.booleans[3]
           }`}</Typography>
         </Grid>

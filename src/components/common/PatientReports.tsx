@@ -7,6 +7,7 @@ import EPCReport from './EPCReport';
 import DN4Report from './DN4Report';
 import HADReport from './HADReport';
 import OswestryReport from './OswestryReport';
+import FibromialgiaReport from './FibromialgiaReport';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -51,6 +52,14 @@ function PatientReports(props: PatientReportsProps) {
         <OswestryReport
           data={questionaires?.filter(
             (q) => q.type === 'OSWESTRY' && q.status === 'DONE'
+          )}
+          goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+        />
+      )}
+      {panel === PatientReportPanelType.FIBROMIALGIA && (
+        <FibromialgiaReport
+          data={questionaires?.filter(
+            (q) => q.type === 'FIBROMIALGIA' && q.status === 'DONE'
           )}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
         />
