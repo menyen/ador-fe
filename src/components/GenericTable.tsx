@@ -35,7 +35,7 @@ export default function PatientsTable(props: TableProps) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selected, setSelected] = React.useState<number[]>([]);
 
-  const { columns, rows } = props;
+  const { columns, rows, shouldHideCheckboxes = false } = props;
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -86,16 +86,18 @@ export default function PatientsTable(props: TableProps) {
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox" className={classes.tableHeadCell}>
-                <Checkbox
-                  indeterminate={
-                    selected.length > 0 && selected.length < rows.length
-                  }
-                  checked={rows.length > 0 && selected.length === rows.length}
-                  onChange={handleSelectAllClick}
-                  inputProps={{ 'aria-label': 'select all desserts' }}
-                  color="default"
-                  classes={{ root: classes.tableHeadCheckbox }}
-                />
+                {!shouldHideCheckboxes && (
+                  <Checkbox
+                    indeterminate={
+                      selected.length > 0 && selected.length < rows.length
+                    }
+                    checked={rows.length > 0 && selected.length === rows.length}
+                    onChange={handleSelectAllClick}
+                    inputProps={{ 'aria-label': 'select all desserts' }}
+                    color="default"
+                    classes={{ root: classes.tableHeadCheckbox }}
+                  />
+                )}
               </TableCell>
               {columns.map((column) => (
                 <TableCell
@@ -123,13 +125,17 @@ export default function PatientsTable(props: TableProps) {
                     key={row.id}
                     aria-checked={isItemSelected}
                     selected={isItemSelected}
-                    onClick={(event) => handleClick(event, row.id)}
+                    onClick={(event) =>
+                      !shouldHideCheckboxes && handleClick(event, row.id)
+                    }
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isItemSelected}
-                        inputProps={{ 'aria-labelledby': labelId }}
-                      />
+                      {!shouldHideCheckboxes && (
+                        <Checkbox
+                          checked={isItemSelected}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                        />
+                      )}
                     </TableCell>
                     {columns.map((column) => {
                       const value = row[column.id];
@@ -155,6 +161,7 @@ export default function PatientsTable(props: TableProps) {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage={<>Linhas por página</>}
       />
     </Paper>
   );

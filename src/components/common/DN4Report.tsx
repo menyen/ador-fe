@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -10,9 +11,12 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Slider from '@material-ui/core/Slider';
 import Link from '@material-ui/core/Link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-
-import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
 import { grey } from '@material-ui/core/colors';
+
+import GenericTable from '../GenericTable';
+import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
+import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
+import { SimpleReportTableData } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,8 +56,20 @@ interface DN4ReportProps {
 function DN4Report(props: DN4ReportProps) {
   const classes = useStyles();
 
-  const { answers, results, updated_at } = props.data[props.data.length - 1];
-  const scoreDN4 = (results as PatientBasicResult)?.score || 0;
+  const [selectedForm, setSelectedForm] = useState<PatientForm>(
+    props.data[props.data.length - 1]
+  );
+  const [rows, setRows] = useState<SimpleReportTableData[]>([]);
+
+  const { answers, updated_at, scoreDN4, textDN4 } = useMemo(() => {
+    const { answers, results, updated_at } = selectedForm;
+    const { score, text } = results as PatientBasicResult;
+    return { answers, updated_at, scoreDN4: score || 0, textDN4: text };
+  }, [selectedForm]);
+
+  useEffect(() => {
+    setRows(setDataIntoSimpleTable(props.data, setSelectedForm));
+  }, [props.data, setSelectedForm]);
 
   const questions = [
     {
@@ -124,6 +140,13 @@ function DN4Report(props: DN4ReportProps) {
           </Link>
           <Typography color="textPrimary">Dor Neuropática (DN4)</Typography>
         </Breadcrumbs>
+      </Grid>
+      <Grid item xs={12}>
+        <GenericTable
+          columns={simpleColumns}
+          rows={rows}
+          shouldHideCheckboxes
+        />
       </Grid>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
@@ -199,9 +222,7 @@ function DN4Report(props: DN4ReportProps) {
             max={10}
             className={classes.dn4Slider}
           />
-          <Typography variant="subtitle1">
-            {(results as PatientBasicResult)?.text}
-          </Typography>
+          <Typography variant="subtitle1">{textDN4}</Typography>
         </Paper>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Referência</Typography>

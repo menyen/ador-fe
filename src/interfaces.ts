@@ -14,6 +14,7 @@ export type TableRow<K extends string = string, T = any> = Record<K, T>;
 export interface TableProps<K extends string = string, L extends K = K> {
   columns: TableColumn<L>[];
   rows: TableRow<K>[];
+  shouldHideCheckboxes?: boolean;
 }
 
 export interface PanelCommonProps {
@@ -81,6 +82,31 @@ export interface UserTableColumn {
 }
 
 export interface UserTableData extends User {
+  details?: JSX.Element;
+}
+
+export interface SimpleReportTableColumn {
+  id: 'id' | 'date' | 'result' | 'details';
+  label: string;
+  minWidth?: number;
+}
+
+export interface SimpleReportTableData {
+  date: string;
+  result: string;
+  details?: JSX.Element;
+}
+
+export interface HADReportTableColumn {
+  id: 'id' | 'date' | 'result_ansiety' | 'result_depression' | 'details';
+  label: string;
+  minWidth?: number;
+}
+
+export interface HADReportTableData {
+  date: string;
+  result_ansiety: string;
+  result_depression: string;
   details?: JSX.Element;
 }
 

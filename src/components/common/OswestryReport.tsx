@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -12,7 +13,10 @@ import {
 } from '@material-ui/core/styles';
 import { deepOrange } from '@material-ui/core/colors';
 
+import GenericTable from '../GenericTable';
 import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
+import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
+import { SimpleReportTableData } from '../../interfaces';
 
 const BorderLinearProgress = withStyles((theme: Theme) =>
   createStyles({
@@ -57,8 +61,25 @@ interface OswestryReportProps {
 function OswestryReport(props: OswestryReportProps) {
   const classes = useStyles();
 
-  const { answers, results, updated_at } = props.data[props.data.length - 1];
-  const scoreOswestry = (results as PatientBasicResult)?.score || 0;
+  const [selectedForm, setSelectedForm] = useState<PatientForm>(
+    props.data[props.data.length - 1]
+  );
+  const [rows, setRows] = useState<SimpleReportTableData[]>([]);
+
+  const { answers, updated_at, scoreOswestry, textOswestry } = useMemo(() => {
+    const { answers, results, updated_at } = selectedForm;
+    const { score, text } = results as PatientBasicResult;
+    return {
+      answers,
+      updated_at,
+      scoreOswestry: score || 0,
+      textOswestry: text,
+    };
+  }, [selectedForm]);
+
+  useEffect(() => {
+    setRows(setDataIntoSimpleTable(props.data, setSelectedForm));
+  }, [props.data, setSelectedForm]);
 
   const questions = [
     {
@@ -188,6 +209,13 @@ function OswestryReport(props: OswestryReportProps) {
           <Typography color="textPrimary">Questionário de Oswestry</Typography>
         </Breadcrumbs>
       </Grid>
+      <Grid item xs={12}>
+        <GenericTable
+          columns={simpleColumns}
+          rows={rows}
+          shouldHideCheckboxes
+        />
+      </Grid>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Questionário de Oswestry</Typography>
@@ -224,9 +252,7 @@ function OswestryReport(props: OswestryReportProps) {
             variant="subtitle1"
             className={classes.oswPercentage}
           >{`${scoreOswestry}%`}</Typography>
-          <Typography variant="subtitle1">
-            {(results as PatientBasicResult)?.text}
-          </Typography>
+          <Typography variant="subtitle1">{textOswestry}</Typography>
         </Paper>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Referência</Typography>

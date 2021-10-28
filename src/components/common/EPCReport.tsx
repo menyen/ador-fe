@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import Grid from '@material-ui/core/Grid';
@@ -7,9 +8,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-
-import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
 import { deepOrange } from '@material-ui/core/colors';
+
+import GenericTable from '../GenericTable';
+import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
+import { SimpleReportTableData } from '../../interfaces';
+import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,9 +65,20 @@ interface EPCReportProps {
 
 function EPCReport(props: EPCReportProps) {
   const classes = useStyles();
+  const [selectedForm, setSelectedForm] = useState<PatientForm>(
+    props.data[props.data.length - 1]
+  );
+  const [rows, setRows] = useState<SimpleReportTableData[]>([]);
 
-  const { answers, results, updated_at } = props.data[props.data.length - 1];
-  const scoreEPC = (results as PatientBasicResult)?.score || 0;
+  const { answers, updated_at, scoreEPC, textEPC } = useMemo(() => {
+    const { answers, results, updated_at } = selectedForm;
+    const { score, text } = results as PatientBasicResult;
+    return { answers, updated_at, scoreEPC: score || 0, textEPC: text };
+  }, [selectedForm]);
+
+  useEffect(() => {
+    setRows(setDataIntoSimpleTable(props.data, setSelectedForm));
+  }, [props.data, setSelectedForm]);
 
   const questions = [
     'Não posso mais suportar esta dor.',
@@ -122,6 +137,13 @@ function EPCReport(props: EPCReportProps) {
           </Typography>
         </Breadcrumbs>
       </Grid>
+      <Grid item xs={12}>
+        <GenericTable
+          columns={simpleColumns}
+          rows={rows}
+          shouldHideCheckboxes
+        />
+      </Grid>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">
@@ -145,7 +167,7 @@ function EPCReport(props: EPCReportProps) {
                   </Typography>
                   <Slider
                     aria-labelledby={`question_${index}`}
-                    defaultValue={answers[index]}
+                    value={answers[index]}
                     className={classes.EPCSlider}
                     step={1}
                     valueLabelDisplay="auto"
@@ -198,9 +220,7 @@ function EPCReport(props: EPCReportProps) {
               </Typography>
             </Box>
           </Box>
-          <Typography variant="subtitle1">
-            {(results as PatientBasicResult)?.text}
-          </Typography>
+          <Typography variant="subtitle1">{textEPC}</Typography>
         </Paper>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Referência</Typography>

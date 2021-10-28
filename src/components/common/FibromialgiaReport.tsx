@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -12,13 +13,19 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import Box from '@material-ui/core/Box';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { deepOrange } from '@material-ui/core/colors';
 
+import GenericTable from '../GenericTable';
 import {
   PatientFibromialgiaResult,
   PatientForm,
 } from '../../models/PatientForm';
-import { deepOrange } from '@material-ui/core/colors';
+import {
+  setDataIntoFibromialgiaTable,
+  simpleColumns,
+} from '../../utils/reportTable';
 import BodyMapFibromialgia from '../patient/BodyMapFibromialgia';
+import { SimpleReportTableData } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,9 +61,22 @@ interface FibromialgiaReportProps {
 function FibromialgiaReport(props: FibromialgiaReportProps) {
   const classes = useStyles();
 
-  const { results, updated_at } = props.data[props.data.length - 1];
-  const fibromialgiaResult = results as PatientFibromialgiaResult;
-  // const { ansiedade, depressao } = fibromialgiaResult;
+  const [selectedForm, setSelectedForm] = useState<PatientForm>(
+    props.data[props.data.length - 1]
+  );
+  const [rows, setRows] = useState<SimpleReportTableData[]>([]);
+
+  const { updated_at, body_pain, booleans, diagnosis, ess, idg } =
+    useMemo(() => {
+      const { results, updated_at } = selectedForm;
+      const { body_pain, booleans, diagnosis, ess, idg } =
+        results as PatientFibromialgiaResult;
+      return { updated_at, body_pain, booleans, diagnosis, ess, idg };
+    }, [selectedForm]);
+
+  useEffect(() => {
+    setRows(setDataIntoFibromialgiaTable(props.data, setSelectedForm));
+  }, [props.data, setSelectedForm]);
 
   const questions = [
     {
@@ -173,6 +193,13 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
           <Typography color="textPrimary">FIBROMIALGIA</Typography>
         </Breadcrumbs>
       </Grid>
+      <Grid item xs={12}>
+        <GenericTable
+          columns={simpleColumns}
+          rows={rows}
+          shouldHideCheckboxes
+        />
+      </Grid>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">FIBROMIALGIA</Typography>
@@ -203,7 +230,7 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
                           <Box position="relative">
                             <BodyMapFibromialgia
                               disabledBodyMapClick
-                              preSelectedValues={fibromialgiaResult.body_pain
+                              preSelectedValues={body_pain
                                 .map((bodyPain) => bodyPain.area)
                                 .reduce((acc, area) => {
                                   acc[area - 1] = 1;
@@ -215,7 +242,7 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
                         {question.type === 'idg' && (
                           <List>
                             {question.alternatives.map((alternative, aIndex) =>
-                              fibromialgiaResult.idg[aIndex] === 'SIM' ? (
+                              idg[aIndex] === 'SIM' ? (
                                 <ListItem>
                                   <Typography variant="body1" paragraph>
                                     {alternative.label}
@@ -258,10 +285,7 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
                                     </>
                                   }
                                   labelPlacement="bottom"
-                                  checked={
-                                    fibromialgiaResult.ess[aIndex] ===
-                                    alternative.value
-                                  }
+                                  checked={ess[aIndex] === alternative.value}
                                 />
                               )
                             )}
@@ -285,7 +309,7 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
                                 label={alternative.label}
                                 labelPlacement="bottom"
                                 checked={
-                                  fibromialgiaResult.booleans[
+                                  booleans[
                                     getBooleansRealIndex(qIndex, sIndex)
                                   ] === alternative.label.toUpperCase()
                                 }
@@ -311,7 +335,7 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
                 variant="subtitle1"
                 className={classes.fibromialgiaDiagnosis}
               >
-                {fibromialgiaResult?.diagnosis?.criteria}
+                {diagnosis?.criteria}
               </Typography>
             </Grid>
           </Grid>
@@ -326,7 +350,7 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
                 variant="caption"
                 align="left"
                 paragraph
-              >{`Resultado: ${fibromialgiaResult?.diagnosis?.idg_score}`}</Typography>
+              >{`Resultado: ${diagnosis?.idg_score}`}</Typography>
             </Grid>
           </Grid>
           <Grid container>
@@ -340,7 +364,7 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
                 variant="caption"
                 align="left"
                 paragraph
-              >{`Resultado: ${fibromialgiaResult?.diagnosis?.ess_score}`}</Typography>
+              >{`Resultado: ${diagnosis?.ess_score}`}</Typography>
             </Grid>
           </Grid>
           <Grid container>
@@ -355,8 +379,7 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
                 align="left"
                 paragraph
               >{`Resultado: ${
-                fibromialgiaResult?.booleans?.length > 3 &&
-                fibromialgiaResult?.booleans[3]
+                booleans?.length > 3 && booleans[3]
               }`}</Typography>
             </Grid>
           </Grid>

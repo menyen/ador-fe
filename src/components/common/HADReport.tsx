@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -5,11 +6,10 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-import {
-  PatientBasicResult,
-  PatientForm,
-  PatientHADResult,
-} from '../../models/PatientForm';
+import GenericTable from '../GenericTable';
+import { PatientForm, PatientHADResult } from '../../models/PatientForm';
+import { HADReportTableData } from '../../interfaces';
+import { setDataIntoHADTable, simpleColumns } from '../../utils/reportTable';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,9 +34,25 @@ interface HADReportProps {
 function HADReport(props: HADReportProps) {
   const classes = useStyles();
 
-  const { answers, results, updated_at } = props.data[props.data.length - 1];
-  const hadResults = results as PatientHADResult;
-  const { ansiedade, depressao } = hadResults;
+  const [selectedForm, setSelectedForm] = useState<PatientForm>(
+    props.data[props.data.length - 1]
+  );
+  const [rows, setRows] = useState<HADReportTableData[]>([]);
+
+  const { answers, updated_at, ansiedade, depressao } = useMemo(() => {
+    const { answers, results, updated_at } = selectedForm;
+    const { ansiedade, depressao } = results as PatientHADResult;
+    return {
+      answers,
+      updated_at,
+      ansiedade,
+      depressao,
+    };
+  }, [selectedForm]);
+
+  useEffect(() => {
+    setRows(setDataIntoHADTable(props.data, setSelectedForm));
+  }, [props.data, setSelectedForm]);
 
   const questions = [
     {
@@ -187,6 +203,13 @@ function HADReport(props: HADReportProps) {
           <Typography color="textPrimary">HAD</Typography>
         </Breadcrumbs>
       </Grid>
+      <Grid item xs={12}>
+        <GenericTable
+          columns={simpleColumns}
+          rows={rows}
+          shouldHideCheckboxes
+        />
+      </Grid>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">HAD</Typography>
@@ -238,9 +261,6 @@ function HADReport(props: HADReportProps) {
               </Typography>
             </Grid>
           </Grid>
-          <Typography variant="subtitle1">
-            {(results as PatientBasicResult)?.text}
-          </Typography>
         </Paper>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Referência Ansiedade</Typography>
