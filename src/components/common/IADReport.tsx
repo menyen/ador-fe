@@ -8,8 +8,8 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import GenericTable from '../GenericTable';
 import { PatientForm, PatientIADResult } from '../../models/PatientForm';
-import { SimpleReportTableData } from '../../interfaces';
-import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
+import { IADReportTableData } from '../../interfaces';
+import { setDataIntoIADTable, simpleColumns } from '../../utils/reportTable';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,9 +28,6 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#329D63',
       width: '80%',
       marginLeft: '1rem',
-    },
-    IADSliderLabel: {
-      fontSize: '0.75rem',
     },
     sliderSubLabel: {
       whiteSpace: 'break-spaces',
@@ -51,7 +48,7 @@ function IADReport(props: EPCReportProps) {
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
     props.data[props.data.length - 1]
   );
-  const [rows, setRows] = useState<SimpleReportTableData[]>([]);
+  const [rows, setRows] = useState<IADReportTableData[]>([]);
 
   const { answers, updated_at } = useMemo(() => {
     const { updated_at, results } = selectedForm;
@@ -61,7 +58,7 @@ function IADReport(props: EPCReportProps) {
   }, [selectedForm]);
 
   useEffect(() => {
-    setRows(setDataIntoSimpleTable(props.data, setSelectedForm));
+    setRows(setDataIntoIADTable(props.data, setSelectedForm));
   }, [props.data, setSelectedForm]);
 
   const questions = [
@@ -137,7 +134,6 @@ function IADReport(props: EPCReportProps) {
                 <div className={classes.IADFormItem} key={`question_${index}`}>
                   <Typography
                     id={`question_${index}`}
-                    // className={classes.IADSliderLabel}
                     gutterBottom
                     variant="subtitle1"
                     align="left"

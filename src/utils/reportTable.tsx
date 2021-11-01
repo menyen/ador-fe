@@ -44,6 +44,28 @@ export function setDataIntoSimpleTable(
   });
 }
 
+export function setDataIntoIADTable(
+  data: PatientForm[],
+  selectForm: (chosen: PatientForm) => void
+) {
+  return data.map((form) => {
+    return {
+      id: form.id,
+      date: new Date(form.updated_at).toLocaleDateString(),
+      details: (
+        <IconButton
+          onClick={(e) => {
+            e.preventDefault();
+            selectForm(form);
+          }}
+        >
+          <VisibilityIcon />
+        </IconButton>
+      ),
+    };
+  });
+}
+
 export function setDataIntoFibromialgiaTable(
   data: PatientForm[],
   selectForm: (chosen: PatientForm) => void

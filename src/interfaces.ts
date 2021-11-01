@@ -97,6 +97,11 @@ export interface SimpleReportTableData {
   details?: JSX.Element;
 }
 
+export interface IADReportTableData {
+  date: string;
+  details?: JSX.Element;
+}
+
 export interface HADReportTableColumn {
   id: 'id' | 'date' | 'result_ansiety' | 'result_depression' | 'details';
   label: string;
