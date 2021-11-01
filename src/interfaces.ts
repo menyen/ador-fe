@@ -157,6 +157,7 @@ export enum PatientReportPanelType {
   BPI,
   SF36,
   FIBROMIALGIA,
+  IAD,
 }
 
 export type AllPanelTypes =

@@ -20,6 +20,10 @@ export interface PatientBasicResult {
   text: string;
 }
 
+export interface PatientIADResult {
+  text: string[];
+}
+
 export interface PatientHADResult {
   ansiedade: PatientBasicResult;
   depressao: PatientBasicResult;
@@ -57,7 +61,8 @@ export interface PatientForm {
     | PatientHADResult
     | PatientBPIResult
     | PatientSF36Result
-    | PatientFibromialgiaResult;
+    | PatientFibromialgiaResult
+    | PatientIADResult;
   status: string;
   type: string;
   updated_at: string;

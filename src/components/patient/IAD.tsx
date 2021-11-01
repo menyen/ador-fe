@@ -201,7 +201,7 @@ export default function IAD(props: PatientFormProps) {
             <ArrowBack />
           </IconButton>
           <Typography variant="subtitle1">
-            Inventário de atitudes frente a dor
+            Inventário de atitude frente à dor
           </Typography>
         </Toolbar>
       </AppBar>
@@ -210,7 +210,7 @@ export default function IAD(props: PatientFormProps) {
           <div className={classes.IADTitle}>
             <Typography variant="h6">Questionário</Typography>
             <Typography variant="h6">
-              Inventário de atitudes frente a dor
+              Inventário de atitude frente à dor
             </Typography>
           </div>
           <div className={classes.IADBodyContent}>

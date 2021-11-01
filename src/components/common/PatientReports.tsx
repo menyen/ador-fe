@@ -8,6 +8,7 @@ import DN4Report from './DN4Report';
 import HADReport from './HADReport';
 import OswestryReport from './OswestryReport';
 import FibromialgiaReport from './FibromialgiaReport';
+import IADReport from './IADReport';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -60,6 +61,14 @@ function PatientReports(props: PatientReportsProps) {
         <FibromialgiaReport
           data={questionaires?.filter(
             (q) => q.type === 'FIBROMIALGIA' && q.status === 'DONE'
+          )}
+          goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+        />
+      )}
+      {panel === PatientReportPanelType.IAD && (
+        <IADReport
+          data={questionaires?.filter(
+            (q) => q.type === 'IAD' && q.status === 'DONE'
           )}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
         />

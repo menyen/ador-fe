@@ -574,6 +574,33 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
+  const iadForms = questionaires?.filter(
+    (q) => q.type === 'IAD' && q.status === 'DONE'
+  );
+  const iadLatestForm = iadForms && iadForms[epcForms.length - 1];
+  const iadCard = (
+    <Paper classes={{ root: classes.paper }}>
+      <Typography variant="h6">Inventário de atitude frente à dor</Typography>
+      <Typography variant="caption" display="block">
+        {`Preenchido em: ${
+          iadLatestForm &&
+          new Date(iadLatestForm.updated_at).toLocaleDateString('pt-BR')
+        }`}
+      </Typography>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => setReportPanel(PatientReportPanelType.IAD)}
+          >
+            Ver respostas
+          </Link>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+
   useEffect(() => {
     setTimeout(() => {
       const tickLabelsY = document.querySelectorAll(
@@ -604,6 +631,7 @@ function PatientSummary(props: PatientSummaryProps) {
         {oswForms?.length ? oswCard : null}
         {hadForms?.length ? hadCard : null}
         {fibromialgiaForms?.length ? fibromialgiaCard : null}
+        {iadForms?.length ? iadCard : null}
       </Grid>
     </Grid>
   );
