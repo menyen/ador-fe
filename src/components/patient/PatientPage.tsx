@@ -13,6 +13,7 @@ import SF36 from './SF36';
 import BPI from './BPI';
 import Fibromialgia from './Fibromialgia';
 import IAD from './IAD';
+import SBST from './SBST';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -77,6 +78,9 @@ export default function PatientPage() {
           )}
           {currentPanel === PatientPanel.IAD && (
             <IAD setCurrentPanel={setCurrentPanel} patientAuth={auth} />
+          )}
+          {currentPanel === PatientPanel.SBST && (
+            <SBST setCurrentPanel={setCurrentPanel} patientAuth={auth} />
           )}
         </>
       ) : (

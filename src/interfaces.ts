@@ -163,6 +163,7 @@ export enum PatientReportPanelType {
   SF36,
   FIBROMIALGIA,
   IAD,
+  SBST,
 }
 
 export type AllPanelTypes =
@@ -205,6 +206,7 @@ export enum PatientPanel {
   BPI,
   FIBROMIALGIA,
   IAD,
+  SBST,
 }
 
 export const RolesEnum = {
@@ -263,6 +265,7 @@ export const QUESTIONAIRE_LIST = [
   { value: 'FIBROMIALGIA', label: 'Fibromialgia' },
   { value: 'OSWESTRY', label: 'Questionário de Oswestry' },
   { value: 'IAD', label: 'Inventário de Atitudes frente à Dor (IAD - Breve)' },
+  { value: 'SBST', label: 'Start Back Screening Tool (SBST)' },
 ];
 
 export interface RouterParams {

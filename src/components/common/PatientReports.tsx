@@ -9,6 +9,7 @@ import HADReport from './HADReport';
 import OswestryReport from './OswestryReport';
 import FibromialgiaReport from './FibromialgiaReport';
 import IADReport from './IADReport';
+import SBSTReport from './SBSTReport';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -69,6 +70,14 @@ function PatientReports(props: PatientReportsProps) {
         <IADReport
           data={questionaires?.filter(
             (q) => q.type === 'IAD' && q.status === 'DONE'
+          )}
+          goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+        />
+      )}
+      {panel === PatientReportPanelType.SBST && (
+        <SBSTReport
+          data={questionaires?.filter(
+            (q) => q.type === 'SBST' && q.status === 'DONE'
           )}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
         />

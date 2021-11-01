@@ -25,6 +25,7 @@ import {
   PatientFibromialgiaResult,
   PatientForm,
   PatientHADResult,
+  PatientSBSTResult,
   PatientSF36Result,
 } from '../../models/PatientForm';
 import BodyMapBPI from '../patient/BodyMapBPI';
@@ -601,6 +602,55 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
+  const sbstForms = questionaires?.filter(
+    (q) => q.type === 'SBST' && q.status === 'DONE'
+  );
+  const sbstLatestForm = sbstForms && sbstForms[sbstForms.length - 1];
+  const sbstResult = sbstLatestForm?.results as PatientSBSTResult;
+  const sbstCard = (
+    <Paper classes={{ root: classes.paper }}>
+      <Typography variant="h6">Start Back Screening Tool (SBST)</Typography>
+      <Typography variant="caption">
+        {`Preenchido em: ${
+          sbstLatestForm &&
+          new Date(sbstLatestForm.updated_at).toLocaleDateString('pt-BR')
+        }`}
+      </Typography>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Total de pontos: ${sbstResult?.total_points}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Subescala psicossocial: ${sbstResult?.psychosocial_points}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Resultado: ${sbstResult?.result}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => setReportPanel(PatientReportPanelType.SBST)}
+          >
+            Ver respostas
+          </Link>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+
   useEffect(() => {
     setTimeout(() => {
       const tickLabelsY = document.querySelectorAll(
@@ -632,6 +682,7 @@ function PatientSummary(props: PatientSummaryProps) {
         {hadForms?.length ? hadCard : null}
         {fibromialgiaForms?.length ? fibromialgiaCard : null}
         {iadForms?.length ? iadCard : null}
+        {sbstForms?.length ? sbstCard : null}
       </Grid>
     </Grid>
   );

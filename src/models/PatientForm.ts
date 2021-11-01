@@ -24,6 +24,12 @@ export interface PatientIADResult {
   text: string[];
 }
 
+export interface PatientSBSTResult {
+  psychosocial_points: number;
+  result: string;
+  total_points: number;
+}
+
 export interface PatientHADResult {
   ansiedade: PatientBasicResult;
   depressao: PatientBasicResult;
@@ -62,7 +68,8 @@ export interface PatientForm {
     | PatientBPIResult
     | PatientSF36Result
     | PatientFibromialgiaResult
-    | PatientIADResult;
+    | PatientIADResult
+    | PatientSBSTResult;
   status: string;
   type: string;
   updated_at: string;
