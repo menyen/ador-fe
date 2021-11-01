@@ -12,6 +12,7 @@ import HAD from './HAD';
 import SF36 from './SF36';
 import BPI from './BPI';
 import Fibromialgia from './Fibromialgia';
+import IAD from './IAD';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -73,6 +74,9 @@ export default function PatientPage() {
               setCurrentPanel={setCurrentPanel}
               patientAuth={auth}
             />
+          )}
+          {currentPanel === PatientPanel.IAD && (
+            <IAD setCurrentPanel={setCurrentPanel} patientAuth={auth} />
           )}
         </>
       ) : (

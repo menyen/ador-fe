@@ -198,6 +198,7 @@ export enum PatientPanel {
   SF36,
   BPI,
   FIBROMIALGIA,
+  IAD,
 }
 
 export const RolesEnum = {
@@ -255,6 +256,7 @@ export const QUESTIONAIRE_LIST = [
   { value: 'EPC', label: 'Escala de pensamento catastrófico' },
   { value: 'FIBROMIALGIA', label: 'Fibromialgia' },
   { value: 'OSWESTRY', label: 'Questionário de Oswestry' },
+  { value: 'IAD', label: 'Inventário de Atitudes frente à Dor (IAD - Breve)' },
 ];
 
 export interface RouterParams {
