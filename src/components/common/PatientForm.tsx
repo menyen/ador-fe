@@ -232,7 +232,7 @@ export default function PatientForm(props: PatientFormProps) {
             </Typography>
           </Grid>
           {QUESTIONAIRE_LIST.map((item) => (
-            <Grid item xs={12}>
+            <Grid item xs={12} key={item.value}>
               <FormGroup row>
                 <FormControlLabel
                   control={

@@ -76,7 +76,7 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
 
   useEffect(() => {
     setRows(setDataIntoFibromialgiaTable(props.data, setSelectedForm));
-  }, [props.data, setSelectedForm]);
+  }, [props.data, setSelectedForm, setRows]);
 
   const questions = [
     {
@@ -243,7 +243,7 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
                           <List>
                             {question.alternatives.map((alternative, aIndex) =>
                               idg[aIndex] === 'SIM' ? (
-                                <ListItem>
+                                <ListItem key={`idg-alternative-${aIndex}`}>
                                   <Typography variant="body1" paragraph>
                                     {alternative.label}
                                   </Typography>

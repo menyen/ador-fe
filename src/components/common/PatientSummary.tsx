@@ -351,7 +351,7 @@ function PatientSummary(props: PatientSummaryProps) {
         </Grid>
         <Grid item xs={5}>
           {bpiResult?.grades?.map((grade, gradeIndex) => (
-            <>
+            <div key={`grade-${gradeIndex}`}>
               <Typography variant="subtitle1">
                 {gradesLabels[gradeIndex]}
               </Typography>
@@ -372,14 +372,14 @@ function PatientSummary(props: PatientSummaryProps) {
                 disabled={true}
                 value={grade}
               />
-            </>
+            </div>
           ))}
         </Grid>
       </Grid>
       <Grid container spacing={1}>
         <Grid item xs={6}>
           {bpiResult?.treatments?.map((treatment, treatmentIndex) => (
-            <>
+            <div key={`treatment=${treatmentIndex}`}>
               <Typography variant="subtitle1">{`Tratamento ${
                 treatmentIndex + 1
               }`}</Typography>
@@ -404,7 +404,7 @@ function PatientSummary(props: PatientSummaryProps) {
                 </ListItem>
               </List>
               <Divider className={classes.divider} variant="middle" />
-            </>
+            </div>
           ))}
         </Grid>
         <Grid item xs={6}>
@@ -413,7 +413,7 @@ function PatientSummary(props: PatientSummaryProps) {
           </Typography>
           <List>
             {bpiResult?.percentages?.map((percentage, percentageIndex) => (
-              <ListItem>
+              <ListItem key={`percentage-${percentageIndex}`}>
                 <ListItemText
                   primary={percentagesLabels[percentageIndex]}
                   secondary={percentage}
