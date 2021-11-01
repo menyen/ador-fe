@@ -17,6 +17,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import BodyMapFibromialgia from './BodyMapFibromialgia';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
+import _ from 'lodash';
 
 import { PatientFormProps, PatientPanel } from '../../interfaces';
 import { baseUrl } from '../../utils/loggedUser';
@@ -233,15 +234,20 @@ export default function Fibromialgia(props: PatientFormProps) {
     type: QuestionType,
     index: number
   ): void => {
-    const newAnswers = { ...answers };
-    if (type === 'body_pain') {
-      newAnswers[type] = value;
-    } else if (newAnswers[type].length > index) {
-      newAnswers[type][index] = value;
-    } else {
-      newAnswers[type].push(value);
-    }
-    setAnswers(newAnswers);
+    setAnswers((s) => {
+      const newAnswers = _.cloneDeep(s);
+      if (type === 'body_pain') {
+        newAnswers[type] = value;
+      } else if (newAnswers[type].length > index) {
+        newAnswers[type][index] = value;
+      } else {
+        newAnswers[type].push(value);
+      }
+      if (_.isEqual(newAnswers, s)) {
+        return s;
+      }
+      return newAnswers;
+    });
   };
 
   return (
@@ -378,6 +384,7 @@ export default function Fibromialgia(props: PatientFormProps) {
                                         />
                                       }
                                       label={alternative.label}
+                                      key={`idg-question-${aIndex}`}
                                     />
                                   )
                                 )}

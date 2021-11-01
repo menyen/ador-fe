@@ -254,6 +254,7 @@ export default function QuestionaireList(props: QuestionaireListProps) {
         ).map((item) => (
           <Button
             variant="contained"
+            key={item.value}
             onClick={() => {
               if (item.value in PatientPanel) {
                 props.setCurrentPanel(

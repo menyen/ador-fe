@@ -22,6 +22,7 @@ import { PatientFormProps, PatientPanel } from '../../interfaces';
 import { baseUrl } from '../../utils/loggedUser';
 import { UserAuth } from '../../models/UserAuth';
 import BodyMapBPI from './BodyMapBPI';
+import _ from 'lodash';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -312,15 +313,21 @@ export default function BPI(props: PatientFormProps) {
       | 'percentages',
     index: number
   ): void => {
-    const newAnswers = { ...answers };
-    if (type === 'body_pain') {
-      newAnswers[type] = value;
-    } else if (newAnswers[type].length > index) {
-      newAnswers[type][index] = value;
-    } else {
-      newAnswers[type].push(value);
-    }
-    setAnswers(newAnswers);
+    setAnswers((s) => {
+      const newAnswers = _.clone(answers);
+      if (type === 'body_pain') {
+        newAnswers[type] = value;
+      } else if (newAnswers[type].length > index) {
+        newAnswers[type][index] = value;
+      } else {
+        newAnswers[type].push(value);
+      }
+
+      if (_.isEqual(newAnswers, s)) {
+        return s;
+      }
+      return newAnswers;
+    });
   };
 
   return (
