@@ -10,7 +10,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { deepOrange } from '@material-ui/core/colors';
 
 import GenericTable from '../GenericTable';
 import { PatientForm, PatientSBSTResult } from '../../models/PatientForm';
