@@ -207,6 +207,7 @@ export enum PatientPanel {
   FIBROMIALGIA,
   IAD,
   SBST,
+  PSEQ,
 }
 
 export const RolesEnum = {
@@ -266,6 +267,7 @@ export const QUESTIONAIRE_LIST = [
   { value: 'OSWESTRY', label: 'Questionário de Oswestry' },
   { value: 'IAD', label: 'Inventário de Atitudes frente à Dor (IAD - Breve)' },
   { value: 'SBST', label: 'Start Back Screening Tool (SBST)' },
+  { value: 'PSEQ', label: 'Autoeficácia da dor (PSEQ)' },
 ];
 
 export interface RouterParams {

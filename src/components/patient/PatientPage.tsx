@@ -14,6 +14,7 @@ import BPI from './BPI';
 import Fibromialgia from './Fibromialgia';
 import IAD from './IAD';
 import SBST from './SBST';
+import PSEQ from './PSEQ';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -81,6 +82,9 @@ export default function PatientPage() {
           )}
           {currentPanel === PatientPanel.SBST && (
             <SBST setCurrentPanel={setCurrentPanel} patientAuth={auth} />
+          )}
+          {currentPanel === PatientPanel.PSEQ && (
+            <PSEQ setCurrentPanel={setCurrentPanel} patientAuth={auth} />
           )}
         </>
       ) : (
