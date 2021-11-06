@@ -222,7 +222,7 @@ function HADReport(props: HADReportProps) {
             {questions.map((question, qIndex) => (
               <Grid item xs={6} key={`question${qIndex}`}>
                 <Typography variant="body1" align="left">
-                  {question.title}
+                  {`${qIndex + 1}. ${question.title}`}
                 </Typography>
                 <Typography variant="body1" align="left">
                   {

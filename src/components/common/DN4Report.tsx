@@ -162,7 +162,7 @@ function DN4Report(props: DN4ReportProps) {
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <Typography variant="subtitle1" align="left">
-                      {question.title}
+                      {`${qIndex + 1}. ${question.title}`}
                     </Typography>
                   </Grid>
                   {question.sections.map((section, sIndex) => (

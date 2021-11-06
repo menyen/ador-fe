@@ -107,7 +107,9 @@ export default function PSEQ(props: PatientFormProps) {
   const [currentPSEQPanel, setCurrentPSEQPanel] = React.useState(
     PSEQFormPanel.DESCRIPTION
   );
-  const [answers, setAnswers] = React.useState(new Array(questions.length));
+  const [answers, setAnswers] = React.useState(
+    new Array(questions.length).fill(0)
+  );
 
   const marks = [
     {

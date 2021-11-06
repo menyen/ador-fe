@@ -164,6 +164,7 @@ export enum PatientReportPanelType {
   FIBROMIALGIA,
   IAD,
   SBST,
+  PSEQ,
 }
 
 export type AllPanelTypes =

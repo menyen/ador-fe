@@ -3,8 +3,6 @@ import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -24,13 +22,13 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       marginTop: theme.spacing(1),
     },
-    EPCFormItem: {
+    PSEQFormItem: {
       margin: theme.spacing(3, 0, 6),
     },
-    EPCSlider: {
+    PSEQSlider: {
       textAlign: 'center',
       color: '#329D63',
-      width: '80%',
+      width: '65%',
       marginLeft: '1rem',
     },
     ECPSliderLabel: {
@@ -39,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
     sliderSubLabel: {
       whiteSpace: 'break-spaces',
       width: '50px',
-      fontSize: '0.75rem',
+      fontSize: '0.625rem',
       lineHeight: 1,
     },
     circularProgress: {
@@ -58,22 +56,22 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface EPCReportProps {
+interface PSEQReportProps {
   data: PatientForm[];
   goToSummary: () => void;
 }
 
-function EPCReport(props: EPCReportProps) {
+function PSEQReport(props: PSEQReportProps) {
   const classes = useStyles();
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
     props.data[props.data.length - 1]
   );
   const [rows, setRows] = useState<SimpleReportTableData[]>([]);
 
-  const { answers, updated_at, scoreEPC, textEPC } = useMemo(() => {
+  const { answers, updated_at, scorePSEQ, textPSEQ } = useMemo(() => {
     const { answers, results, updated_at } = selectedForm;
     const { score, text } = results as PatientBasicResult;
-    return { answers, updated_at, scoreEPC: score || 0, textEPC: text };
+    return { answers, updated_at, scorePSEQ: score || 0, textPSEQ: text };
   }, [selectedForm]);
 
   useEffect(() => {
@@ -81,15 +79,16 @@ function EPCReport(props: EPCReportProps) {
   }, [props.data, setSelectedForm]);
 
   const questions = [
-    'Não posso mais suportar esta dor.',
-    'Não importa o que fizer minhas dores não mudarão.',
-    'Preciso tomar remédios para dor.',
-    'Isso nunca vai acabar.',
-    'Sou um caso sem esperança.',
-    'Quando ficarei pior novamente?',
-    'Essa dor esta me matando.',
-    'Eu não consigo mais continuar.',
-    'Essa dor esta me deixando maluco.',
+    'Eu posso aproveitar as coisas, apesar da dor.', //1
+    'Eu posso fazer a maioria das tarefas domésticas (por exemplo, arrumar, lavar louça, etc), apesar da dor.', //2
+    'Eu posso socializar com meus amigos ou familiares como eu costumava fazer, apesar da dor.', //3
+    'Eu posso lidar com a minha dor na maioria das situações.', //4
+    'Eu posso fazer alguma forma de trabalho, apesar da dor. (“Trabalho” inclui tarefas domésticas, trabalho remunerado e não remunerado).', //5
+    'Eu ainda posso fazer muitas das coisas que eu gosto de fazer, como hobbies ou atividades de lazer, apesar da dor.', //6
+    'Eu posso lidar com a dor sem medicação', //7
+    'Eu ainda posso realizar a maioria dos meus objetivos na vida, apesar da dor.', //8
+    'Eu posso viver um estilo de vida normal, apesar da dor.', //9
+    'Eu posso gradualmente me tornar mais ativo, apesar da dor.', //10
   ];
   const marks = [
     {
@@ -98,7 +97,7 @@ function EPCReport(props: EPCReportProps) {
         <>
           <Typography>0</Typography>
           <Typography className={classes.sliderSubLabel}>
-            Quase nunca
+            Completamente confiante
           </Typography>
         </>
       ),
@@ -107,13 +106,14 @@ function EPCReport(props: EPCReportProps) {
     { value: 2, label: 2 },
     { value: 3, label: 3 },
     { value: 4, label: 4 },
+    { value: 5, label: 5 },
     {
-      value: 5,
+      value: 6,
       label: (
         <>
-          <Typography>5</Typography>
+          <Typography>6</Typography>
           <Typography className={classes.sliderSubLabel}>
-            Quase sempre
+            Não completamente confiante
           </Typography>
         </>
       ),
@@ -146,9 +146,7 @@ function EPCReport(props: EPCReportProps) {
       </Grid>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
-          <Typography variant="h6">
-            Escala de pensamento catastrófico
-          </Typography>
+          <Typography variant="h6">Autoeficácia da dor (PSEQ)</Typography>
           <Typography variant="caption" display="block">
             {`Preenchido em: ${new Date(updated_at).toLocaleDateString(
               'pt-BR'
@@ -157,7 +155,7 @@ function EPCReport(props: EPCReportProps) {
           <Grid container spacing={1}>
             {questions.map((question, index) => (
               <Grid item xs={6} key={`question-${index}`}>
-                <div className={classes.EPCFormItem} key={`question_${index}`}>
+                <div className={classes.PSEQFormItem} key={`question_${index}`}>
                   <Typography
                     id={`question_${index}`}
                     className={classes.ECPSliderLabel}
@@ -168,12 +166,12 @@ function EPCReport(props: EPCReportProps) {
                   <Slider
                     aria-labelledby={`question_${index}`}
                     value={answers[index]}
-                    className={classes.EPCSlider}
+                    className={classes.PSEQSlider}
                     step={1}
                     valueLabelDisplay="auto"
                     marks={marks}
                     min={0}
-                    max={5}
+                    max={6}
                     disabled
                   />
                 </div>
@@ -185,55 +183,24 @@ function EPCReport(props: EPCReportProps) {
       <Grid item xs={3}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Resultado</Typography>
-          <Box position="relative" display="inline-flex">
-            <CircularProgress
-              variant="determinate"
-              className={classes.bottom}
-              size={100}
-              thickness={5}
-              value={100}
-            />
-            <CircularProgress
-              variant="determinate"
-              value={scoreEPC * 10}
-              size={100}
-              thickness={5}
-              className={classes.circularProgress}
-              classes={{ circle: classes.circle }}
-            />
-            <Box
-              top={0}
-              left={0}
-              bottom={0}
-              right={0}
-              position="absolute"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography
-                variant="subtitle1"
-                component="div"
-                color="textSecondary"
-              >
-                {scoreEPC}
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography variant="subtitle1" align="left">
+                {`Total de pontos: ${scorePSEQ}`}
               </Typography>
-            </Box>
-          </Box>
-          <Typography variant="subtitle1">{textEPC}</Typography>
-        </Paper>
-        <Paper classes={{ root: classes.paper }}>
-          <Typography variant="h6">Referência</Typography>
-          <Typography variant="body1" align="left">
-            {'0 < 3.8 - Negativo'}
-          </Typography>
-          <Typography variant="body1" align="left">
-            {'≥ 3.8 - Positivo'}
-          </Typography>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography variant="subtitle1" align="left">
+                {`Resultado: ${textPSEQ}`}
+              </Typography>
+            </Grid>
+          </Grid>
         </Paper>
       </Grid>
     </Grid>
   );
 }
 
-export default EPCReport;
+export default PSEQReport;

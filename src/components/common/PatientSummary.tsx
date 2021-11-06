@@ -578,7 +578,7 @@ function PatientSummary(props: PatientSummaryProps) {
   const iadForms = questionaires?.filter(
     (q) => q.type === 'IAD' && q.status === 'DONE'
   );
-  const iadLatestForm = iadForms && iadForms[epcForms.length - 1];
+  const iadLatestForm = iadForms && iadForms[iadForms.length - 1];
   const iadCard = (
     <Paper classes={{ root: classes.paper }}>
       <Typography variant="h6">Inventário de atitude frente à dor</Typography>
@@ -651,6 +651,48 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
+  const pseqForms = questionaires?.filter(
+    (q) => q.type === 'PSEQ' && q.status === 'DONE'
+  );
+  const pseqLatestForm = pseqForms && pseqForms[pseqForms.length - 1];
+  const pseqResult = pseqLatestForm?.results as PatientBasicResult;
+  const pseqCard = (
+    <Paper classes={{ root: classes.paper }}>
+      <Typography variant="h6">Autoeficácia da dor (PSEQ)</Typography>
+      <Typography variant="caption" display="block">
+        {`Preenchido em: ${
+          pseqLatestForm &&
+          new Date(pseqLatestForm.updated_at).toLocaleDateString('pt-BR')
+        }`}
+      </Typography>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Total de pontos: ${pseqResult?.score}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Resultado: ${pseqResult?.text}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => setReportPanel(PatientReportPanelType.PSEQ)}
+          >
+            Ver respostas
+          </Link>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+
   useEffect(() => {
     setTimeout(() => {
       const tickLabelsY = document.querySelectorAll(
@@ -683,6 +725,7 @@ function PatientSummary(props: PatientSummaryProps) {
         {fibromialgiaForms?.length ? fibromialgiaCard : null}
         {iadForms?.length ? iadCard : null}
         {sbstForms?.length ? sbstCard : null}
+        {pseqForms?.length ? pseqCard : null}
       </Grid>
     </Grid>
   );
