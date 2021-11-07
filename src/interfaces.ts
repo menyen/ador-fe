@@ -165,6 +165,7 @@ export enum PatientReportPanelType {
   IAD,
   SBST,
   PSEQ,
+  WOMAC,
 }
 
 export type AllPanelTypes =

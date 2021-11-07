@@ -27,6 +27,7 @@ import {
   PatientHADResult,
   PatientSBSTResult,
   PatientSF36Result,
+  PatientWOMACResult,
 } from '../../models/PatientForm';
 import BodyMapBPI from '../patient/BodyMapBPI';
 import { PatientReportPanelType } from '../../interfaces';
@@ -693,6 +694,78 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
+  const womacForms = questionaires?.filter(
+    (q) => q.type === 'WOMAC' && q.status === 'DONE'
+  );
+  const womacLatestForm = womacForms && womacForms[womacForms.length - 1];
+  const womacResult = womacLatestForm?.results as PatientWOMACResult;
+  const womacCard = (
+    <Paper classes={{ root: classes.paper }}>
+      <Typography variant="h6">
+        Qualidade de vida específico para osteoartrose WOMAC
+      </Typography>
+      <Typography variant="caption" display="block">
+        {`Preenchido em: ${
+          womacLatestForm &&
+          new Date(womacLatestForm.updated_at).toLocaleDateString('pt-BR')
+        }`}
+      </Typography>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Índice funcional: ${womacResult?.function_index}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Índice de dor: ${womacResult?.pain_index}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Índice de rigidez: ${womacResult?.stiffness_index}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Índice total: ${womacResult?.total_index}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Porcentagem total: ${womacResult?.total_percentage}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Coeficiente total: ${womacResult?.total_ratio}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => setReportPanel(PatientReportPanelType.WOMAC)}
+          >
+            Ver respostas
+          </Link>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+
   useEffect(() => {
     setTimeout(() => {
       const tickLabelsY = document.querySelectorAll(
@@ -726,6 +799,7 @@ function PatientSummary(props: PatientSummaryProps) {
         {iadForms?.length ? iadCard : null}
         {sbstForms?.length ? sbstCard : null}
         {pseqForms?.length ? pseqCard : null}
+        {womacForms?.length ? womacCard : null}
       </Grid>
     </Grid>
   );

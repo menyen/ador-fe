@@ -11,6 +11,7 @@ import FibromialgiaReport from './FibromialgiaReport';
 import IADReport from './IADReport';
 import SBSTReport from './SBSTReport';
 import PSEQReport from './PSEQReport';
+import WOMACReport from './WOMACReport';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -87,6 +88,14 @@ function PatientReports(props: PatientReportsProps) {
         <PSEQReport
           data={questionaires?.filter(
             (q) => q.type === 'PSEQ' && q.status === 'DONE'
+          )}
+          goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+        />
+      )}
+      {panel === PatientReportPanelType.WOMAC && (
+        <WOMACReport
+          data={questionaires?.filter(
+            (q) => q.type === 'WOMAC' && q.status === 'DONE'
           )}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
         />

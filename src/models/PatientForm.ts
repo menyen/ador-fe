@@ -56,6 +56,15 @@ export interface PatientFibromialgiaResult {
   idg: string[];
 }
 
+export interface PatientWOMACResult {
+  function_index: number;
+  pain_index: number;
+  stiffness_index: number;
+  total_index: number;
+  total_percentage: string;
+  total_ratio: number;
+}
+
 export interface PatientForm {
   answers: number[];
   created_at: string;
@@ -69,7 +78,8 @@ export interface PatientForm {
     | PatientSF36Result
     | PatientFibromialgiaResult
     | PatientIADResult
-    | PatientSBSTResult;
+    | PatientSBSTResult
+    | PatientWOMACResult;
   status: string;
   type: string;
   updated_at: string;

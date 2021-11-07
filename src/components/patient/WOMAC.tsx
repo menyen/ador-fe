@@ -42,9 +42,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(2),
       textAlign: 'left',
     },
-    formItem: {
-      margin: theme.spacing(3, 0, 6),
-    },
     footer: {
       textAlign: 'center',
       '& button': {
@@ -66,8 +63,6 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '0.75rem',
     },
     radioLabel: {
-      // width: '75px',
-      // textAlign: 'center',
       marginLeft: '8px',
       marginRight: '8px',
     },

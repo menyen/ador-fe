@@ -6,6 +6,7 @@ import {
   PatientFibromialgiaResult,
   PatientForm,
   PatientHADResult,
+  PatientWOMACResult,
 } from '../models/PatientForm';
 
 export const simpleColumns: SimpleReportTableColumn[] = [
@@ -99,6 +100,29 @@ export function setDataIntoHADTable(
       date: new Date(form.updated_at).toLocaleDateString(),
       result_ansiety: (form.results as PatientHADResult)?.ansiedade.text,
       result_depression: (form.results as PatientHADResult)?.depressao.text,
+      details: (
+        <IconButton
+          onClick={(e) => {
+            e.preventDefault();
+            selectForm(form);
+          }}
+        >
+          <VisibilityIcon />
+        </IconButton>
+      ),
+    };
+  });
+}
+
+export function setDateIntoWOMACTable(
+  data: PatientForm[],
+  selectForm: (chosen: PatientForm) => void
+) {
+  return data.map((form) => {
+    return {
+      id: form.id,
+      date: new Date(form.updated_at).toLocaleDateString(),
+      result: (form.results as PatientWOMACResult)?.total_percentage,
       details: (
         <IconButton
           onClick={(e) => {
