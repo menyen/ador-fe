@@ -166,6 +166,7 @@ export enum PatientReportPanelType {
   SBST,
   PSEQ,
   WOMAC,
+  SPADI,
 }
 
 export type AllPanelTypes =
@@ -211,6 +212,7 @@ export enum PatientPanel {
   SBST,
   PSEQ,
   WOMAC,
+  SPADI,
 }
 
 export const RolesEnum = {
@@ -275,6 +277,7 @@ export const QUESTIONAIRE_LIST = [
     value: 'WOMAC',
     label: 'Qualidade de vida específico para osteoartrose WOMAC',
   },
+  { value: 'SPADI', label: 'Índice de dor e incapacidade no ombro (SPADI)' },
 ];
 
 export interface RouterParams {
