@@ -28,6 +28,7 @@ import {
   PatientSBSTResult,
   PatientSF36Result,
   PatientWOMACResult,
+  PatientSPADIResult,
 } from '../../models/PatientForm';
 import BodyMapBPI from '../patient/BodyMapBPI';
 import { PatientReportPanelType } from '../../interfaces';
@@ -766,6 +767,57 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
+  const spadiForms = questionaires?.filter(
+    (q) => q.type === 'SPADI' && q.status === 'DONE'
+  );
+  const spadiLatestForm = spadiForms && spadiForms[spadiForms.length - 1];
+  const spadiResult = spadiLatestForm?.results as PatientSPADIResult;
+  const spadiCard = (
+    <Paper classes={{ root: classes.paper }}>
+      <Typography variant="h6">
+        Índice de dor e incapacidade no ombro (SPADI)
+      </Typography>
+      <Typography variant="caption" display="block">
+        {`Preenchido em: ${
+          spadiLatestForm &&
+          new Date(spadiLatestForm.updated_at).toLocaleDateString('pt-BR')
+        }`}
+      </Typography>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Escala de Incapacidade: ${spadiResult?.disability.percentage}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Escala de Dor: ${spadiResult?.pain.percentage}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Escala total: ${spadiResult?.total.percentage}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => setReportPanel(PatientReportPanelType.SPADI)}
+          >
+            Ver respostas
+          </Link>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+
   useEffect(() => {
     setTimeout(() => {
       const tickLabelsY = document.querySelectorAll(
@@ -800,6 +852,7 @@ function PatientSummary(props: PatientSummaryProps) {
         {sbstForms?.length ? sbstCard : null}
         {pseqForms?.length ? pseqCard : null}
         {womacForms?.length ? womacCard : null}
+        {spadiForms?.length ? spadiCard : null}
       </Grid>
     </Grid>
   );

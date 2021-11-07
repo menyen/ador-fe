@@ -65,6 +65,16 @@ export interface PatientWOMACResult {
   total_ratio: number;
 }
 
+export interface SPADIAspectResult {
+  index: number;
+  percentage: string;
+}
+export interface PatientSPADIResult {
+  disability: SPADIAspectResult;
+  pain: SPADIAspectResult;
+  total: SPADIAspectResult;
+}
+
 export interface PatientForm {
   answers: number[];
   created_at: string;
@@ -79,7 +89,8 @@ export interface PatientForm {
     | PatientFibromialgiaResult
     | PatientIADResult
     | PatientSBSTResult
-    | PatientWOMACResult;
+    | PatientWOMACResult
+    | PatientSPADIResult;
   status: string;
   type: string;
   updated_at: string;

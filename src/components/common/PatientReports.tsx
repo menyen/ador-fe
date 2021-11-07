@@ -12,6 +12,7 @@ import IADReport from './IADReport';
 import SBSTReport from './SBSTReport';
 import PSEQReport from './PSEQReport';
 import WOMACReport from './WOMACReport';
+import SPADIReport from './SPADIReport';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -96,6 +97,14 @@ function PatientReports(props: PatientReportsProps) {
         <WOMACReport
           data={questionaires?.filter(
             (q) => q.type === 'WOMAC' && q.status === 'DONE'
+          )}
+          goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+        />
+      )}
+      {panel === PatientReportPanelType.SPADI && (
+        <SPADIReport
+          data={questionaires?.filter(
+            (q) => q.type === 'SPADI' && q.status === 'DONE'
           )}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
         />

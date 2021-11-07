@@ -6,6 +6,7 @@ import {
   PatientFibromialgiaResult,
   PatientForm,
   PatientHADResult,
+  PatientSPADIResult,
   PatientWOMACResult,
 } from '../models/PatientForm';
 
@@ -123,6 +124,32 @@ export function setDateIntoWOMACTable(
       id: form.id,
       date: new Date(form.updated_at).toLocaleDateString(),
       result: (form.results as PatientWOMACResult)?.total_percentage,
+      details: (
+        <IconButton
+          onClick={(e) => {
+            e.preventDefault();
+            selectForm(form);
+          }}
+        >
+          <VisibilityIcon />
+        </IconButton>
+      ),
+    };
+  });
+}
+
+export function setDateIntoSPADITable(
+  data: PatientForm[],
+  selectForm: (chosen: PatientForm) => void
+) {
+  return data.map((form) => {
+    const results = form.results as PatientSPADIResult;
+    return {
+      id: form.id,
+      date: new Date(form.updated_at).toLocaleDateString(),
+      result_disability: results.disability.percentage,
+      result_pain: results.pain.percentage,
+      result_total: results.total.percentage,
       details: (
         <IconButton
           onClick={(e) => {

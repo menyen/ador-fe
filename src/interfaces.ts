@@ -115,6 +115,14 @@ export interface HADReportTableData {
   details?: JSX.Element;
 }
 
+export interface SPADIReportTableData {
+  date: string;
+  result_disability: string;
+  result_pain: string;
+  result_total: string;
+  details?: JSX.Element;
+}
+
 export interface Credentials {
   email: string;
   password: string;
