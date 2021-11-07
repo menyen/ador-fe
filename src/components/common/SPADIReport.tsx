@@ -12,7 +12,7 @@ import { grey } from '@material-ui/core/colors';
 
 import GenericTable from '../GenericTable';
 import { PatientForm, PatientSPADIResult } from '../../models/PatientForm';
-import { setDateIntoSPADITable, simpleColumns } from '../../utils/reportTable';
+import { setDateIntoSPADITable, spadiColumns } from '../../utils/reportTable';
 import { SPADIReportTableData } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -213,11 +213,7 @@ function SPADIReport(props: SPADIReportProps) {
         </Breadcrumbs>
       </Grid>
       <Grid item xs={12}>
-        <GenericTable
-          columns={simpleColumns}
-          rows={rows}
-          shouldHideCheckboxes
-        />
+        <GenericTable columns={spadiColumns} rows={rows} shouldHideCheckboxes />
       </Grid>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>

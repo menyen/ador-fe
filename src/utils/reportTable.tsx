@@ -1,6 +1,10 @@
 import IconButton from '@material-ui/core/IconButton';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import { HADReportTableColumn, SimpleReportTableColumn } from '../interfaces';
+import {
+  HADReportTableColumn,
+  SimpleReportTableColumn,
+  SPADIReportTableColumn,
+} from '../interfaces';
 import {
   PatientBasicResult,
   PatientFibromialgiaResult,
@@ -20,6 +24,18 @@ export const hadColumns: HADReportTableColumn[] = [
   { id: 'date', label: 'Data', minWidth: 100 },
   { id: 'result_ansiety', label: 'Resultado para ansiedade', minWidth: 100 },
   { id: 'result_depression', label: 'Resultado para depressão', minWidth: 100 },
+  { id: 'details', label: 'Ver resultados', minWidth: 100 },
+];
+
+export const spadiColumns: SPADIReportTableColumn[] = [
+  { id: 'date', label: 'Data', minWidth: 100 },
+  {
+    id: 'result_disability',
+    label: 'Resultado de incapacidade',
+    minWidth: 100,
+  },
+  { id: 'result_pain', label: 'Resultado de dor', minWidth: 100 },
+  { id: 'result_total', label: 'Resultado total', minWidth: 100 },
   { id: 'details', label: 'Ver resultados', minWidth: 100 },
 ];
 

@@ -108,6 +108,18 @@ export interface HADReportTableColumn {
   minWidth?: number;
 }
 
+export interface SPADIReportTableColumn {
+  id:
+    | 'id'
+    | 'date'
+    | 'result_disability'
+    | 'result_pain'
+    | 'result_total'
+    | 'details';
+  label: string;
+  minWidth?: number;
+}
+
 export interface HADReportTableData {
   date: string;
   result_ansiety: string;
