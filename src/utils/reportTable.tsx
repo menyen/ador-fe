@@ -45,7 +45,7 @@ export function setDataIntoSimpleTable(
   });
 }
 
-export function setDataIntoIADTable(
+export function setDataIntoNoResultTable(
   data: PatientForm[],
   selectForm: (chosen: PatientForm) => void
 ) {

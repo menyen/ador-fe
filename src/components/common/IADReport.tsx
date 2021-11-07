@@ -8,8 +8,11 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import GenericTable from '../GenericTable';
 import { PatientForm, PatientIADResult } from '../../models/PatientForm';
-import { IADReportTableData } from '../../interfaces';
-import { setDataIntoIADTable, simpleColumns } from '../../utils/reportTable';
+import { NoResultReportTableData } from '../../interfaces';
+import {
+  setDataIntoNoResultTable,
+  simpleColumns,
+} from '../../utils/reportTable';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,7 +51,7 @@ function IADReport(props: EPCReportProps) {
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
     props.data[props.data.length - 1]
   );
-  const [rows, setRows] = useState<IADReportTableData[]>([]);
+  const [rows, setRows] = useState<NoResultReportTableData[]>([]);
 
   const { answers, updated_at } = useMemo(() => {
     const { updated_at, results } = selectedForm;
@@ -58,7 +61,7 @@ function IADReport(props: EPCReportProps) {
   }, [selectedForm]);
 
   useEffect(() => {
-    setRows(setDataIntoIADTable(props.data, setSelectedForm));
+    setRows(setDataIntoNoResultTable(props.data, setSelectedForm));
   }, [props.data, setSelectedForm]);
 
   const questions = [

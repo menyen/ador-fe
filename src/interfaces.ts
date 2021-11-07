@@ -97,7 +97,7 @@ export interface SimpleReportTableData {
   details?: JSX.Element;
 }
 
-export interface IADReportTableData {
+export interface NoResultReportTableData {
   date: string;
   details?: JSX.Element;
 }
