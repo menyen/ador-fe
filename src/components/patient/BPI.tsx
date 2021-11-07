@@ -314,7 +314,7 @@ export default function BPI(props: PatientFormProps) {
     index: number
   ): void => {
     setAnswers((s) => {
-      const newAnswers = _.clone(answers);
+      const newAnswers = _.cloneDeep(s);
       if (type === 'body_pain') {
         newAnswers[type] = value;
       } else if (newAnswers[type].length > index) {

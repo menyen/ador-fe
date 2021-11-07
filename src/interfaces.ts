@@ -209,6 +209,7 @@ export enum PatientPanel {
   IAD,
   SBST,
   PSEQ,
+  WOMAC,
 }
 
 export const RolesEnum = {
@@ -269,6 +270,10 @@ export const QUESTIONAIRE_LIST = [
   { value: 'IAD', label: 'Inventário de Atitudes frente à Dor (IAD - Breve)' },
   { value: 'SBST', label: 'Start Back Screening Tool (SBST)' },
   { value: 'PSEQ', label: 'Autoeficácia da dor (PSEQ)' },
+  {
+    value: 'WOMAC',
+    label: 'Qualidade de vida específico para osteoartrose WOMAC',
+  },
 ];
 
 export interface RouterParams {

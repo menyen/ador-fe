@@ -15,6 +15,7 @@ import Fibromialgia from './Fibromialgia';
 import IAD from './IAD';
 import SBST from './SBST';
 import PSEQ from './PSEQ';
+import WOMAC from './WOMAC';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -85,6 +86,9 @@ export default function PatientPage() {
           )}
           {currentPanel === PatientPanel.PSEQ && (
             <PSEQ setCurrentPanel={setCurrentPanel} patientAuth={auth} />
+          )}
+          {currentPanel === PatientPanel.WOMAC && (
+            <WOMAC setCurrentPanel={setCurrentPanel} patientAuth={auth} />
           )}
         </>
       ) : (
