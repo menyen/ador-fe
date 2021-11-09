@@ -13,6 +13,7 @@ import {
 import { Patient } from '../../models/Patient';
 import patientReducer from '../../reducers/patient';
 import questionaireReducer from '../../reducers/questionaire';
+import reportReducer from '../../reducers/report';
 import {
   createPatient,
   deletePatient,
@@ -27,6 +28,8 @@ import {
 } from '../../actions/questionaire';
 import { AlertContext } from '../../utils/alert';
 import PatientReports from '../common/PatientReports';
+import { getReports } from '../../actions/report';
+import ReportsTable from '../common/ReportsTable';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,6 +63,7 @@ function PhysicianPage() {
     questionaireReducer,
     []
   );
+  const [reports, reportsDispatch] = useReducer(reportReducer, []);
   const [, setAlertMessage] = useContext(AlertContext);
 
   useEffect(() => {
@@ -100,7 +104,7 @@ function PhysicianPage() {
       <CssBaseline />
       <LeftNav
         role="physician"
-        currentPanel={PhysicianPanelType.PatientsTable}
+        currentPanel={panel}
         setPanel={(panel: AllPanelTypes) =>
           setPanel(panel as PhysicianPanelType)
         }
@@ -135,6 +139,12 @@ function PhysicianPage() {
               }
             />
             <PatientReports questionaires={questionaires} />
+          </>
+        )}
+        {panel === PhysicianPanelType.ReportsTable && (
+          <>
+            <ReportsTable fetchReports={getReports} />
+            {reports?.length && <PatientReports questionaires={reports} />}
           </>
         )}
       </main>

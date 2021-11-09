@@ -33,6 +33,7 @@ import {
   AdminPanelType,
   AllPanelTypes,
   ManagerPanelType,
+  PhysicianPanelType,
   RolesEnum,
 } from '../interfaces';
 import { AuthContext } from '../utils/loggedUser';
@@ -298,13 +299,29 @@ export default function LeftNav(props: LeftNavProps) {
         )}
         {role === RolesEnum.PHYSICIAN && (
           <List>
-            <ListItem button key="PersonIcon" selected>
+            <ListItem
+              onClick={() => setPanel(PhysicianPanelType.PatientsTable)}
+              button
+              key="PersonIcon"
+              selected={
+                PhysicianPanelType.PatientsTable ===
+                (currentPanel as PhysicianPanelType)
+              }
+            >
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary="Pacientes" />
             </ListItem>
-            <ListItem button key="PieChartIcon">
+            <ListItem
+              onClick={() => setPanel(PhysicianPanelType.ReportsTable)}
+              button
+              key="PieChartIcon"
+              selected={
+                PhysicianPanelType.ReportsTable ===
+                (currentPanel as PhysicianPanelType)
+              }
+            >
               <ListItemIcon>
                 <PieChartIcon />
               </ListItemIcon>

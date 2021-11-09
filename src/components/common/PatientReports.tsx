@@ -16,6 +16,7 @@ import SPADIReport from './SPADIReport';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
+  initialReportPanel?: PatientReportPanelType;
 }
 
 function PatientReports(props: PatientReportsProps) {
