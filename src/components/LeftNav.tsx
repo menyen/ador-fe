@@ -295,6 +295,20 @@ export default function LeftNav(props: LeftNavProps) {
               </ListItemIcon>
               <ListItemText primary="Pacientes" />
             </ListItem>
+            <ListItem
+              onClick={() => setPanel(ManagerPanelType.ReportsTable)}
+              button
+              key="PieChartIcon"
+              selected={
+                ManagerPanelType.ReportsTable ===
+                (currentPanel as ManagerPanelType)
+              }
+            >
+              <ListItemIcon>
+                <PieChartIcon />
+              </ListItemIcon>
+              <ListItemText primary="Relatórios" />
+            </ListItem>
           </List>
         )}
         {role === RolesEnum.PHYSICIAN && (
