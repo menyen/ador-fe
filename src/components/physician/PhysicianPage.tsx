@@ -28,7 +28,7 @@ import {
 } from '../../actions/questionaire';
 import { AlertContext } from '../../utils/alert';
 import PatientReports from '../common/PatientReports';
-import { getReports } from '../../actions/report';
+import { clearReports, getReports } from '../../actions/report';
 import ReportsTable from '../common/ReportsTable';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -161,6 +161,7 @@ function PhysicianPage() {
                   setAlertMessage
                 )(reportsDispatch)
               }
+              clearReports={() => clearReports()(reportsDispatch)}
               patients={patients}
               reports={reports}
             />

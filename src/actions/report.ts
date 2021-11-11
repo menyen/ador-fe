@@ -47,7 +47,7 @@ export function getReports(
   };
 }
 
-export function clearQuestionaires() {
+export function clearReports() {
   return async (dispatch: Dispatch<IReportsDispatchProps>) => {
     dispatch({ type: IActions.REPORTS_FETCHED, reports: [] });
   };

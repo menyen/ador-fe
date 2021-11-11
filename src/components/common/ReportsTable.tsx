@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface ReportsTableProps {
   patients: Patient[];
   reports?: PatientForm[];
+  clearReports: () => void;
   fetchReports: (
     patient_id: number,
     start_date: string,
@@ -55,11 +56,19 @@ export default function ReportsTable(props: ReportsTableProps) {
   const [reportType, setReportType] = useState<string>('');
   const [, setAlertMessage] = useContext(AlertContext);
 
-  const { fetchReports, patients, reports } = props;
+  const { clearReports, fetchReports, patients, reports } = props;
 
   const searchReports = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     fetchReports(patientId, startDate, endDate, reportType, setAlertMessage);
+  };
+
+  const clearSearch = () => {
+    setPatientId(0);
+    setStartDate('');
+    setEndDate('');
+    setReportType('');
+    clearReports();
   };
 
   return (
@@ -89,7 +98,7 @@ export default function ReportsTable(props: ReportsTableProps) {
                     fullWidth
                     type="date"
                     id="start-date-input"
-                    defaultValue={startDate}
+                    value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
                   />
                 </Grid>
@@ -98,7 +107,7 @@ export default function ReportsTable(props: ReportsTableProps) {
                     fullWidth
                     type="date"
                     id="end-date-input"
-                    defaultValue={endDate}
+                    value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                   />
                 </Grid>
@@ -109,6 +118,7 @@ export default function ReportsTable(props: ReportsTableProps) {
               <Select
                 native
                 id="form-select"
+                value={reportType}
                 onChange={(e) => setReportType(e.target.value as string)}
               >
                 <option aria-label="None" value="" />
@@ -137,9 +147,6 @@ export default function ReportsTable(props: ReportsTableProps) {
                   ))}
               </Select>
             </Grid>
-            <Grid item xs={4}>
-              {/*Report result goes here*/}
-            </Grid>
           </Grid>
           <Grid
             container
@@ -148,10 +155,7 @@ export default function ReportsTable(props: ReportsTableProps) {
             alignContent="center"
             className={classes.footerSection}
           >
-            <OutlinedButton
-              variant="outlined"
-              // onClick={props.openPatientsTablePage}
-            >
+            <OutlinedButton variant="outlined" onClick={() => clearSearch()}>
               Limpar
             </OutlinedButton>
             <OrangeButton type="submit">Filtrar</OrangeButton>
