@@ -143,8 +143,27 @@ function PhysicianPage() {
         )}
         {panel === PhysicianPanelType.ReportsTable && (
           <>
-            <ReportsTable fetchReports={getReports} />
-            {reports?.length && <PatientReports questionaires={reports} />}
+            <ReportsTable
+              fetchReports={(
+                patient_id: number,
+                start_date: string,
+                end_date: string,
+                type: string,
+                setAlertMessage: (message: string) => void
+              ) =>
+                getReports(
+                  patient_id,
+                  start_date,
+                  end_date,
+                  type,
+                  setAlertMessage
+                )(reportsDispatch)
+              }
+              patients={patients}
+            />
+            {reports?.length ? (
+              <PatientReports questionaires={reports} />
+            ) : null}
           </>
         )}
       </main>

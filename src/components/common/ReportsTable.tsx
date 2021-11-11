@@ -1,22 +1,17 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { deepOrange } from '@material-ui/core/colors';
-import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 
 import { QUESTIONAIRE_LIST } from '../../interfaces';
-import { getUsers } from '../../actions/user';
-import userReducer from '../../reducers/user';
 import { AlertContext } from '../../utils/alert';
 import { OrangeButton, OutlinedButton } from '../Buttons';
+import { Patient } from '../../models/Patient';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,13 +33,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ReportsTableProps {
+  patients: Patient[];
   fetchReports: (
     patient_id: number,
     start_date: string,
     end_date: string,
     type: string,
     setAlertMessage: (message: string) => void
-  ) => void;
+  ) => Promise<void>;
 }
 
 export default function ReportsTable(props: ReportsTableProps) {
@@ -54,21 +50,14 @@ export default function ReportsTable(props: ReportsTableProps) {
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [reportType, setReportType] = useState<string>('');
-  const [users, usersDispatch] = useReducer(userReducer, []);
   const [, setAlertMessage] = useContext(AlertContext);
 
-  useEffect(() => {
-    getUsers(setAlertMessage, 'patients')(usersDispatch);
-  }, [setAlertMessage]);
+  const { fetchReports, patients } = props;
 
-  const searchReports = () =>
-    props.fetchReports(
-      patientId,
-      startDate,
-      endDate,
-      reportType,
-      setAlertMessage
-    );
+  const searchReports = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    fetchReports(patientId, startDate, endDate, reportType, setAlertMessage);
+  };
 
   return (
     <Paper className={classes.root}>
@@ -90,37 +79,40 @@ export default function ReportsTable(props: ReportsTableProps) {
         <Grid container spacing={4}>
           <Grid item xs={4}>
             <InputLabel htmlFor="birthdate-input">Período</InputLabel>
-            <TextField
-              fullWidth
-              type="date"
-              id="start-date-input"
-              defaultValue={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              type="date"
-              id="end-date-input"
-              defaultValue={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  type="date"
+                  id="start-date-input"
+                  defaultValue={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  type="date"
+                  id="end-date-input"
+                  defaultValue={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={4}>
-            <FormControl>
-              <InputLabel htmlFor="gender-select">Sexo</InputLabel>
-              <Select
-                native
-                id="gender-select"
-                // value={gender}
-                onChange={(e) => setReportType(e.target.value as string)}
-              >
-                {QUESTIONAIRE_LIST.map((form) => (
-                  <option key={form.value} value={form.value}>
-                    {form.label}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
+            <InputLabel htmlFor="form-select">Questionário</InputLabel>
+            <Select
+              native
+              id="form-select"
+              onChange={(e) => setReportType(e.target.value as string)}
+            >
+              {QUESTIONAIRE_LIST.map((form) => (
+                <option key={form.value} value={form.value}>
+                  {form.label}
+                </option>
+              ))}
+            </Select>
           </Grid>
           <Grid item xs={4}>
             <InputLabel htmlFor="patient-id-input">Paciente</InputLabel>
@@ -131,10 +123,10 @@ export default function ReportsTable(props: ReportsTableProps) {
               value={patientId}
               onChange={(e) => setPatientId(Number(e.target.value))}
             >
-              {users?.length &&
-                users.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.name}
+              {patients?.length &&
+                patients.map((patient) => (
+                  <option key={patient.id} value={patient.id}>
+                    {patient.name}
                   </option>
                 ))}
             </Select>

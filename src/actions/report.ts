@@ -30,6 +30,8 @@ export function getReports(
       method: 'GET',
       headers: {
         Authorization: `Bearer ${getAuth().token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
     });
     const data = await response.json();
