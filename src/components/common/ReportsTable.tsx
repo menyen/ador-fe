@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useReducer, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -12,8 +12,9 @@ import { PatientReportPanelType, QUESTIONAIRE_LIST } from '../../interfaces';
 import { AlertContext } from '../../utils/alert';
 import { OrangeButton, OutlinedButton } from '../Buttons';
 import { Patient } from '../../models/Patient';
-import { PatientForm } from '../../models/PatientForm';
 import PatientReports from './PatientReports';
+import reportReducer from '../../reducers/report';
+import { clearReports, getReports } from '../../actions/report';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,31 +37,29 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface ReportsTableProps {
   patients: Patient[];
-  reports?: PatientForm[];
-  clearReports: () => void;
-  fetchReports: (
-    patient_id: number,
-    start_date: string,
-    end_date: string,
-    type: string,
-    setAlertMessage: (message: string) => void
-  ) => Promise<void>;
 }
 
 export default function ReportsTable(props: ReportsTableProps) {
   const classes = useStyles();
 
+  const [reports, reportsDispatch] = useReducer(reportReducer, []);
   const [patientId, setPatientId] = useState<number>(0);
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [reportType, setReportType] = useState<string>('');
   const [, setAlertMessage] = useContext(AlertContext);
 
-  const { clearReports, fetchReports, patients, reports } = props;
+  const { patients } = props;
 
   const searchReports = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    fetchReports(patientId, startDate, endDate, reportType, setAlertMessage);
+    getReports(
+      patientId,
+      startDate,
+      endDate,
+      reportType,
+      setAlertMessage
+    )(reportsDispatch);
   };
 
   const clearSearch = () => {
@@ -68,7 +67,7 @@ export default function ReportsTable(props: ReportsTableProps) {
     setStartDate('');
     setEndDate('');
     setReportType('');
-    clearReports();
+    clearReports()(reportsDispatch);
   };
 
   return (

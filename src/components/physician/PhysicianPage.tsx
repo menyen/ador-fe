@@ -13,7 +13,6 @@ import {
 import { Patient } from '../../models/Patient';
 import patientReducer from '../../reducers/patient';
 import questionaireReducer from '../../reducers/questionaire';
-import reportReducer from '../../reducers/report';
 import {
   createPatient,
   deletePatient,
@@ -63,7 +62,6 @@ function PhysicianPage() {
     questionaireReducer,
     []
   );
-  const [reports, reportsDispatch] = useReducer(reportReducer, []);
   const [, setAlertMessage] = useContext(AlertContext);
 
   useEffect(() => {
@@ -145,26 +143,7 @@ function PhysicianPage() {
         )}
         {panel === PhysicianPanelType.ReportsTable && (
           <>
-            <ReportsTable
-              fetchReports={(
-                patient_id: number,
-                start_date: string,
-                end_date: string,
-                type: string,
-                setAlertMessage: (message: string) => void
-              ) =>
-                getReports(
-                  patient_id,
-                  start_date,
-                  end_date,
-                  type,
-                  setAlertMessage
-                )(reportsDispatch)
-              }
-              clearReports={() => clearReports()(reportsDispatch)}
-              patients={patients}
-              reports={reports}
-            />
+            <ReportsTable patients={patients} />
           </>
         )}
       </main>

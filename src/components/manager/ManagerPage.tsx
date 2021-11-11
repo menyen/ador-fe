@@ -38,6 +38,7 @@ import PatientsTable from '../common/PatientsTable';
 import PatientForm from '../common/PatientForm';
 import { AlertContext } from '../../utils/alert';
 import PatientReports from '../common/PatientReports';
+import ReportsTable from '../common/ReportsTable';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -180,6 +181,11 @@ export default function ManagerPage() {
             <PatientReports
               questionaires={questionaires?.filter((q) => q.status === 'DONE')}
             />
+          </>
+        )}
+        {panel === ManagerPanelType.ReportsTable && (
+          <>
+            <ReportsTable patients={patients} />
           </>
         )}
       </main>

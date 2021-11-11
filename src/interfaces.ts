@@ -171,6 +171,7 @@ export enum ManagerPanelType {
   UserForm,
   PatientsTable,
   PatientForm,
+  ReportsTable,
 }
 
 export enum PatientReportPanelType {
