@@ -34,60 +34,70 @@ function PatientReports(props: PatientReportsProps) {
         <EPCReport
           data={questionaires?.filter((q) => q.type === 'EPC')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
         />
       )}
       {panel === PatientReportPanelType.DN4 && (
         <DN4Report
           data={questionaires?.filter((q) => q.type === 'DN4')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
         />
       )}
       {panel === PatientReportPanelType.HAD && (
         <HADReport
           data={questionaires?.filter((q) => q.type === 'HAD')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
         />
       )}
       {panel === PatientReportPanelType.OSWESTRY && (
         <OswestryReport
           data={questionaires?.filter((q) => q.type === 'OSWESTRY')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
         />
       )}
       {panel === PatientReportPanelType.FIBROMIALGIA && (
         <FibromialgiaReport
           data={questionaires?.filter((q) => q.type === 'FIBROMIALGIA')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
         />
       )}
       {panel === PatientReportPanelType.IAD && (
         <IADReport
           data={questionaires?.filter((q) => q.type === 'IAD')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
         />
       )}
       {panel === PatientReportPanelType.SBST && (
         <SBSTReport
           data={questionaires?.filter((q) => q.type === 'SBST')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
         />
       )}
       {panel === PatientReportPanelType.PSEQ && (
         <PSEQReport
           data={questionaires?.filter((q) => q.type === 'PSEQ')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
         />
       )}
       {panel === PatientReportPanelType.WOMAC && (
         <WOMACReport
           data={questionaires?.filter((q) => q.type === 'WOMAC')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
         />
       )}
       {panel === PatientReportPanelType.SPADI && (
         <SPADIReport
           data={questionaires?.filter((q) => q.type === 'SPADI')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
         />
       )}
     </div>

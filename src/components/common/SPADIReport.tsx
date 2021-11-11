@@ -13,7 +13,7 @@ import { grey } from '@material-ui/core/colors';
 import GenericTable from '../GenericTable';
 import { PatientForm, PatientSPADIResult } from '../../models/PatientForm';
 import { setDateIntoSPADITable, spadiColumns } from '../../utils/reportTable';
-import { SPADIReportTableData } from '../../interfaces';
+import { ReportPageProps, SPADIReportTableData } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,12 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface SPADIReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
-function SPADIReport(props: SPADIReportProps) {
+function SPADIReport(props: ReportPageProps) {
   const classes = useStyles();
 
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
@@ -202,16 +197,18 @@ function SPADIReport(props: SPADIReportProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">
-            Índice de dor e incapacidade no ombro (SPADI)
-          </Typography>
-        </Breadcrumbs>
-      </Grid>
+      {props.hideBreadcrumb ? (
+        <Grid item xs={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" onClick={handleClick}>
+              Resultados
+            </Link>
+            <Typography color="textPrimary">
+              Índice de dor e incapacidade no ombro (SPADI)
+            </Typography>
+          </Breadcrumbs>
+        </Grid>
+      ) : null}
       <Grid item xs={12}>
         <GenericTable columns={spadiColumns} rows={rows} shouldHideCheckboxes />
       </Grid>

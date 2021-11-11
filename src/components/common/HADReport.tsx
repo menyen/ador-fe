@@ -8,7 +8,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import GenericTable from '../GenericTable';
 import { PatientForm, PatientHADResult } from '../../models/PatientForm';
-import { HADReportTableData } from '../../interfaces';
+import { HADReportTableData, ReportPageProps } from '../../interfaces';
 import { setDataIntoHADTable, simpleColumns } from '../../utils/reportTable';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,12 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface HADReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
-function HADReport(props: HADReportProps) {
+function HADReport(props: ReportPageProps) {
   const classes = useStyles();
 
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
@@ -195,14 +190,16 @@ function HADReport(props: HADReportProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">HAD</Typography>
-        </Breadcrumbs>
-      </Grid>
+      {props.hideBreadcrumb ? (
+        <Grid item xs={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" onClick={handleClick}>
+              Resultados
+            </Link>
+            <Typography color="textPrimary">HAD</Typography>
+          </Breadcrumbs>
+        </Grid>
+      ) : null}
       <Grid item xs={12}>
         <GenericTable
           columns={simpleColumns}

@@ -27,7 +27,6 @@ import {
 } from '../../actions/questionaire';
 import { AlertContext } from '../../utils/alert';
 import PatientReports from '../common/PatientReports';
-import { clearReports, getReports } from '../../actions/report';
 import ReportsTable from '../common/ReportsTable';
 
 const useStyles = makeStyles((theme: Theme) =>

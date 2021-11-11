@@ -10,7 +10,7 @@ import { deepOrange } from '@material-ui/core/colors';
 
 import GenericTable from '../GenericTable';
 import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
-import { SimpleReportTableData } from '../../interfaces';
+import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
 import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -56,12 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface PSEQReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
-function PSEQReport(props: PSEQReportProps) {
+function PSEQReport(props: ReportPageProps) {
   const classes = useStyles();
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
     props.data[props.data.length - 1]
@@ -127,16 +122,18 @@ function PSEQReport(props: PSEQReportProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">
-            Escala de pensamento catastrófico
-          </Typography>
-        </Breadcrumbs>
-      </Grid>
+      {props.hideBreadcrumb ? (
+        <Grid item xs={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" onClick={handleClick}>
+              Resultados
+            </Link>
+            <Typography color="textPrimary">
+              Escala de pensamento catastrófico
+            </Typography>
+          </Breadcrumbs>
+        </Grid>
+      ) : null}
       <Grid item xs={12}>
         <GenericTable
           columns={simpleColumns}

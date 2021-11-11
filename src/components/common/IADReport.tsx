@@ -8,7 +8,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import GenericTable from '../GenericTable';
 import { PatientForm, PatientIADResult } from '../../models/PatientForm';
-import { NoResultReportTableData } from '../../interfaces';
+import { NoResultReportTableData, ReportPageProps } from '../../interfaces';
 import {
   setDataIntoNoResultTable,
   simpleColumns,
@@ -41,12 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface EPCReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
-function IADReport(props: EPCReportProps) {
+function IADReport(props: ReportPageProps) {
   const classes = useStyles();
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
     props.data[props.data.length - 1]
@@ -104,16 +99,18 @@ function IADReport(props: EPCReportProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">
-            Inventário de atitude frente à dor
-          </Typography>
-        </Breadcrumbs>
-      </Grid>
+      {props.hideBreadcrumb ? (
+        <Grid item xs={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" onClick={handleClick}>
+              Resultados
+            </Link>
+            <Typography color="textPrimary">
+              Inventário de atitude frente à dor
+            </Typography>
+          </Breadcrumbs>
+        </Grid>
+      ) : null}
       <Grid item xs={12}>
         <GenericTable
           columns={simpleColumns}

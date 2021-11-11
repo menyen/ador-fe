@@ -1,5 +1,6 @@
 import { Clinic } from './models/Clinic';
 import { Patient } from './models/Patient';
+import { PatientForm } from './models/PatientForm';
 import { User } from './models/User';
 import { LoggedPatient, UserAuth } from './models/UserAuth';
 export interface TableColumn<K extends string = string> {
@@ -303,4 +304,10 @@ export const QUESTIONAIRE_LIST = [
 
 export interface RouterParams {
   clinic_id?: string;
+}
+
+export interface ReportPageProps {
+  data: PatientForm[];
+  goToSummary: () => void;
+  hideBreadcrumb: boolean;
 }

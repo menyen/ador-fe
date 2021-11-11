@@ -15,7 +15,7 @@ import { grey } from '@material-ui/core/colors';
 import GenericTable from '../GenericTable';
 import { PatientForm, PatientWOMACResult } from '../../models/PatientForm';
 import { setDateIntoWOMACTable, simpleColumns } from '../../utils/reportTable';
-import { SimpleReportTableData } from '../../interfaces';
+import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,12 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface WOMACReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
-function WOMACReport(props: WOMACReportProps) {
+function WOMACReport(props: ReportPageProps) {
   const classes = useStyles();
 
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
@@ -153,17 +148,19 @@ function WOMACReport(props: WOMACReportProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">
-            Qualidade de vida específico para osteoartrose WOMAC (Western
-            Ontario McMaster Universities)
-          </Typography>
-        </Breadcrumbs>
-      </Grid>
+      {props.hideBreadcrumb ? (
+        <Grid item xs={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" onClick={handleClick}>
+              Resultados
+            </Link>
+            <Typography color="textPrimary">
+              Qualidade de vida específico para osteoartrose WOMAC (Western
+              Ontario McMaster Universities)
+            </Typography>
+          </Breadcrumbs>
+        </Grid>
+      ) : null}
       <Grid item xs={12}>
         <GenericTable
           columns={simpleColumns}

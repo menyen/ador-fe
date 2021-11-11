@@ -16,7 +16,7 @@ import { grey } from '@material-ui/core/colors';
 import GenericTable from '../GenericTable';
 import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
 import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
-import { SimpleReportTableData } from '../../interfaces';
+import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,12 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface DN4ReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
-function DN4Report(props: DN4ReportProps) {
+function DN4Report(props: ReportPageProps) {
   const classes = useStyles();
 
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
@@ -133,14 +128,16 @@ function DN4Report(props: DN4ReportProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">Dor Neuropática (DN4)</Typography>
-        </Breadcrumbs>
-      </Grid>
+      {props.hideBreadcrumb ? (
+        <Grid item xs={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" onClick={handleClick}>
+              Resultados
+            </Link>
+            <Typography color="textPrimary">Dor Neuropática (DN4)</Typography>
+          </Breadcrumbs>
+        </Grid>
+      ) : null}
       <Grid item xs={12}>
         <GenericTable
           columns={simpleColumns}

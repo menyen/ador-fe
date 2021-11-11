@@ -13,7 +13,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import GenericTable from '../GenericTable';
 import { PatientForm, PatientSBSTResult } from '../../models/PatientForm';
-import { SimpleReportTableData } from '../../interfaces';
+import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
 import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,12 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface SBSTReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
-function SBSTReport(props: SBSTReportProps) {
+function SBSTReport(props: ReportPageProps) {
   const classes = useStyles();
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
     props.data[props.data.length - 1]
@@ -82,16 +77,18 @@ function SBSTReport(props: SBSTReportProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">
-            Start Back Screening Tool (SBST)
-          </Typography>
-        </Breadcrumbs>
-      </Grid>
+      {props.hideBreadcrumb ? (
+        <Grid item xs={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" onClick={handleClick}>
+              Resultados
+            </Link>
+            <Typography color="textPrimary">
+              Start Back Screening Tool (SBST)
+            </Typography>
+          </Breadcrumbs>
+        </Grid>
+      ) : null}
       <Grid item xs={12}>
         <GenericTable
           columns={simpleColumns}

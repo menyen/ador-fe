@@ -25,7 +25,7 @@ import {
   simpleColumns,
 } from '../../utils/reportTable';
 import BodyMapFibromialgia from '../patient/BodyMapFibromialgia';
-import { SimpleReportTableData } from '../../interfaces';
+import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,12 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface FibromialgiaReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
-function FibromialgiaReport(props: FibromialgiaReportProps) {
+function FibromialgiaReport(props: ReportPageProps) {
   const classes = useStyles();
 
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
@@ -185,14 +180,16 @@ function FibromialgiaReport(props: FibromialgiaReportProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">FIBROMIALGIA</Typography>
-        </Breadcrumbs>
-      </Grid>
+      {props.hideBreadcrumb ? (
+        <Grid item xs={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" onClick={handleClick}>
+              Resultados
+            </Link>
+            <Typography color="textPrimary">FIBROMIALGIA</Typography>
+          </Breadcrumbs>
+        </Grid>
+      ) : null}
       <Grid item xs={12}>
         <GenericTable
           columns={simpleColumns}

@@ -16,7 +16,7 @@ import { deepOrange } from '@material-ui/core/colors';
 import GenericTable from '../GenericTable';
 import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
 import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
-import { SimpleReportTableData } from '../../interfaces';
+import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
 
 const BorderLinearProgress = withStyles((theme: Theme) =>
   createStyles({
@@ -53,12 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface OswestryReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
-function OswestryReport(props: OswestryReportProps) {
+function OswestryReport(props: ReportPageProps) {
   const classes = useStyles();
 
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
@@ -201,14 +196,18 @@ function OswestryReport(props: OswestryReportProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">Questionário de Oswestry</Typography>
-        </Breadcrumbs>
-      </Grid>
+      {props.hideBreadcrumb ? (
+        <Grid item xs={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" onClick={handleClick}>
+              Resultados
+            </Link>
+            <Typography color="textPrimary">
+              Questionário de Oswestry
+            </Typography>
+          </Breadcrumbs>
+        </Grid>
+      ) : null}
       <Grid item xs={12}>
         <GenericTable
           columns={simpleColumns}
