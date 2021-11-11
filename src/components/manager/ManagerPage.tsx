@@ -177,7 +177,9 @@ export default function ManagerPage() {
                 setPanel(ManagerPanelType.PatientsTable)
               }
             />
-            <PatientReports questionaires={questionaires} />
+            <PatientReports
+              questionaires={questionaires?.filter((q) => q.status === 'DONE')}
+            />
           </>
         )}
       </main>

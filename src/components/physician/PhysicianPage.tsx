@@ -138,7 +138,9 @@ function PhysicianPage() {
                 setPanel(PhysicianPanelType.PatientsTable)
               }
             />
-            <PatientReports questionaires={questionaires} />
+            <PatientReports
+              questionaires={questionaires?.filter((q) => q.status === 'DONE')}
+            />
           </>
         )}
         {panel === PhysicianPanelType.ReportsTable && (
@@ -160,10 +162,8 @@ function PhysicianPage() {
                 )(reportsDispatch)
               }
               patients={patients}
+              reports={reports}
             />
-            {reports?.length ? (
-              <PatientReports questionaires={reports} />
-            ) : null}
           </>
         )}
       </main>

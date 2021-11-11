@@ -19,7 +19,7 @@ export function getReports(
   setAlertMessage: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IReportsDispatchProps>) => {
-    const url = new URL(`${baseUrl}/api/v1/reports/`);
+    const url = new URL(`${baseUrl}/api/v1/reports`);
     url.search = new URLSearchParams({
       patient_id: patient_id.toString(),
       start_date,

@@ -8,10 +8,12 @@ import { deepOrange } from '@material-ui/core/colors';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 
-import { QUESTIONAIRE_LIST } from '../../interfaces';
+import { PatientReportPanelType, QUESTIONAIRE_LIST } from '../../interfaces';
 import { AlertContext } from '../../utils/alert';
 import { OrangeButton, OutlinedButton } from '../Buttons';
 import { Patient } from '../../models/Patient';
+import { PatientForm } from '../../models/PatientForm';
+import PatientReports from './PatientReports';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface ReportsTableProps {
   patients: Patient[];
+  reports?: PatientForm[];
   fetchReports: (
     patient_id: number,
     start_date: string,
@@ -52,7 +55,7 @@ export default function ReportsTable(props: ReportsTableProps) {
   const [reportType, setReportType] = useState<string>('');
   const [, setAlertMessage] = useContext(AlertContext);
 
-  const { fetchReports, patients } = props;
+  const { fetchReports, patients, reports } = props;
 
   const searchReports = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -60,97 +63,111 @@ export default function ReportsTable(props: ReportsTableProps) {
   };
 
   return (
-    <Paper className={classes.root}>
-      <form onSubmit={searchReports}>
-        <Grid
-          container
-          justifyContent="flex-start"
-          alignItems="flex-start"
-          alignContent="flex-start"
-        >
-          <Typography
-            variant="h6"
-            gutterBottom
-            className={classes.headerSection}
+    <>
+      <Paper className={classes.root}>
+        <form onSubmit={searchReports}>
+          <Grid
+            container
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            alignContent="flex-start"
           >
-            Relatórios
-          </Typography>
-        </Grid>
-        <Grid container spacing={4}>
-          <Grid item xs={4}>
-            <InputLabel htmlFor="birthdate-input">Período</InputLabel>
-            <Grid container spacing={1}>
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  type="date"
-                  id="start-date-input"
-                  defaultValue={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  type="date"
-                  id="end-date-input"
-                  defaultValue={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                />
+            <Typography
+              variant="h6"
+              gutterBottom
+              className={classes.headerSection}
+            >
+              Relatórios
+            </Typography>
+          </Grid>
+          <Grid container spacing={4}>
+            <Grid item xs={4}>
+              <InputLabel htmlFor="birthdate-input">Período</InputLabel>
+              <Grid container spacing={1}>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    id="start-date-input"
+                    defaultValue={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    id="end-date-input"
+                    defaultValue={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={4}>
-            <InputLabel htmlFor="form-select">Questionário</InputLabel>
-            <Select
-              native
-              id="form-select"
-              onChange={(e) => setReportType(e.target.value as string)}
-            >
-              {QUESTIONAIRE_LIST.map((form) => (
-                <option key={form.value} value={form.value}>
-                  {form.label}
-                </option>
-              ))}
-            </Select>
-          </Grid>
-          <Grid item xs={4}>
-            <InputLabel htmlFor="patient-id-input">Paciente</InputLabel>
-            <Select
-              fullWidth
-              native
-              id="physician-id-input"
-              value={patientId}
-              onChange={(e) => setPatientId(Number(e.target.value))}
-            >
-              {patients?.length &&
-                patients.map((patient) => (
-                  <option key={patient.id} value={patient.id}>
-                    {patient.name}
+            <Grid item xs={4}>
+              <InputLabel htmlFor="form-select">Questionário</InputLabel>
+              <Select
+                native
+                id="form-select"
+                onChange={(e) => setReportType(e.target.value as string)}
+              >
+                <option aria-label="None" value="" />
+                {QUESTIONAIRE_LIST.map((form) => (
+                  <option key={form.value} value={form.value}>
+                    {form.label}
                   </option>
                 ))}
-            </Select>
+              </Select>
+            </Grid>
+            <Grid item xs={4}>
+              <InputLabel htmlFor="patient-id-input">Paciente</InputLabel>
+              <Select
+                fullWidth
+                native
+                id="physician-id-input"
+                value={patientId}
+                onChange={(e) => setPatientId(Number(e.target.value))}
+              >
+                <option aria-label="None" value="" />
+                {patients?.length &&
+                  patients.map((patient) => (
+                    <option key={patient.id} value={patient.id}>
+                      {patient.name}
+                    </option>
+                  ))}
+              </Select>
+            </Grid>
+            <Grid item xs={4}>
+              {/*Report result goes here*/}
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            {/*Report result goes here*/}
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          justifyContent="center"
-          alignItems="center"
-          alignContent="center"
-          className={classes.footerSection}
-        >
-          <OutlinedButton
-            variant="outlined"
-            // onClick={props.openPatientsTablePage}
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            alignContent="center"
+            className={classes.footerSection}
           >
-            Limpar
-          </OutlinedButton>
-          <OrangeButton type="submit">Filtrar</OrangeButton>
-        </Grid>
-      </form>
-    </Paper>
+            <OutlinedButton
+              variant="outlined"
+              // onClick={props.openPatientsTablePage}
+            >
+              Limpar
+            </OutlinedButton>
+            <OrangeButton type="submit">Filtrar</OrangeButton>
+          </Grid>
+        </form>
+      </Paper>
+      {reports?.length ? (
+        <PatientReports
+          questionaires={reports}
+          initialReportPanel={
+            PatientReportPanelType[
+              reportType as keyof typeof PatientReportPanelType
+            ]
+          }
+        />
+      ) : null}
+    </>
   );
 }
