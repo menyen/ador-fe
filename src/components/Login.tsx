@@ -351,7 +351,7 @@ function PatientPanel() {
   const { clinic_slug } = useParams<RouterParams>();
   const handleLoginSubmit = async (e: React.SyntheticEvent) => {
     const { from } = location.state || {
-      from: { pathname: `/patient/${Number(clinic_slug)}` },
+      from: { pathname: `/patient/${clinic_slug}` },
     };
     e.preventDefault();
     const token = await loginPatient(taxId, clinic_slug || '', setAlertMessage);
