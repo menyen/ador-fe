@@ -22,6 +22,7 @@ import InputBase from '@material-ui/core/InputBase';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import PersonIcon from '@material-ui/icons/Person';
+import Smartphone from '@material-ui/icons/Smartphone';
 import PieChartIcon from '@material-ui/icons/PieChart';
 import SearchIcon from '@material-ui/icons/Search';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
@@ -29,6 +30,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
 import logo from '../image/logo.svg';
 import minilogo from '../image/mini-logo.svg';
+import useAuth from '../hooks/useAuth';
 import {
   AdminPanelType,
   AllPanelTypes,
@@ -157,10 +159,9 @@ export default function LeftNav(props: LeftNavProps) {
   const [, setAuth] = useContext(AuthContext);
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const history = useHistory();
-  const { role, currentPanel, setPanel } = props;
-
+  const { role, currentPanel,  setPanel } = props;
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -308,6 +309,14 @@ export default function LeftNav(props: LeftNavProps) {
                 <PieChartIcon />
               </ListItemIcon>
               <ListItemText primary="Relatórios" />
+            </ListItem>
+            <ListItem
+              component="a" href={'/login/patient/'} color="primary" target="_blank"
+            >
+              <ListItemIcon>
+                <Smartphone />
+              </ListItemIcon>
+              <ListItemText primary="Área do Paciente" />
             </ListItem>
           </List>
         )}
