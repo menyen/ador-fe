@@ -3,6 +3,7 @@ interface LoggedUser {
   address_state: string;
   address_street: string;
   address_zipcode: string;
+  clinic_slug: string;
   created_at: Date;
   deleted_at: Date;
   email: string;

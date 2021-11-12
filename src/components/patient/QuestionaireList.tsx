@@ -232,7 +232,7 @@ export default function QuestionaireList(props: QuestionaireListProps) {
   );
   const [, setAuth] = useContext(AuthContext);
   const [, setAlertMessage] = useContext(AlertContext);
-  const { clinic_id } = useParams<RouterParams>();
+  const { clinic_slug } = useParams<RouterParams>();
   const history = useHistory();
 
   useEffect(() => {
@@ -241,7 +241,7 @@ export default function QuestionaireList(props: QuestionaireListProps) {
 
   const signout = () => {
     setAuth();
-    history.push(`/login/patient/${clinic_id}`);
+    history.push(`/login/patient/${clinic_slug}`);
   };
 
   return (

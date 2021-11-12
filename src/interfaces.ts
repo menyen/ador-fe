@@ -303,7 +303,7 @@ export const QUESTIONAIRE_LIST = [
 ];
 
 export interface RouterParams {
-  clinic_id?: string;
+  clinic_slug?: string;
 }
 
 export interface ReportPageProps {

@@ -89,7 +89,7 @@ function App() {
               <Route exact path="/login">
                 <Login />
               </Route>
-              <Route path="/login/patient/:clinic_id">
+              <Route path="/login/patient/:clinic_slug">
                 <Login isPatient={true} />
               </Route>
               <Route exact path="/">
@@ -107,7 +107,7 @@ function App() {
               <PrivateRoute path="/receptionist">
                 <ReceptionistPage />
               </PrivateRoute>
-              <PrivateRoute path="/patient/:clinic_id">
+              <PrivateRoute path="/patient/:clinic_slug">
                 <PatientPage />
               </PrivateRoute>
             </Switch>
