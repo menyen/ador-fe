@@ -30,7 +30,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
 import logo from '../image/logo.svg';
 import minilogo from '../image/mini-logo.svg';
-import useAuth from '../hooks/useAuth';
 import {
   AdminPanelType,
   AllPanelTypes,
@@ -156,12 +155,12 @@ interface LeftNavProps {
 }
 
 export default function LeftNav(props: LeftNavProps) {
-  const [, setAuth] = useContext(AuthContext);
+  const [auth, setAuth] = useContext(AuthContext);
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const history = useHistory();
-  const { role, currentPanel,  setPanel } = props;
+  const { role, currentPanel, setPanel } = props;
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -311,7 +310,15 @@ export default function LeftNav(props: LeftNavProps) {
               <ListItemText primary="Relatórios" />
             </ListItem>
             <ListItem
-              component="a" href={'/login/patient/'} color="primary" target="_blank"
+              onClick={() =>
+                window.open(
+                  `/login/patient/${auth?.user?.clinic_slug}`,
+                  '_blank',
+                  'noopener'
+                )
+              }
+              button
+              key="Smartphone"
             >
               <ListItemIcon>
                 <Smartphone />
