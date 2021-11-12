@@ -53,6 +53,7 @@ export default function ReportsTable(props: ReportsTableProps) {
 
   const searchReports = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    clearReports()(reportsDispatch);
     getReports(
       patientId,
       startDate,

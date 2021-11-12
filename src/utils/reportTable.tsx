@@ -20,6 +20,11 @@ export const simpleColumns: SimpleReportTableColumn[] = [
   { id: 'details', label: 'Ver resultados', minWidth: 100 },
 ];
 
+export const noResultColumns: SimpleReportTableColumn[] = [
+  { id: 'date', label: 'Data', minWidth: 100 },
+  { id: 'details', label: 'Ver resultados', minWidth: 100 },
+];
+
 export const hadColumns: HADReportTableColumn[] = [
   { id: 'date', label: 'Data', minWidth: 100 },
   { id: 'result_ansiety', label: 'Resultado para ansiedade', minWidth: 100 },

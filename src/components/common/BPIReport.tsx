@@ -14,8 +14,8 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import GenericTable from '../GenericTable';
 import { PatientBPIResult, PatientForm } from '../../models/PatientForm';
 import {
+  noResultColumns,
   setDataIntoNoResultTable,
-  simpleColumns,
 } from '../../utils/reportTable';
 import { NoResultReportTableData, ReportPageProps } from '../../interfaces';
 import BodyMapBPI from '../patient/BodyMapBPI';
@@ -109,7 +109,7 @@ function BPIReport(props: ReportPageProps) {
       </Grid>
       <Grid item xs={12}>
         <GenericTable
-          columns={simpleColumns}
+          columns={noResultColumns}
           rows={rows}
           shouldHideCheckboxes
         />
