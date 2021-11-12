@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { PatientForm } from '../../models/PatientForm';
 import PatientSummary from './PatientSummary';

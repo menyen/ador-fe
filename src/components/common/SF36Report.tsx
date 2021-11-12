@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -9,7 +9,6 @@ import { AxisOptions, Chart } from 'react-charts';
 
 import {
   PatientSF36Result,
-  PatientForm,
   PatientBasicResult,
 } from '../../models/PatientForm';
 import { ReportPageProps } from '../../interfaces';

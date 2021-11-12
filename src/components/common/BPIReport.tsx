@@ -47,29 +47,22 @@ function BPIReport(props: ReportPageProps) {
   );
   const [rows, setRows] = useState<NoResultReportTableData[]>([]);
 
-  const {
-    answers,
-    updated_at,
-    body_pain,
-    grades,
-    treatments,
-    slider,
-    percentages,
-  } = useMemo(() => {
-    const { answers, results, updated_at } = selectedForm;
-    const { booleans, body_pain, grades, treatments, slider, percentages } =
-      results as PatientBPIResult;
-    return {
-      answers,
-      updated_at,
-      booleans,
-      body_pain,
-      grades,
-      treatments,
-      slider,
-      percentages,
-    };
-  }, [selectedForm]);
+  const { updated_at, body_pain, grades, treatments, slider, percentages } =
+    useMemo(() => {
+      const { answers, results, updated_at } = selectedForm;
+      const { booleans, body_pain, grades, treatments, slider, percentages } =
+        results as PatientBPIResult;
+      return {
+        answers,
+        updated_at,
+        booleans,
+        body_pain,
+        grades,
+        treatments,
+        slider,
+        percentages,
+      };
+    }, [selectedForm]);
 
   useEffect(() => {
     setRows(setDataIntoNoResultTable(props.data, setSelectedForm));
