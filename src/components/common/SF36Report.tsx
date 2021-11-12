@@ -12,6 +12,7 @@ import {
   PatientForm,
   PatientBasicResult,
 } from '../../models/PatientForm';
+import { ReportPageProps } from '../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,17 +26,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface SF36ReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
 type Series = {
   label: string;
   data: PatientBasicResult[];
 };
 
-function SF36Report(props: SF36ReportProps) {
+function SF36Report(props: ReportPageProps) {
   const classes = useStyles();
 
   const { data } = props;

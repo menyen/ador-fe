@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { PatientForm } from '../../models/PatientForm';
 import PatientSummary from './PatientSummary';
@@ -13,6 +13,8 @@ import SBSTReport from './SBSTReport';
 import PSEQReport from './PSEQReport';
 import WOMACReport from './WOMACReport';
 import SPADIReport from './SPADIReport';
+import SF36Report from './SF36Report';
+import BPIReport from './BPIReport';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -96,6 +98,20 @@ function PatientReports(props: PatientReportsProps) {
       {panel === PatientReportPanelType.SPADI && (
         <SPADIReport
           data={questionaires?.filter((q) => q.type === 'SPADI')}
+          goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
+        />
+      )}
+      {panel === PatientReportPanelType.SF36 && (
+        <SF36Report
+          data={questionaires?.filter((q) => q.type === 'SF36')}
+          goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+          hideBreadcrumb={!initialReportPanel}
+        />
+      )}
+      {panel === PatientReportPanelType.BPI && (
+        <BPIReport
+          data={questionaires?.filter((q) => q.type === 'BPI')}
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
           hideBreadcrumb={!initialReportPanel}
         />

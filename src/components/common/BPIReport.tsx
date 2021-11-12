@@ -17,7 +17,7 @@ import {
   setDataIntoNoResultTable,
   simpleColumns,
 } from '../../utils/reportTable';
-import { NoResultReportTableData } from '../../interfaces';
+import { NoResultReportTableData, ReportPageProps } from '../../interfaces';
 import BodyMapBPI from '../patient/BodyMapBPI';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,12 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface BPIReportProps {
-  data: PatientForm[];
-  goToSummary: () => void;
-}
-
-function BPIReport(props: BPIReportProps) {
+function BPIReport(props: ReportPageProps) {
   const classes = useStyles();
 
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
