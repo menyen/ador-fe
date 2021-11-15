@@ -1,4 +1,5 @@
 import { useContext, useEffect, useReducer, useState } from 'react';
+import { useHistory } from 'react-router';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -14,7 +15,6 @@ import {
   PatientPanel,
   QuestionaireListProps,
   QUESTIONAIRE_LIST,
-  RouterParams,
 } from '../../interfaces';
 import { LoggedPatient } from '../../models/UserAuth';
 import questionaireReducer from '../../reducers/questionaire';
@@ -26,7 +26,7 @@ import { ArrowBack } from '@material-ui/icons';
 import TextField from '@material-ui/core/TextField';
 import { AlertContext } from '../../utils/alert';
 import { AuthContext } from '../../utils/loggedUser';
-import { useHistory, useParams } from 'react-router';
+import { ClinicSlugContext } from '../../utils/clinicSlug';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -232,7 +232,7 @@ export default function QuestionaireList(props: QuestionaireListProps) {
   );
   const [, setAuth] = useContext(AuthContext);
   const [, setAlertMessage] = useContext(AlertContext);
-  const { clinic_slug } = useParams<RouterParams>();
+  const [clinicSlug] = useContext(ClinicSlugContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -241,7 +241,7 @@ export default function QuestionaireList(props: QuestionaireListProps) {
 
   const signout = () => {
     setAuth();
-    history.push(`/login/patient/${clinic_slug}`);
+    history.push(`/login/patient/${clinicSlug}`);
   };
 
   return (

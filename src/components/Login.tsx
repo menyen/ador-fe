@@ -27,6 +27,7 @@ import logo from '../image/logo.svg';
 import { OutlinedButton } from './Buttons';
 import { AuthContext, baseUrl } from '../utils/loggedUser';
 import { AlertContext } from '../utils/alert';
+import { ClinicSlugContext } from '../utils/clinicSlug';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -344,6 +345,7 @@ function PatientPanel() {
   const [taxId, setTaxId] = useState('');
   const [, setAuth] = useContext(AuthContext);
   const [, setAlertMessage] = useContext(AlertContext);
+  const [, setClinicSlug] = useContext(ClinicSlugContext);
   const classes = useStyles();
 
   const history = useHistory();
@@ -351,12 +353,13 @@ function PatientPanel() {
   const { clinic_slug } = useParams<RouterParams>();
   const handleLoginSubmit = async (e: React.SyntheticEvent) => {
     const { from } = location.state || {
-      from: { pathname: `/patient/${clinic_slug}` },
+      from: { pathname: `/patient` },
     };
     e.preventDefault();
     const token = await loginPatient(taxId, clinic_slug || '', setAlertMessage);
     if (token) {
       setAuth(token);
+      if (clinic_slug) setClinicSlug(clinic_slug);
       history.replace(from);
     }
   };
