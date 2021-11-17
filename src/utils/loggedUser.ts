@@ -6,7 +6,7 @@ export function isValidRole(value?: string): value is keyof typeof RolesEnum {
   return value ? value in RolesEnum : false;
 }
 
-export const baseUrl = 'https://api-ador.iponce.com.br';
+export const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const AuthContext = createContext<
   [token: UserAuth, saveToken: (userToken?: UserAuth) => void]
