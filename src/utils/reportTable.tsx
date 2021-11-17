@@ -27,7 +27,7 @@ export const noResultColumns: SimpleReportTableColumn[] = [
 
 export const hadColumns: HADReportTableColumn[] = [
   { id: 'date', label: 'Data', minWidth: 100 },
-  { id: 'result_ansiety', label: 'Resultado para ansiedade', minWidth: 100 },
+  { id: 'result_anxiety', label: 'Resultado para ansiedade', minWidth: 100 },
   { id: 'result_depression', label: 'Resultado para depressão', minWidth: 100 },
   { id: 'details', label: 'Ver resultados', minWidth: 100 },
 ];
@@ -120,7 +120,7 @@ export function setDataIntoHADTable(
     return {
       id: form.id,
       date: new Date(form.updated_at).toLocaleDateString(),
-      result_ansiety: (form.results as PatientHADResult)?.ansiedade.text,
+      result_anxiety: (form.results as PatientHADResult)?.ansiedade.text,
       result_depression: (form.results as PatientHADResult)?.depressao.text,
       details: (
         <IconButton

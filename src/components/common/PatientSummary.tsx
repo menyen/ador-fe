@@ -267,7 +267,7 @@ function PatientSummary(props: PatientSummaryProps) {
   );
   const hadLatestForm = hadForms && hadForms[hadForms.length - 1];
   const hadResult = hadLatestForm?.results as PatientHADResult;
-  const hadAnsiety = hadResult?.ansiedade;
+  const hadAnxiety = hadResult?.ansiedade;
   const hadDepression = hadResult?.depressao;
   const hadCard = (
     <Paper classes={{ root: classes.paper }}>
@@ -281,11 +281,11 @@ function PatientSummary(props: PatientSummaryProps) {
       <Grid container>
         <Grid item xs={6}>
           <Typography variant="subtitle1">Ansiedade</Typography>
-          <Typography variant="caption">{`Resultado: ${hadAnsiety?.score}`}</Typography>
+          <Typography variant="caption">{`Resultado: ${hadAnxiety?.score}`}</Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography variant="subtitle1" className={classes.hadTextResult}>
-            {hadAnsiety?.text}
+            {hadAnxiety?.text}
           </Typography>
         </Grid>
       </Grid>

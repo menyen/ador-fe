@@ -104,7 +104,7 @@ export interface NoResultReportTableData {
 }
 
 export interface HADReportTableColumn {
-  id: 'id' | 'date' | 'result_ansiety' | 'result_depression' | 'details';
+  id: 'id' | 'date' | 'result_anxiety' | 'result_depression' | 'details';
   label: string;
   minWidth?: number;
 }
@@ -123,7 +123,7 @@ export interface SPADIReportTableColumn {
 
 export interface HADReportTableData {
   date: string;
-  result_ansiety: string;
+  result_anxiety: string;
   result_depression: string;
   details?: JSX.Element;
 }

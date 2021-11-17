@@ -16,6 +16,7 @@ export function getReports(
   start_date: string,
   end_date: string,
   type: string,
+  result: string,
   setAlertMessage: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IReportsDispatchProps>) => {
@@ -25,6 +26,7 @@ export function getReports(
       start_date,
       end_date,
       type,
+      result,
     }).toString();
     const response = await fetch(url.toString(), {
       method: 'GET',

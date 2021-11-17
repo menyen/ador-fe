@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -35,6 +35,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const reportResultOptions = {
+  HAD: ['POSITIVO', 'NEGATIVO'],
+  DN4: ['DOR NOCICEPTIVA', 'DOR NEUROPATICA'],
+  EPC: ['POSITIVO', 'NEGATIVO'],
+  FIBROMIALGIA: ['POSITIVO', 'NEGATIVO'],
+  OSWESTRY: [
+    'INCAPACIDADE MINIMA',
+    'INCAPACIDADE MODERADA',
+    'INCAPACIDADE INTENSA',
+    'ALEIJADO',
+    'INVALIDO',
+  ],
+};
+
 interface ReportsTableProps {
   patients: Patient[];
 }
@@ -47,6 +61,7 @@ export default function ReportsTable(props: ReportsTableProps) {
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [reportType, setReportType] = useState<string>('');
+  const [result, setResult] = useState<string>('');
   const [, setAlertMessage] = useContext(AlertContext);
 
   const { patients } = props;
@@ -54,11 +69,15 @@ export default function ReportsTable(props: ReportsTableProps) {
   const searchReports = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     clearReports()(reportsDispatch);
+    if (!patientId || !startDate || !endDate || !reportType) {
+      return;
+    }
     getReports(
       patientId,
       startDate,
       endDate,
       reportType,
+      result,
       setAlertMessage
     )(reportsDispatch);
   };
@@ -70,6 +89,10 @@ export default function ReportsTable(props: ReportsTableProps) {
     setReportType('');
     clearReports()(reportsDispatch);
   };
+
+  useEffect(() => {
+    setResult('');
+  }, [reportType]);
 
   return (
     <>
@@ -90,7 +113,7 @@ export default function ReportsTable(props: ReportsTableProps) {
             </Typography>
           </Grid>
           <Grid container spacing={4}>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <InputLabel htmlFor="birthdate-input">Período</InputLabel>
               <Grid container spacing={1}>
                 <Grid item xs={6}>
@@ -113,7 +136,7 @@ export default function ReportsTable(props: ReportsTableProps) {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <InputLabel htmlFor="form-select">Questionário</InputLabel>
               <Select
                 native
@@ -129,7 +152,7 @@ export default function ReportsTable(props: ReportsTableProps) {
                 ))}
               </Select>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <InputLabel htmlFor="patient-id-input">Paciente</InputLabel>
               <Select
                 fullWidth
@@ -143,6 +166,27 @@ export default function ReportsTable(props: ReportsTableProps) {
                   patients.map((patient) => (
                     <option key={patient.id} value={patient.id}>
                       {patient.name}
+                    </option>
+                  ))}
+              </Select>
+            </Grid>
+            <Grid item xs={3}>
+              <InputLabel htmlFor="result-input">Resultado</InputLabel>
+              <Select
+                fullWidth
+                native
+                id="result-input"
+                value={result}
+                disabled={!reportResultOptions.hasOwnProperty(reportType)}
+                onChange={(e) => setResult(String(e?.target?.value))}
+              >
+                <option aria-label="Todos" value="" />
+                {reportType in reportResultOptions &&
+                  reportResultOptions[
+                    reportType as keyof typeof reportResultOptions
+                  ].map((resultOption) => (
+                    <option key={resultOption} value={resultOption}>
+                      {resultOption}
                     </option>
                   ))}
               </Select>
