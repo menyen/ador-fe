@@ -224,7 +224,7 @@ function DN4Report(props: ReportPageProps) {
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Referência</Typography>
           <Typography variant="body1" align="left">
-            {'0 < 4 - Dor nociptiva'}
+            {'0 < 4 - Dor nociceptiva'}
           </Typography>
           <Typography variant="body1" align="left">
             {'≥ 4 - Dor Neuropática'}
