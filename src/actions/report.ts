@@ -1,4 +1,5 @@
 import { Dispatch } from 'react';
+import { ReportsSearchPayload } from '../interfaces';
 import { PatientForm } from '../models/PatientForm';
 import { baseUrl, getAuth } from '../utils/loggedUser';
 
@@ -21,13 +22,24 @@ export function getReports(
 ) {
   return async (dispatch: Dispatch<IReportsDispatchProps>) => {
     const url = new URL(`${baseUrl}/api/v1/reports`);
-    url.search = new URLSearchParams({
+    let urlParamObject: ReportsSearchPayload = {
       patient_id: patient_id.toString(),
       start_date,
       end_date,
       type,
-      result,
-    }).toString();
+    };
+    if (type === 'HAD_DEPRESSION') {
+      urlParamObject = {
+        ...urlParamObject,
+        type: 'HAD',
+        had_depression: result,
+      };
+    } else if (type === 'HAD_ANXIETY') {
+      urlParamObject = { ...urlParamObject, type: 'HAD', had_anxiety: result };
+    } else {
+      urlParamObject = { ...urlParamObject, type: 'HAD', result };
+    }
+    url.search = new URLSearchParams({ ...urlParamObject }).toString();
     const response = await fetch(url.toString(), {
       method: 'GET',
       headers: {

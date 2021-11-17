@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const reportResultOptions = {
-  HAD: ['POSITIVO', 'NEGATIVO'],
+  HAD_DEPRESSION: ['POSITIVO', 'NEGATIVO'],
+  HAD_ANXIETY: ['POSITIVO', 'NEGATIVO'],
   DN4: ['DOR NOCICEPTIVA', 'DOR NEUROPATICA'],
   EPC: ['POSITIVO', 'NEGATIVO'],
   FIBROMIALGIA: ['POSITIVO', 'NEGATIVO'],
@@ -88,6 +89,13 @@ export default function ReportsTable(props: ReportsTableProps) {
     setEndDate('');
     setReportType('');
     clearReports()(reportsDispatch);
+  };
+
+  const getRealReportType = (reporttype: string) => {
+    if (['HAD_DEPRESSION', 'HAD_ANXIETY'].includes(reporttype)) {
+      return 'HAD';
+    }
+    return reporttype;
   };
 
   useEffect(() => {
@@ -145,6 +153,8 @@ export default function ReportsTable(props: ReportsTableProps) {
                 onChange={(e) => setReportType(e.target.value as string)}
               >
                 <option aria-label="None" value="" />
+                <option value="HAD_DEPRESSION">Depressão(HAD)</option>
+                <option value="HAD_ANXIETY">Ansiedade(HAD)</option>
                 {QUESTIONAIRE_LIST.map((form) => (
                   <option key={form.value} value={form.value}>
                     {form.label}
@@ -211,7 +221,9 @@ export default function ReportsTable(props: ReportsTableProps) {
           questionaires={reports}
           initialReportPanel={
             PatientReportPanelType[
-              reportType as keyof typeof PatientReportPanelType
+              getRealReportType(
+                reportType
+              ) as keyof typeof PatientReportPanelType
             ]
           }
         />

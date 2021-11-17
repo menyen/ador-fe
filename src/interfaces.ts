@@ -311,3 +311,13 @@ export interface ReportPageProps {
   goToSummary: () => void;
   hideBreadcrumb: boolean;
 }
+
+export interface ReportsSearchPayload {
+  patient_id: string;
+  start_date: string;
+  end_date: string;
+  type: string;
+  result?: string;
+  had_depression?: string;
+  had_anxiety?: string;
+}
