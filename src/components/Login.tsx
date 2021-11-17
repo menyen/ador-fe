@@ -18,6 +18,7 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 import {
   Credentials,
@@ -100,6 +101,9 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '400px',
       width: '900px',
       overflow: 'auto',
+    },
+    textarea: {
+      width: '100%',
     },
   })
 );
@@ -252,7 +256,13 @@ function InitialPanel(props: PanelCommonProps) {
             <Fade in={openModal}>
               <div className={classes.modalPaper}>
                 <h2 id="transition-modal-title">{terms.message}</h2>
-                <p id="transition-modal-description">{terms.term}</p>
+                <TextareaAutosize
+                  id="transition-modal-description"
+                  disabled
+                  minRows={10}
+                  defaultValue={terms.term}
+                  className={classes.textarea}
+                />
                 <Button onClick={handleCloseModal} variant="contained">
                   Fechar
                 </Button>
