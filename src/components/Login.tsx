@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useReducer, useState } from 'react';
 import {
   withStyles,
   makeStyles,
@@ -15,6 +15,9 @@ import Link from '@material-ui/core/Link';
 import clsx from 'clsx';
 import { green } from '@material-ui/core/colors';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 import {
   Credentials,
@@ -84,6 +87,20 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 10,
       fontSize: '0.75rem',
     },
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    modalPaper: {
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+      height: '400px',
+      width: '900px',
+      overflow: 'auto',
+    },
   })
 );
 
@@ -129,6 +146,21 @@ async function loginPatient(
   return response.json();
 }
 
+async function getTermsNoLogin(setAlertMessage?: (message: string) => void) {
+  const response = await fetch(`${baseUrl}/api/v1/terms/text`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    setAlertMessage!(error.message);
+    return null;
+  }
+  return response.json();
+}
+
 const DefaultButton = withStyles((theme: Theme) => ({
   root: {
     color: 'white',
@@ -153,8 +185,21 @@ const LoginPatientButton = withStyles((theme: Theme) => ({
 
 function InitialPanel(props: PanelCommonProps) {
   const classes = useStyles();
-  const preventDefault = (event: React.SyntheticEvent) =>
+  const [terms, setTerms] = useState({ message: '', term: '' });
+  const [, setAlertMessage] = useContext(AlertContext);
+
+  const [openModal, setOpenModal] = React.useState(false);
+
+  const handleOpenModal = async (event: React.SyntheticEvent) => {
     event.preventDefault();
+    const fetchedTerms = await getTermsNoLogin(setAlertMessage);
+    setTerms(fetchedTerms);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <Paper className={clsx(classes.paper, classes.right)}>
@@ -186,21 +231,34 @@ function InitialPanel(props: PanelCommonProps) {
             <Link
               href="#"
               color="textPrimary"
-              onClick={preventDefault}
+              onClick={handleOpenModal}
               className={classes.link}
             >
               Termos de uso
             </Link>
-            &nbsp;e&nbsp;
-            <Link
-              href="#"
-              color="textPrimary"
-              onClick={preventDefault}
-              className={classes.link}
-            >
-              Políticas de privacidade
-            </Link>
           </Typography>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={openModal}>
+              <div className={classes.modalPaper}>
+                <h2 id="transition-modal-title">{terms.message}</h2>
+                <p id="transition-modal-description">{terms.term}</p>
+                <Button onClick={handleCloseModal} variant="contained">
+                  Close
+                </Button>
+              </div>
+            </Fade>
+          </Modal>
         </Grid>
       </Grid>
     </Paper>
