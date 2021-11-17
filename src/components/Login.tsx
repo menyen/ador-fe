@@ -254,7 +254,7 @@ function InitialPanel(props: PanelCommonProps) {
                 <h2 id="transition-modal-title">{terms.message}</h2>
                 <p id="transition-modal-description">{terms.term}</p>
                 <Button onClick={handleCloseModal} variant="contained">
-                  Close
+                  Fechar
                 </Button>
               </div>
             </Fade>
