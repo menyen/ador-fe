@@ -17,11 +17,13 @@ import {
 export const simpleColumns: SimpleReportTableColumn[] = [
   { id: 'date', label: 'Data', minWidth: 100 },
   { id: 'result', label: 'Resultado', minWidth: 100 },
+  { id: 'patient', label: 'Paciente', minWidth: 100 },
   { id: 'details', label: 'Ver resultados', minWidth: 100 },
 ];
 
 export const noResultColumns: SimpleReportTableColumn[] = [
   { id: 'date', label: 'Data', minWidth: 100 },
+  { id: 'patient', label: 'Paciente', minWidth: 100 },
   { id: 'details', label: 'Ver resultados', minWidth: 100 },
 ];
 
@@ -29,6 +31,7 @@ export const hadColumns: HADReportTableColumn[] = [
   { id: 'date', label: 'Data', minWidth: 100 },
   { id: 'result_anxiety', label: 'Resultado para ansiedade', minWidth: 100 },
   { id: 'result_depression', label: 'Resultado para depressão', minWidth: 100 },
+  { id: 'patient', label: 'Paciente', minWidth: 100 },
   { id: 'details', label: 'Ver resultados', minWidth: 100 },
 ];
 
@@ -41,6 +44,7 @@ export const spadiColumns: SPADIReportTableColumn[] = [
   },
   { id: 'result_pain', label: 'Resultado de dor', minWidth: 100 },
   { id: 'result_total', label: 'Resultado total', minWidth: 100 },
+  { id: 'patient', label: 'Paciente', minWidth: 100 },
   { id: 'details', label: 'Ver resultados', minWidth: 100 },
 ];
 
@@ -53,6 +57,7 @@ export function setDataIntoSimpleTable(
       id: form.id,
       date: new Date(form.updated_at).toLocaleDateString(),
       result: (form.results as PatientBasicResult)?.text,
+      patient: form.patient?.name,
       details: (
         <IconButton
           onClick={(e) => {
@@ -75,6 +80,7 @@ export function setDataIntoNoResultTable(
     return {
       id: form.id,
       date: new Date(form.updated_at).toLocaleDateString(),
+      patient: form.patient?.name,
       details: (
         <IconButton
           onClick={(e) => {
@@ -98,6 +104,7 @@ export function setDataIntoFibromialgiaTable(
       id: form.id,
       date: new Date(form.updated_at).toLocaleDateString(),
       result: (form.results as PatientFibromialgiaResult)?.diagnosis?.criteria,
+      patient: form.patient?.name,
       details: (
         <IconButton
           onClick={(e) => {
@@ -122,6 +129,7 @@ export function setDataIntoHADTable(
       date: new Date(form.updated_at).toLocaleDateString(),
       result_anxiety: (form.results as PatientHADResult)?.ansiedade.text,
       result_depression: (form.results as PatientHADResult)?.depressao.text,
+      patient: form.patient?.name,
       details: (
         <IconButton
           onClick={(e) => {
@@ -145,6 +153,7 @@ export function setDateIntoWOMACTable(
       id: form.id,
       date: new Date(form.updated_at).toLocaleDateString(),
       result: (form.results as PatientWOMACResult)?.total_percentage,
+      patient: form.patient?.name,
       details: (
         <IconButton
           onClick={(e) => {
@@ -171,6 +180,7 @@ export function setDateIntoSPADITable(
       result_disability: results.disability.percentage,
       result_pain: results.pain.percentage,
       result_total: results.total.percentage,
+      patient: form.patient?.name,
       details: (
         <IconButton
           onClick={(e) => {

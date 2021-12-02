@@ -90,6 +90,12 @@ export default function PatientForm(props: PatientFormProps) {
     getUsers(setAlertMessage, 'physicians')(physiciansDispatch);
   }, [setAlertMessage]);
 
+  useEffect(() => {
+    if (physicians?.length && !physicianId) {
+      setPhysicianId(physicians[0]?.id);
+    }
+  }, [physicians, physicianId]);
+
   const handleSetPatient = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const patientPayload = {

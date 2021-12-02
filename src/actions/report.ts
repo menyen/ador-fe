@@ -37,7 +37,7 @@ export function getReports(
     } else if (type === 'HAD_ANXIETY') {
       urlParamObject = { ...urlParamObject, type: 'HAD', had_anxiety: result };
     } else {
-      urlParamObject = { ...urlParamObject, type: 'HAD', result };
+      urlParamObject = { ...urlParamObject, result };
     }
     url.search = new URLSearchParams({ ...urlParamObject }).toString();
     const response = await fetch(url.toString(), {

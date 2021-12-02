@@ -1,3 +1,5 @@
+import { Patient } from './Patient';
+
 interface BPIBodyPainItem {
   area: number;
   pain_level: number;
@@ -81,6 +83,7 @@ export interface PatientForm {
   deleted_at: string;
   id: number;
   patient_id: number;
+  patient?: Patient;
   results:
     | PatientBasicResult
     | PatientHADResult

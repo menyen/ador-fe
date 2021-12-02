@@ -87,7 +87,7 @@ export interface UserTableData extends User {
 }
 
 export interface SimpleReportTableColumn {
-  id: 'id' | 'date' | 'result' | 'details';
+  id: 'id' | 'date' | 'result' | 'patient' | 'details';
   label: string;
   minWidth?: number;
 }
@@ -104,7 +104,13 @@ export interface NoResultReportTableData {
 }
 
 export interface HADReportTableColumn {
-  id: 'id' | 'date' | 'result_anxiety' | 'result_depression' | 'details';
+  id:
+    | 'id'
+    | 'date'
+    | 'result_anxiety'
+    | 'result_depression'
+    | 'patient'
+    | 'details';
   label: string;
   minWidth?: number;
 }
@@ -116,6 +122,7 @@ export interface SPADIReportTableColumn {
     | 'result_disability'
     | 'result_pain'
     | 'result_total'
+    | 'patient'
     | 'details';
   label: string;
   minWidth?: number;

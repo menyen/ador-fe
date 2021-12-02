@@ -70,9 +70,6 @@ export default function ReportsTable(props: ReportsTableProps) {
   const searchReports = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     clearReports()(reportsDispatch);
-    if (!patientId || !startDate || !endDate || !reportType) {
-      return;
-    }
     getReports(
       patientId,
       startDate,
