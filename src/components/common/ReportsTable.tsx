@@ -92,6 +92,9 @@ export default function ReportsTable(props: ReportsTableProps) {
     if (['HAD_DEPRESSION', 'HAD_ANXIETY'].includes(reporttype)) {
       return 'HAD';
     }
+    if (!reporttype) {
+      return 'All';
+    }
     return reporttype;
   };
 

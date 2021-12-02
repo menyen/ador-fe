@@ -95,11 +95,13 @@ export interface SimpleReportTableColumn {
 export interface SimpleReportTableData {
   date: string;
   result: string;
+  patient?: string;
   details?: JSX.Element;
 }
 
 export interface NoResultReportTableData {
   date: string;
+  patient?: string;
   details?: JSX.Element;
 }
 
@@ -132,6 +134,7 @@ export interface HADReportTableData {
   date: string;
   result_anxiety: string;
   result_depression: string;
+  patient?: string;
   details?: JSX.Element;
 }
 
@@ -140,6 +143,7 @@ export interface SPADIReportTableData {
   result_disability: string;
   result_pain: string;
   result_total: string;
+  patient?: string;
   details?: JSX.Element;
 }
 

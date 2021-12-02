@@ -15,6 +15,7 @@ import WOMACReport from './form-reports/WOMACReport';
 import SPADIReport from './form-reports/SPADIReport';
 import SF36Report from './form-reports/SF36Report';
 import BPIReport from './form-reports/BPIReport';
+import AllReports from './AllReports';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -115,6 +116,9 @@ function PatientReports(props: PatientReportsProps) {
           goToSummary={() => setPanel(PatientReportPanelType.Summary)}
           hideBreadcrumb={!initialReportPanel}
         />
+      )}
+      {panel === PatientReportPanelType.All && (
+        <AllReports data={questionaires} />
       )}
     </div>
   );
