@@ -2,22 +2,17 @@ import { useEffect, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { AxisOptions, Chart } from 'react-charts';
 
 import {
   PatientSF36Result,
   PatientBasicResult,
-} from '../../models/PatientForm';
-import { ReportPageProps } from '../../interfaces';
+  PatientForm,
+} from '../../../models/PatientForm';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      marginTop: '32px',
-    },
     paper: {
       padding: theme.spacing(1),
       marginTop: theme.spacing(1),
@@ -30,10 +25,8 @@ type Series = {
   data: PatientBasicResult[];
 };
 
-function SF36Report(props: ReportPageProps) {
+function SF36InnerReport({ data }: { data: PatientForm[] }) {
   const classes = useStyles();
-
-  const { data } = props;
 
   const chartData: Series[] = useMemo(
     () =>
@@ -71,11 +64,6 @@ function SF36Report(props: ReportPageProps) {
     []
   );
 
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    props.goToSummary();
-  }
-
   useEffect(() => {
     setTimeout(() => {
       const tickLabelsY = document.querySelectorAll(
@@ -95,15 +83,7 @@ function SF36Report(props: ReportPageProps) {
   }, []);
 
   return (
-    <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">Qualidade de vida (SF-36)</Typography>
-        </Breadcrumbs>
-      </Grid>
+    <Grid container spacing={1}>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Qualidade de vida (SF-36)</Typography>
@@ -122,4 +102,4 @@ function SF36Report(props: ReportPageProps) {
   );
 }
 
-export default SF36Report;
+export default SF36InnerReport;

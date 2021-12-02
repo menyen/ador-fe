@@ -196,6 +196,7 @@ export enum PatientReportPanelType {
   PSEQ,
   WOMAC,
   SPADI,
+  All,
 }
 
 export type AllPanelTypes =
@@ -327,4 +328,8 @@ export interface ReportsSearchPayload {
   result?: string;
   had_depression?: string;
   had_anxiety?: string;
+}
+
+export interface InnerReportProps {
+  selectedForm: PatientForm;
 }

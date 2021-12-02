@@ -1,9 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -15,23 +13,12 @@ import Box from '@material-ui/core/Box';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { deepOrange } from '@material-ui/core/colors';
 
-import GenericTable from '../GenericTable';
-import {
-  PatientFibromialgiaResult,
-  PatientForm,
-} from '../../models/PatientForm';
-import {
-  setDataIntoFibromialgiaTable,
-  simpleColumns,
-} from '../../utils/reportTable';
-import BodyMapFibromialgia from '../patient/BodyMapFibromialgia';
-import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
+import { PatientFibromialgiaResult } from '../../../models/PatientForm';
+import BodyMapFibromialgia from '../../patient/BodyMapFibromialgia';
+import { InnerReportProps } from '../../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      marginTop: '32px',
-    },
     paper: {
       padding: theme.spacing(1),
       marginTop: theme.spacing(1),
@@ -53,14 +40,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function FibromialgiaReport(props: ReportPageProps) {
+function FibromialgiaInnerReport({ selectedForm }: InnerReportProps) {
   const classes = useStyles();
-
-  const [selectedForm, setSelectedForm] = useState<PatientForm>(
-    props.data[props.data.length - 1]
-  );
-  const [rows, setRows] = useState<SimpleReportTableData[]>([]);
-
   const { updated_at, body_pain, booleans, diagnosis, ess, idg } =
     useMemo(() => {
       const { results, updated_at } = selectedForm;
@@ -68,10 +49,6 @@ function FibromialgiaReport(props: ReportPageProps) {
         results as PatientFibromialgiaResult;
       return { updated_at, body_pain, booleans, diagnosis, ess, idg };
     }, [selectedForm]);
-
-  useEffect(() => {
-    setRows(setDataIntoFibromialgiaTable(props.data, setSelectedForm));
-  }, [props.data, setSelectedForm, setRows]);
 
   const questions = [
     {
@@ -158,11 +135,6 @@ function FibromialgiaReport(props: ReportPageProps) {
     },
   ];
 
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    props.goToSummary();
-  }
-
   const getBooleansRealIndex = (
     questionIndex: number,
     sectionIndex: number
@@ -179,24 +151,7 @@ function FibromialgiaReport(props: ReportPageProps) {
   };
 
   return (
-    <Grid container spacing={1} className={classes.root}>
-      {props.hideBreadcrumb ? (
-        <Grid item xs={12}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={handleClick}>
-              Resultados
-            </Link>
-            <Typography color="textPrimary">FIBROMIALGIA</Typography>
-          </Breadcrumbs>
-        </Grid>
-      ) : null}
-      <Grid item xs={12}>
-        <GenericTable
-          columns={simpleColumns}
-          rows={rows}
-          shouldHideCheckboxes
-        />
-      </Grid>
+    <Grid container spacing={1}>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">FIBROMIALGIA</Typography>
@@ -386,4 +341,4 @@ function FibromialgiaReport(props: ReportPageProps) {
   );
 }
 
-export default FibromialgiaReport;
+export default FibromialgiaInnerReport;

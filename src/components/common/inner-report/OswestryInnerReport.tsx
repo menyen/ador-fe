@@ -1,9 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {
   makeStyles,
@@ -13,10 +11,8 @@ import {
 } from '@material-ui/core/styles';
 import { deepOrange } from '@material-ui/core/colors';
 
-import GenericTable from '../GenericTable';
-import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
-import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
-import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
+import { PatientBasicResult } from '../../../models/PatientForm';
+import { InnerReportProps } from '../../../interfaces';
 
 const BorderLinearProgress = withStyles((theme: Theme) =>
   createStyles({
@@ -37,9 +33,6 @@ const BorderLinearProgress = withStyles((theme: Theme) =>
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      marginTop: '32px',
-    },
     paper: {
       padding: theme.spacing(1),
       marginTop: theme.spacing(1),
@@ -53,13 +46,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function OswestryReport(props: ReportPageProps) {
+function OswestryInnerReport({ selectedForm }: InnerReportProps) {
   const classes = useStyles();
-
-  const [selectedForm, setSelectedForm] = useState<PatientForm>(
-    props.data[props.data.length - 1]
-  );
-  const [rows, setRows] = useState<SimpleReportTableData[]>([]);
 
   const { answers, updated_at, scoreOswestry, textOswestry } = useMemo(() => {
     const { answers, results, updated_at } = selectedForm;
@@ -71,10 +59,6 @@ function OswestryReport(props: ReportPageProps) {
       textOswestry: text,
     };
   }, [selectedForm]);
-
-  useEffect(() => {
-    setRows(setDataIntoSimpleTable(props.data, setSelectedForm));
-  }, [props.data, setSelectedForm]);
 
   const questions = [
     {
@@ -189,32 +173,8 @@ function OswestryReport(props: ReportPageProps) {
     },
   ];
 
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    props.goToSummary();
-  }
-
   return (
-    <Grid container spacing={1} className={classes.root}>
-      {props.hideBreadcrumb ? (
-        <Grid item xs={12}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={handleClick}>
-              Resultados
-            </Link>
-            <Typography color="textPrimary">
-              Questionário de Oswestry
-            </Typography>
-          </Breadcrumbs>
-        </Grid>
-      ) : null}
-      <Grid item xs={12}>
-        <GenericTable
-          columns={simpleColumns}
-          rows={rows}
-          shouldHideCheckboxes
-        />
-      </Grid>
+    <Grid container spacing={1}>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Questionário de Oswestry</Typography>
@@ -276,4 +236,4 @@ function OswestryReport(props: ReportPageProps) {
   );
 }
 
-export default OswestryReport;
+export default OswestryInnerReport;

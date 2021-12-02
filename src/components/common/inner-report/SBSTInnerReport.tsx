@@ -1,9 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -11,16 +9,11 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-import GenericTable from '../GenericTable';
-import { PatientForm, PatientSBSTResult } from '../../models/PatientForm';
-import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
-import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
+import { PatientSBSTResult } from '../../../models/PatientForm';
+import { InnerReportProps } from '../../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      marginTop: '32px',
-    },
     paper: {
       padding: theme.spacing(1),
       marginTop: theme.spacing(1),
@@ -31,12 +24,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function SBSTReport(props: ReportPageProps) {
+function SBSTInnerReport({ selectedForm }: InnerReportProps) {
   const classes = useStyles();
-  const [selectedForm, setSelectedForm] = useState<PatientForm>(
-    props.data[props.data.length - 1]
-  );
-  const [rows, setRows] = useState<SimpleReportTableData[]>([]);
 
   const { answers, updated_at, result, total_points, psychosocial_points } =
     useMemo(() => {
@@ -45,18 +34,6 @@ function SBSTReport(props: ReportPageProps) {
         results as PatientSBSTResult;
       return { answers, updated_at, result, total_points, psychosocial_points };
     }, [selectedForm]);
-
-  useEffect(() => {
-    setRows(
-      setDataIntoSimpleTable(
-        props.data.map((form: PatientForm) => ({
-          ...form,
-          text: (form.results as PatientSBSTResult).result,
-        })),
-        setSelectedForm
-      )
-    );
-  }, [props.data, setSelectedForm, result]);
 
   const questions = [
     'A minha dor nas costas se espalhou pelas pernas nas duas últimas semanas.', //1
@@ -70,32 +47,8 @@ function SBSTReport(props: ReportPageProps) {
     'Em geral, quanto a sua dor nas costas o incomodou nas duas últimas semanas. Nada ( 0 ) Pouco ( 0 ) Moderado ( 0 ) Muito ( 1 ) Extremamente ( 1 )', //9
   ];
 
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    props.goToSummary();
-  }
-
   return (
-    <Grid container spacing={1} className={classes.root}>
-      {props.hideBreadcrumb ? (
-        <Grid item xs={12}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={handleClick}>
-              Resultados
-            </Link>
-            <Typography color="textPrimary">
-              Start Back Screening Tool (SBST)
-            </Typography>
-          </Breadcrumbs>
-        </Grid>
-      ) : null}
-      <Grid item xs={12}>
-        <GenericTable
-          columns={simpleColumns}
-          rows={rows}
-          shouldHideCheckboxes
-        />
-      </Grid>
+    <Grid container spacing={1}>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Start Back Screening Tool (SBST)</Typography>
@@ -166,4 +119,4 @@ function SBSTReport(props: ReportPageProps) {
   );
 }
 
-export default SBSTReport;
+export default SBSTInnerReport;

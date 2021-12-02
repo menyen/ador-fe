@@ -1,30 +1,20 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Slider from '@material-ui/core/Slider';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-import GenericTable from '../GenericTable';
-import { PatientBPIResult, PatientForm } from '../../models/PatientForm';
-import {
-  noResultColumns,
-  setDataIntoNoResultTable,
-} from '../../utils/reportTable';
-import { NoResultReportTableData, ReportPageProps } from '../../interfaces';
-import BodyMapBPI from '../patient/BodyMapBPI';
+import { PatientBPIResult } from '../../../models/PatientForm';
+import BodyMapBPI from '../../patient/BodyMapBPI';
+import { InnerReportProps } from '../../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      marginTop: '32px',
-    },
     paper: {
       padding: theme.spacing(1),
       marginTop: theme.spacing(1),
@@ -39,13 +29,23 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function BPIReport(props: ReportPageProps) {
+function BPIInnerReport({ selectedForm }: InnerReportProps) {
   const classes = useStyles();
 
-  const [selectedForm, setSelectedForm] = useState<PatientForm>(
-    props.data[props.data.length - 1]
-  );
-  const [rows, setRows] = useState<NoResultReportTableData[]>([]);
+  const gradesLabels = [
+    'Pior dor que sentiu nas últimas 24 horas:',
+    'Dor mais fraca das últimas 24 horas:',
+    'Média de dor do paciente:',
+    'Dor do momento:',
+  ];
+  const percentagesLabels = [
+    'Atividades em geral',
+    'Humor',
+    'Habilidade de caminhar',
+    'Trabalho',
+    'Relacionamento com outras pessoas',
+    'Habilidade para apreciar a vida',
+  ];
 
   const { updated_at, body_pain, grades, treatments, slider, percentages } =
     useMemo(() => {
@@ -64,49 +64,8 @@ function BPIReport(props: ReportPageProps) {
       };
     }, [selectedForm]);
 
-  useEffect(() => {
-    setRows(setDataIntoNoResultTable(props.data, setSelectedForm));
-  }, [props.data, setSelectedForm]);
-
-  const gradesLabels = [
-    'Pior dor que sentiu nas últimas 24 horas:',
-    'Dor mais fraca das últimas 24 horas:',
-    'Média de dor do paciente:',
-    'Dor do momento:',
-  ];
-  const percentagesLabels = [
-    'Atividades em geral',
-    'Humor',
-    'Habilidade de caminhar',
-    'Trabalho',
-    'Relacionamento com outras pessoas',
-    'Habilidade para apreciar a vida',
-  ];
-
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    props.goToSummary();
-  }
-
   return (
-    <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" onClick={handleClick}>
-            Resultados
-          </Link>
-          <Typography color="textPrimary">
-            Breve Inventário de Dor (BPI)
-          </Typography>
-        </Breadcrumbs>
-      </Grid>
-      <Grid item xs={12}>
-        <GenericTable
-          columns={noResultColumns}
-          rows={rows}
-          shouldHideCheckboxes
-        />
-      </Grid>
+    <Grid container spacing={1}>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Breve Inventário de Dor (BPI)</Typography>
@@ -135,7 +94,6 @@ function BPIReport(props: ReportPageProps) {
                     defaultValue={0}
                     classes={{
                       root: classes.slider,
-                      // markLabel: classes.sliderMakrLabel,
                     }}
                     step={1}
                     valueLabelDisplay="on"
@@ -212,4 +170,4 @@ function BPIReport(props: ReportPageProps) {
   );
 }
 
-export default BPIReport;
+export default BPIInnerReport;

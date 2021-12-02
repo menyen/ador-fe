@@ -1,21 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-import GenericTable from '../GenericTable';
-import { PatientForm, PatientHADResult } from '../../models/PatientForm';
-import { HADReportTableData, ReportPageProps } from '../../interfaces';
-import { setDataIntoHADTable, simpleColumns } from '../../utils/reportTable';
+import { PatientHADResult } from '../../../models/PatientForm';
+import { InnerReportProps } from '../../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      marginTop: '32px',
-    },
     paper: {
       padding: theme.spacing(1),
       marginTop: theme.spacing(1),
@@ -26,13 +19,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function HADReport(props: ReportPageProps) {
+function HADInnerReport({ selectedForm }: InnerReportProps) {
   const classes = useStyles();
-
-  const [selectedForm, setSelectedForm] = useState<PatientForm>(
-    props.data[props.data.length - 1]
-  );
-  const [rows, setRows] = useState<HADReportTableData[]>([]);
 
   const { answers, updated_at, ansiedade, depressao } = useMemo(() => {
     const { answers, results, updated_at } = selectedForm;
@@ -44,10 +32,6 @@ function HADReport(props: ReportPageProps) {
       depressao,
     };
   }, [selectedForm]);
-
-  useEffect(() => {
-    setRows(setDataIntoHADTable(props.data, setSelectedForm));
-  }, [props.data, setSelectedForm]);
 
   const questions = [
     {
@@ -183,30 +167,8 @@ function HADReport(props: ReportPageProps) {
     },
   ];
 
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    props.goToSummary();
-  }
-
   return (
-    <Grid container spacing={1} className={classes.root}>
-      {props.hideBreadcrumb ? (
-        <Grid item xs={12}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={handleClick}>
-              Resultados
-            </Link>
-            <Typography color="textPrimary">HAD</Typography>
-          </Breadcrumbs>
-        </Grid>
-      ) : null}
-      <Grid item xs={12}>
-        <GenericTable
-          columns={simpleColumns}
-          rows={rows}
-          shouldHideCheckboxes
-        />
-      </Grid>
+    <Grid container spacing={1}>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">HAD</Typography>
@@ -276,4 +238,4 @@ function HADReport(props: ReportPageProps) {
   );
 }
 
-export default HADReport;
+export default HADInnerReport;

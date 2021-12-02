@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -7,21 +7,14 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 
-import GenericTable from '../GenericTable';
-import { PatientForm, PatientWOMACResult } from '../../models/PatientForm';
-import { setDateIntoWOMACTable, simpleColumns } from '../../utils/reportTable';
-import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
+import { PatientWOMACResult } from '../../../models/PatientForm';
+import { InnerReportProps } from '../../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      marginTop: '32px',
-    },
     paper: {
       padding: theme.spacing(1),
       marginTop: theme.spacing(1),
@@ -44,13 +37,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function WOMACReport(props: ReportPageProps) {
+function WOMACInnerReport({ selectedForm }: InnerReportProps) {
   const classes = useStyles();
-
-  const [selectedForm, setSelectedForm] = useState<PatientForm>(
-    props.data[props.data.length - 1]
-  );
-  const [rows, setRows] = useState<SimpleReportTableData[]>([]);
 
   const {
     answers,
@@ -82,10 +70,6 @@ function WOMACReport(props: ReportPageProps) {
       total_ratio,
     };
   }, [selectedForm]);
-
-  useEffect(() => {
-    setRows(setDateIntoWOMACTable(props.data, setSelectedForm));
-  }, [props.data, setSelectedForm]);
 
   const questions = [
     {
@@ -130,11 +114,6 @@ function WOMACReport(props: ReportPageProps) {
     },
   ];
 
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    props.goToSummary();
-  }
-
   const getRealIndex = (questionIndex: number, sectionIndex: number) => {
     return questions.reduce((acc, q, i) => {
       if (i < questionIndex) {
@@ -147,27 +126,7 @@ function WOMACReport(props: ReportPageProps) {
   };
 
   return (
-    <Grid container spacing={1} className={classes.root}>
-      {props.hideBreadcrumb ? (
-        <Grid item xs={12}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={handleClick}>
-              Resultados
-            </Link>
-            <Typography color="textPrimary">
-              Qualidade de vida específico para osteoartrose WOMAC (Western
-              Ontario McMaster Universities)
-            </Typography>
-          </Breadcrumbs>
-        </Grid>
-      ) : null}
-      <Grid item xs={12}>
-        <GenericTable
-          columns={simpleColumns}
-          rows={rows}
-          shouldHideCheckboxes
-        />
-      </Grid>
+    <Grid container spacing={1}>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">
@@ -327,4 +286,4 @@ function WOMACReport(props: ReportPageProps) {
   );
 }
 
-export default WOMACReport;
+export default WOMACInnerReport;

@@ -1,25 +1,18 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Slider from '@material-ui/core/Slider';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 
-import GenericTable from '../GenericTable';
-import { PatientForm, PatientSPADIResult } from '../../models/PatientForm';
-import { setDateIntoSPADITable, spadiColumns } from '../../utils/reportTable';
-import { ReportPageProps, SPADIReportTableData } from '../../interfaces';
+import { PatientSPADIResult } from '../../../models/PatientForm';
+import { InnerReportProps } from '../../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      marginTop: '32px',
-    },
     paper: {
       padding: theme.spacing(1),
       marginTop: theme.spacing(1),
@@ -57,13 +50,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function SPADIReport(props: ReportPageProps) {
+function SPADIInnerReport({ selectedForm }: InnerReportProps) {
   const classes = useStyles();
-
-  const [selectedForm, setSelectedForm] = useState<PatientForm>(
-    props.data[props.data.length - 1]
-  );
-  const [rows, setRows] = useState<SPADIReportTableData[]>([]);
 
   const { answers, updated_at, disability, pain, total } = useMemo(() => {
     const { answers, results, updated_at } = selectedForm;
@@ -76,10 +64,6 @@ function SPADIReport(props: ReportPageProps) {
       total: total.percentage,
     };
   }, [selectedForm]);
-
-  useEffect(() => {
-    setRows(setDateIntoSPADITable(props.data, setSelectedForm));
-  }, [props.data, setSelectedForm]);
 
   const questions = [
     {
@@ -179,11 +163,6 @@ function SPADIReport(props: ReportPageProps) {
     },
   ];
 
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    props.goToSummary();
-  }
-
   const getRealIndex = (questionIndex: number, sectionIndex: number) => {
     return questions.reduce((acc, q, i) => {
       if (i < questionIndex) {
@@ -196,22 +175,7 @@ function SPADIReport(props: ReportPageProps) {
   };
 
   return (
-    <Grid container spacing={1} className={classes.root}>
-      {props.hideBreadcrumb ? (
-        <Grid item xs={12}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={handleClick}>
-              Resultados
-            </Link>
-            <Typography color="textPrimary">
-              Índice de dor e incapacidade no ombro (SPADI)
-            </Typography>
-          </Breadcrumbs>
-        </Grid>
-      ) : null}
-      <Grid item xs={12}>
-        <GenericTable columns={spadiColumns} rows={rows} shouldHideCheckboxes />
-      </Grid>
+    <Grid container spacing={1}>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">
@@ -297,4 +261,4 @@ function SPADIReport(props: ReportPageProps) {
   );
 }
 
-export default SPADIReport;
+export default SPADIInnerReport;

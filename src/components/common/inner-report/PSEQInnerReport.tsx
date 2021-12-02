@@ -1,17 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { deepOrange } from '@material-ui/core/colors';
 
-import GenericTable from '../GenericTable';
-import { PatientBasicResult, PatientForm } from '../../models/PatientForm';
-import { ReportPageProps, SimpleReportTableData } from '../../interfaces';
-import { setDataIntoSimpleTable, simpleColumns } from '../../utils/reportTable';
+import { PatientBasicResult } from '../../../models/PatientForm';
+import { InnerReportProps } from '../../../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,22 +52,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function PSEQReport(props: ReportPageProps) {
+function PSEQInnerReport({ selectedForm }: InnerReportProps) {
   const classes = useStyles();
-  const [selectedForm, setSelectedForm] = useState<PatientForm>(
-    props.data[props.data.length - 1]
-  );
-  const [rows, setRows] = useState<SimpleReportTableData[]>([]);
 
   const { answers, updated_at, scorePSEQ, textPSEQ } = useMemo(() => {
     const { answers, results, updated_at } = selectedForm;
     const { score, text } = results as PatientBasicResult;
     return { answers, updated_at, scorePSEQ: score || 0, textPSEQ: text };
   }, [selectedForm]);
-
-  useEffect(() => {
-    setRows(setDataIntoSimpleTable(props.data, setSelectedForm));
-  }, [props.data, setSelectedForm]);
 
   const questions = [
     'Eu posso aproveitar as coisas, apesar da dor.', //1
@@ -115,32 +103,8 @@ function PSEQReport(props: ReportPageProps) {
     },
   ];
 
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    props.goToSummary();
-  }
-
   return (
-    <Grid container spacing={1} className={classes.root}>
-      {props.hideBreadcrumb ? (
-        <Grid item xs={12}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={handleClick}>
-              Resultados
-            </Link>
-            <Typography color="textPrimary">
-              Escala de pensamento catastrófico
-            </Typography>
-          </Breadcrumbs>
-        </Grid>
-      ) : null}
-      <Grid item xs={12}>
-        <GenericTable
-          columns={simpleColumns}
-          rows={rows}
-          shouldHideCheckboxes
-        />
-      </Grid>
+    <Grid container spacing={1}>
       <Grid item xs={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Autoeficácia da dor (PSEQ)</Typography>
@@ -200,4 +164,4 @@ function PSEQReport(props: ReportPageProps) {
   );
 }
 
-export default PSEQReport;
+export default PSEQInnerReport;
