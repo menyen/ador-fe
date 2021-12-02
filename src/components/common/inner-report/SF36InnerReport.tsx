@@ -84,7 +84,7 @@ function SF36InnerReport({ data }: { data: PatientForm[] }) {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={9}>
+      <Grid item xs={12} lg={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Qualidade de vida (SF-36)</Typography>
           <div style={{ height: '500px', paddingBottom: '10px' }}>

@@ -152,7 +152,7 @@ function FibromialgiaInnerReport({ selectedForm }: InnerReportProps) {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={9}>
+      <Grid item xs={12} lg={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">FIBROMIALGIA</Typography>
           <Typography variant="caption" display="block">
@@ -278,7 +278,7 @@ function FibromialgiaInnerReport({ selectedForm }: InnerReportProps) {
           </Grid>
         </Paper>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={12} lg={3}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Resultado</Typography>
           <Grid container>

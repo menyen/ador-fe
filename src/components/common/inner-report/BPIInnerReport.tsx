@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(1),
     },
     slider: {
-      margin: '30px 0',
+      margin: '30px 0 30px 20px',
     },
     divider: {
       marginTop: theme.spacing(2),
@@ -66,7 +66,7 @@ function BPIInnerReport({ selectedForm }: InnerReportProps) {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={9}>
+      <Grid item xs={12} lg={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Breve Inventário de Dor (BPI)</Typography>
           <Typography variant="caption">
@@ -75,7 +75,7 @@ function BPIInnerReport({ selectedForm }: InnerReportProps) {
             )}`}
           </Typography>
           <Grid container spacing={1}>
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6}>
               <BodyMapBPI
                 disabledBodyMapClick={true}
                 preSelectedValues={body_pain?.reduce((acc, body) => {
@@ -84,7 +84,7 @@ function BPIInnerReport({ selectedForm }: InnerReportProps) {
                 }, new Array(53).fill(0))}
               />
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={11} lg={5}>
               {grades?.map((grade, gradeIndex) => (
                 <div key={`grade-${gradeIndex}`}>
                   <Typography variant="subtitle1">
@@ -111,7 +111,7 @@ function BPIInnerReport({ selectedForm }: InnerReportProps) {
             </Grid>
           </Grid>
           <Grid container spacing={1}>
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6}>
               {treatments?.map((treatment, treatmentIndex) => (
                 <div key={`treatment=${treatmentIndex}`}>
                   <Typography variant="subtitle1">{`Tratamento ${
@@ -141,7 +141,7 @@ function BPIInnerReport({ selectedForm }: InnerReportProps) {
                 </div>
               ))}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6}>
               <Typography variant="subtitle1">
                 Como a dor interferiu nas últimas 24 horas em:
               </Typography>

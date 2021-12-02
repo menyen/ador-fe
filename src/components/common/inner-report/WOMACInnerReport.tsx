@@ -127,7 +127,7 @@ function WOMACInnerReport({ selectedForm }: InnerReportProps) {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={9}>
+      <Grid item xs={12} lg={9}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">
             Qualidade de vida específico para osteoartrose WOMAC (Western
@@ -140,7 +140,7 @@ function WOMACInnerReport({ selectedForm }: InnerReportProps) {
           </Typography>
           <Grid container spacing={1}>
             {questions.map((question, qIndex) => (
-              <Grid item xs={6} key={`question${qIndex}`}>
+              <Grid item xs={12} lg={6} key={`question${qIndex}`}>
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <Typography variant="subtitle1" align="left">
@@ -235,7 +235,7 @@ function WOMACInnerReport({ selectedForm }: InnerReportProps) {
           </Grid>
         </Paper>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={12} lg={3}>
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Resultado</Typography>
           <Grid container>
