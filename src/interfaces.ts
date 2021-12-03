@@ -87,7 +87,7 @@ export interface UserTableData extends User {
 }
 
 export interface SimpleReportTableColumn {
-  id: 'id' | 'date' | 'result' | 'patient' | 'details';
+  id: 'id' | 'date' | 'result' | 'patient' | 'type' | 'details';
   label: string;
   minWidth?: number;
 }

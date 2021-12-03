@@ -27,6 +27,13 @@ export const noResultColumns: SimpleReportTableColumn[] = [
   { id: 'details', label: 'Ver resultados', minWidth: 100 },
 ];
 
+export const allResultsColumns: SimpleReportTableColumn[] = [
+  { id: 'date', label: 'Data', minWidth: 100 },
+  { id: 'patient', label: 'Paciente', minWidth: 100 },
+  { id: 'type', label: 'Formulário', minWidth: 100 },
+  { id: 'details', label: 'Ver resultados', minWidth: 100 },
+];
+
 export const hadColumns: HADReportTableColumn[] = [
   { id: 'date', label: 'Data', minWidth: 100 },
   { id: 'result_anxiety', label: 'Resultado para ansiedade', minWidth: 100 },
@@ -81,6 +88,30 @@ export function setDataIntoNoResultTable(
       id: form.id,
       date: new Date(form.updated_at).toLocaleDateString(),
       patient: form.patient?.name,
+      details: (
+        <IconButton
+          onClick={(e) => {
+            e.preventDefault();
+            selectForm(form);
+          }}
+        >
+          <VisibilityIcon />
+        </IconButton>
+      ),
+    };
+  });
+}
+
+export function setDataIntoAllResultTable(
+  data: PatientForm[],
+  selectForm: (chosen: PatientForm) => void
+) {
+  return data.map((form) => {
+    return {
+      id: form.id,
+      date: new Date(form.updated_at).toLocaleDateString(),
+      patient: form.patient?.name,
+      type: form.type,
       details: (
         <IconButton
           onClick={(e) => {

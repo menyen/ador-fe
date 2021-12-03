@@ -6,8 +6,8 @@ import GenericTable from '../GenericTable';
 import { PatientForm } from '../../models/PatientForm';
 import { NoResultReportTableData } from '../../interfaces';
 import {
-  noResultColumns,
-  setDataIntoNoResultTable,
+  allResultsColumns,
+  setDataIntoAllResultTable,
 } from '../../utils/reportTable';
 import EPCInnerReport from './inner-report/EPCInnerReport';
 import DN4InnerReport from './inner-report/DN4InnerReport';
@@ -69,14 +69,14 @@ function AllReports({ data }: { data: PatientForm[] }) {
   const [rows, setRows] = useState<NoResultReportTableData[]>([]);
 
   useEffect(() => {
-    setRows(setDataIntoNoResultTable(data, setSelectedForm));
+    setRows(setDataIntoAllResultTable(data, setSelectedForm));
   }, [data, setSelectedForm]);
   return (
     <>
       <Grid container spacing={1} className={classes.root}>
         <Grid item xs={12}>
           <GenericTable
-            columns={noResultColumns}
+            columns={allResultsColumns}
             rows={rows}
             shouldHideCheckboxes
           />
