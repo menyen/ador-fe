@@ -57,10 +57,26 @@ interface ReportsTableProps {
 export default function ReportsTable(props: ReportsTableProps) {
   const classes = useStyles();
 
+  const today = new Date();
+  const lastMonth = new Date();
+  lastMonth.setMonth(today.getMonth() - 1);
+
   const [reports, reportsDispatch] = useReducer(reportReducer, []);
   const [patientId, setPatientId] = useState<number>(0);
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>(
+    lastMonth.getFullYear() +
+      '-' +
+      (lastMonth.getMonth() + 1) +
+      '-' +
+      ('0' + lastMonth.getDate()).slice(-2)
+  );
+  const [endDate, setEndDate] = useState<string>(
+    today.getFullYear() +
+      '-' +
+      (today.getMonth() + 1) +
+      '-' +
+      ('0' + today.getDate()).slice(-2)
+  );
   const [reportType, setReportType] = useState<string>('');
   const [result, setResult] = useState<string>('');
   const [, setAlertMessage] = useContext(AlertContext);
