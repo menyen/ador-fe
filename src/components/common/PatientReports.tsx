@@ -1,7 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Grid from '@material-ui/core/Grid';
-import ReactToPdf from 'react-to-pdf';
 
 import { PatientForm } from '../../models/PatientForm';
 import PatientSummary from './PatientSummary';
@@ -47,23 +46,6 @@ function PatientReports(props: PatientReportsProps) {
     <>
       <Grid container spacing={1}>
         <Grid item xs={12}>
-          <ReactToPdf
-            targetRef={componentRef}
-            filename={`busca-de-relatorio-${new Date().toLocaleString()}`}
-            options={{
-              format: [375, 680],
-            }}
-          >
-            {({
-              toPdf,
-            }: {
-              toPdf: (event: React.MouseEvent<unknown>) => void;
-            }) => (
-              <OrangeButton type="button" onClick={toPdf}>
-                Salvar
-              </OrangeButton>
-            )}
-          </ReactToPdf>
           <OrangeButton type="button" onClick={handlePrint}>
             Imprimir
           </OrangeButton>

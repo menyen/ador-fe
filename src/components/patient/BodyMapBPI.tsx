@@ -24,6 +24,12 @@ function BodyMapBPI(props: BodyMapBPIProps) {
     [bodyMap, markBodyPartsForBPI]
   );
 
+  React.useEffect(() => {
+    if (preSelectedValues) {
+      setBodyMap(preSelectedValues);
+    }
+  }, [preSelectedValues]);
+
   const frontSide = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
