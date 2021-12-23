@@ -76,6 +76,15 @@ export interface PatientSPADIResult {
   pain: SPADIAspectResult;
   total: SPADIAspectResult;
 }
+export interface PatientAOFASResult {
+  pain_score: number;
+  function_score: number;
+  alignment_score: number;
+  total: {
+    score: number;
+    percentage: string;
+  }
+}
 
 export interface PatientForm {
   answers: number[];
@@ -93,7 +102,8 @@ export interface PatientForm {
     | PatientIADResult
     | PatientSBSTResult
     | PatientWOMACResult
-    | PatientSPADIResult;
+    | PatientSPADIResult
+    | PatientAOFASResult;
   status: string;
   type: string;
   updated_at: string;

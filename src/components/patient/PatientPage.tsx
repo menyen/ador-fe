@@ -17,6 +17,7 @@ import SBST from './SBST';
 import PSEQ from './PSEQ';
 import WOMAC from './WOMAC';
 import SPADI from './SPADI';
+import AOFAS from './AOFAS';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -93,6 +94,9 @@ export default function PatientPage() {
           )}
           {currentPanel === PatientPanel.SPADI && (
             <SPADI setCurrentPanel={setCurrentPanel} patientAuth={auth} />
+          )}
+          {currentPanel === PatientPanel.AOFAS && (
+            <AOFAS setCurrentPanel={setCurrentPanel} patientAuth={auth} />
           )}
         </>
       ) : (

@@ -1,11 +1,13 @@
 import IconButton from '@material-ui/core/IconButton';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import {
+  AOFASReportTableColumn,
   HADReportTableColumn,
   SimpleReportTableColumn,
   SPADIReportTableColumn,
 } from '../interfaces';
 import {
+  PatientAOFASResult,
   PatientBasicResult,
   PatientFibromialgiaResult,
   PatientForm,
@@ -51,6 +53,16 @@ export const spadiColumns: SPADIReportTableColumn[] = [
   },
   { id: 'result_pain', label: 'Resultado de dor', minWidth: 100 },
   { id: 'result_total', label: 'Resultado total', minWidth: 100 },
+  { id: 'patient', label: 'Paciente', minWidth: 100 },
+  { id: 'details', label: 'Ver resultados', minWidth: 100 },
+];
+
+export const aofasColumns: AOFASReportTableColumn[] = [
+  { id: 'date', label: 'Data', minWidth: 100 },
+  { id: 'result_pain', label: 'Escala de dor', minWidth: 100 },
+  { id: 'result_function', label: 'Escala funcional', minWidth: 100 },
+  { id: 'result_alignment', label: 'Escala de alinhamento', minWidth: 100 },
+  { id: 'result_total', label: 'Escala total', minWidth: 100 },
   { id: 'patient', label: 'Paciente', minWidth: 100 },
   { id: 'details', label: 'Ver resultados', minWidth: 100 },
 ];
@@ -211,6 +223,33 @@ export function setDateIntoSPADITable(
       result_disability: results.disability.percentage,
       result_pain: results.pain.percentage,
       result_total: results.total.percentage,
+      patient: form.patient?.name,
+      details: (
+        <IconButton
+          onClick={(e) => {
+            e.preventDefault();
+            selectForm(form);
+          }}
+        >
+          <VisibilityIcon />
+        </IconButton>
+      ),
+    };
+  });
+}
+
+export function setDataIntoAOFASTable(
+  data: PatientForm[],
+  selectForm: (chosen: PatientForm) => void
+) {
+  return data.map((form) => {
+    return {
+      id: form.id,
+      date: new Date(form.updated_at).toLocaleDateString(),
+      result_pain: (form.results as PatientAOFASResult)?.pain_score,
+      result_function: (form.results as PatientAOFASResult)?.function_score,
+      result_alignment: (form.results as PatientAOFASResult)?.alignment_score,
+      result_total: (form.results as PatientAOFASResult)?.total.percentage,
       patient: form.patient?.name,
       details: (
         <IconButton

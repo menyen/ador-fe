@@ -19,6 +19,7 @@ import SF36Report from './form-reports/SF36Report';
 import BPIReport from './form-reports/BPIReport';
 import AllReports from './AllReports';
 import { OrangeButton } from '../Buttons';
+import AOFASReport from './form-reports/AOFASReport';
 
 interface PatientReportsProps {
   questionaires: PatientForm[];
@@ -135,6 +136,13 @@ function PatientReports(props: PatientReportsProps) {
         {panel === PatientReportPanelType.BPI && (
           <BPIReport
             data={questionaires?.filter((q) => q.type === 'BPI')}
+            goToSummary={() => setPanel(PatientReportPanelType.Summary)}
+            hideBreadcrumb={!initialReportPanel}
+          />
+        )}
+        {panel === PatientReportPanelType.AOFAS && (
+          <AOFASReport
+            data={questionaires?.filter((q) => q.type === 'AOFAS')}
             goToSummary={() => setPanel(PatientReportPanelType.Summary)}
             hideBreadcrumb={!initialReportPanel}
           />

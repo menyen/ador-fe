@@ -29,6 +29,7 @@ import {
   PatientSF36Result,
   PatientWOMACResult,
   PatientSPADIResult,
+  PatientAOFASResult,
 } from '../../models/PatientForm';
 import BodyMapBPI from '../patient/BodyMapBPI';
 import { PatientReportPanelType } from '../../interfaces';
@@ -818,6 +819,64 @@ function PatientSummary(props: PatientSummaryProps) {
     </Paper>
   );
 
+  const aofasForms = questionaires?.filter(
+    (q) => q.type === 'AOFAS' && q.status === 'DONE'
+  );
+  const aofasLatestForm = aofasForms && aofasForms[aofasForms.length - 1];
+  const aofasResult = aofasLatestForm?.results as PatientAOFASResult;
+  const aofasCard = (
+    <Paper classes={{ root: classes.paper }}>
+      <Typography variant="h6">
+        Escala AOFAS para tornozelo e retropé
+      </Typography>
+      <Typography variant="caption" display="block">
+        {`Preenchido em: ${
+          aofasLatestForm &&
+          new Date(aofasLatestForm.updated_at).toLocaleDateString('pt-BR')
+        }`}
+      </Typography>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Escala de dor: ${aofasResult?.pain_score}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Escala funcional: ${aofasResult?.function_score}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Escala de alinhamento: ${aofasResult?.alignment_score}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="left">
+            {`Escala total: ${aofasResult?.total.percentage}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => setReportPanel(PatientReportPanelType.AOFAS)}
+          >
+            Ver respostas
+          </Link>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+
   useEffect(() => {
     setTimeout(() => {
       const tickLabelsY = document.querySelectorAll(
@@ -838,11 +897,11 @@ function PatientSummary(props: PatientSummaryProps) {
 
   return (
     <Grid container spacing={1} className={classes.root}>
-      <Grid item xs={9}>
+      <Grid item md={9} xs={12}>
         {bpiForms?.length ? bpiCard : null}
         {chartData?.length ? sf36Card : null}
       </Grid>
-      <Grid item xs={3}>
+      <Grid item md={3} xs={12}>
         {epcForms?.length ? epcCard : null}
         {dn4Forms?.length ? dn4Card : null}
         {oswForms?.length ? oswCard : null}
@@ -853,6 +912,7 @@ function PatientSummary(props: PatientSummaryProps) {
         {pseqForms?.length ? pseqCard : null}
         {womacForms?.length ? womacCard : null}
         {spadiForms?.length ? spadiCard : null}
+        {aofasForms?.length ? aofasCard : null}
       </Grid>
     </Grid>
   );

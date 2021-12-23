@@ -7,9 +7,9 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import GenericTable from '../../GenericTable';
 import { PatientForm } from '../../../models/PatientForm';
-import { HADReportTableData, ReportPageProps } from '../../../interfaces';
-import { hadColumns, setDataIntoHADTable } from '../../../utils/reportTable';
-import HADInnerReport from '../inner-report/HADInnerReport';
+import { AOFASReportTableData, ReportPageProps } from '../../../interfaces';
+import { aofasColumns, setDataIntoAOFASTable } from '../../../utils/reportTable';
+import AOFASInnerReport from '../inner-report/AOFASInnerReport';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,16 +19,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function HADReport(props: ReportPageProps) {
+function AOFASReport(props: ReportPageProps) {
   const classes = useStyles();
 
   const [selectedForm, setSelectedForm] = useState<PatientForm>(
     props.data[props.data.length - 1]
   );
-  const [rows, setRows] = useState<HADReportTableData[]>([]);
+  const [rows, setRows] = useState<AOFASReportTableData[]>([]);
 
   useEffect(() => {
-    setRows(setDataIntoHADTable(props.data, setSelectedForm));
+    setRows(setDataIntoAOFASTable(props.data, setSelectedForm));
   }, [props.data, setSelectedForm]);
 
   function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
@@ -45,21 +45,21 @@ function HADReport(props: ReportPageProps) {
               <Link color="inherit" href="/" onClick={handleClick}>
                 Resultados
               </Link>
-              <Typography color="textPrimary">HAD</Typography>
+              <Typography color="textPrimary">AOFAS</Typography>
             </Breadcrumbs>
           </Grid>
         ) : null}
         <Grid item xs={12}>
           <GenericTable
-            columns={hadColumns}
+            columns={aofasColumns}
             rows={rows}
             shouldHideCheckboxes
           />
         </Grid>
       </Grid>
-      <HADInnerReport selectedForm={selectedForm} />
+      <AOFASInnerReport selectedForm={selectedForm} />
     </>
   );
 }
 
-export default HADReport;
+export default AOFASReport;

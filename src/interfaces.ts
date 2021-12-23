@@ -130,6 +130,20 @@ export interface SPADIReportTableColumn {
   minWidth?: number;
 }
 
+export interface AOFASReportTableColumn {
+  id:
+    | 'id'
+    | 'date'
+    | 'result_pain'
+    | 'result_function'
+    | 'result_alignment'
+    | 'result_total'
+    | 'patient'
+    | 'details';
+  label: string;
+  minWidth?: number;
+}
+
 export interface HADReportTableData {
   date: string;
   result_anxiety: string;
@@ -142,6 +156,16 @@ export interface SPADIReportTableData {
   date: string;
   result_disability: string;
   result_pain: string;
+  result_total: string;
+  patient?: string;
+  details?: JSX.Element;
+}
+
+export interface AOFASReportTableData {
+  date: string;
+  result_pain: number;
+  result_function: number;
+  result_alignment: number;
   result_total: string;
   patient?: string;
   details?: JSX.Element;
@@ -200,6 +224,7 @@ export enum PatientReportPanelType {
   PSEQ,
   WOMAC,
   SPADI,
+  AOFAS,
   All,
 }
 
@@ -247,6 +272,7 @@ export enum PatientPanel {
   PSEQ,
   WOMAC,
   SPADI,
+  AOFAS,
 }
 
 export const RolesEnum = {
@@ -312,6 +338,7 @@ export const QUESTIONAIRE_LIST = [
     label: 'Qualidade de vida específico para osteoartrose WOMAC',
   },
   { value: 'SPADI', label: 'Índice de dor e incapacidade no ombro (SPADI)' },
+  { value: 'AOFAS', label: 'Escala AOFAS para tornozelo e retropé' },
 ];
 
 export interface RouterParams {
