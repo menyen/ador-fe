@@ -65,6 +65,7 @@ export function getQuestionairesForPatient(
 export function sendQuestionaires(
   patient_id: number,
   forms: string[],
+  send_email: boolean,
   setAlertMessage: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
@@ -74,7 +75,7 @@ export function sendQuestionaires(
         Authorization: `Bearer ${getAuth().token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ patient_id, forms }),
+      body: JSON.stringify({ patient_id, forms, send_email }),
     });
     if (!response.ok) {
       const error = await response.json();

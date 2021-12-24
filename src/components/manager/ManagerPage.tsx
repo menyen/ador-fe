@@ -100,7 +100,8 @@ export default function ManagerPage() {
   const setPatient = async (
     id: number | undefined,
     patientPayload: PatientPayload,
-    questionairePayload: string[]
+    questionairePayload: string[],
+    sendEmail: boolean
   ) => {
     let newPatient;
     if (id) {
@@ -116,6 +117,7 @@ export default function ManagerPage() {
       await sendQuestionaires(
         id ?? newPatient.id,
         questionairePayload,
+        sendEmail,
         setAlertMessage
       )(questionairesDispatch);
       setPanel(ManagerPanelType.PatientsTable);

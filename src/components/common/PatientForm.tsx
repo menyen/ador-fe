@@ -46,7 +46,8 @@ interface PatientFormProps {
   setPatient: (
     id: number | undefined,
     patientPayload: PatientPayload,
-    questionairePayload: string[]
+    questionairePayload: string[],
+    sendEmail: boolean
   ) => Promise<void>;
 }
 
@@ -66,6 +67,7 @@ export default function PatientForm(props: PatientFormProps) {
   const [physicianId, setPhysicianId] = useState<number>(
     currentPatient?.physician_id || 0
   );
+  const [sendEmail, setSendEmail] = useState<boolean>(false);
 
   const questionairesClassified = props.questionaires.reduce(
     (acc, q) => ({ ...acc, [q.type]: q }),
@@ -107,7 +109,7 @@ export default function PatientForm(props: PatientFormProps) {
       gender,
       physician_id: physicianId,
     };
-    setPatient(currentPatient?.id, patientPayload, questionaires);
+    setPatient(currentPatient?.id, patientPayload, questionaires, sendEmail);
   };
 
   const handleCheckboxOnChange = (
@@ -253,6 +255,20 @@ export default function PatientForm(props: PatientFormProps) {
               </FormGroup>
             </Grid>
           ))}
+          <Grid item xs={12}>
+            <FormGroup row>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={sendEmail}
+                    name="sendEmail"
+                    onChange={(event) => setSendEmail(event.target.checked)}
+                  />
+                }
+                label="Enviar formulários por e-mail"
+              />
+            </FormGroup>
+          </Grid>
         </Grid>
         <Grid
           container

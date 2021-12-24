@@ -70,7 +70,8 @@ function ReceptionistPage() {
   const setPatient = async (
     id: number | undefined,
     patientPayload: PatientPayload,
-    questionairePayload: string[]
+    questionairePayload: string[],
+    sendEmail: boolean
   ) => {
     let newPatient;
     if (id) {
@@ -86,6 +87,7 @@ function ReceptionistPage() {
       await sendQuestionaires(
         id ?? newPatient.id,
         questionairePayload,
+        sendEmail,
         setAlertMessage
       )(questionairesDispatch);
       setPanel(ReceptionistPanelType.PatientsTable);
