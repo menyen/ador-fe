@@ -1,13 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
 import { PatientTableColumn, PatientTableData } from '../../interfaces';
 import { Patient } from '../../models/Patient';
+import patientReducer from '../../reducers/patient';
 import GenericTable from '../GenericTable';
 import { OrangeButton } from '../Buttons';
 import Grid from '@material-ui/core/Grid';
+import { AlertContext } from '../../utils/alert';
+import { getPatients } from '../../actions/patient';
 
 const columns: PatientTableColumn[] = [
   { id: 'name', label: 'Nome', minWidth: 170 },
@@ -69,6 +74,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '64px',
       width: '100%',
     },
+    button: {
+      margin: theme.spacing(1),
+    },
   })
 );
 interface PatientsTableProps {
@@ -80,6 +88,8 @@ interface PatientsTableProps {
 export default function PatientsTable(props: PatientsTableProps) {
   const classes = useStyles();
   const [rows, setRows] = useState<PatientTableData[]>([]);
+  const [, dispatch] = useReducer(patientReducer, []);
+  const [, setAlertMessage] = useContext(AlertContext);
 
   const { deletePatient, openPatientForm, patients } = props;
 
@@ -95,6 +105,13 @@ export default function PatientsTable(props: PatientsTableProps) {
       alignItems="flex-end"
       justifyContent="flex-end"
     >
+      <Button
+        variant="contained"
+        onClick={() => getPatients(setAlertMessage)(dispatch)}
+        className={classes.button}
+      >
+        Atualizar lista de pacientes
+      </Button>
       <OrangeButton
         variant="contained"
         color="primary"

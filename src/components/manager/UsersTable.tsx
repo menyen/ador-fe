@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import { UserTableColumn, UserTableData } from '../../interfaces';
 import GenericTable from '../GenericTable';
 import { OrangeButton } from '../Buttons';
 import { User } from '../../models/User';
+import userReducer from '../../reducers/user';
+import { AlertContext } from '../../utils/alert';
+import { getUsers } from '../../actions/user';
 
 const columns: UserTableColumn[] = [
   // { id: 'id', label: 'ID' },
@@ -66,12 +70,17 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '64px',
       width: '100%',
     },
+    button: {
+      margin: theme.spacing(1),
+    },
   })
 );
 
 export default function UsersTable(props: UsersTableProps) {
   const classes = useStyles();
   const [rows, setRows] = useState<UserTableData[]>([]);
+  const [, dispatch] = useReducer(userReducer, []);
+  const [, setAlertMessage] = useContext(AlertContext);
 
   const { deleteUser, openUserForm, users } = props;
 
@@ -87,6 +96,13 @@ export default function UsersTable(props: UsersTableProps) {
       alignItems="flex-end"
       justifyContent="flex-end"
     >
+      <Button
+        variant="contained"
+        onClick={() => getUsers(setAlertMessage)(dispatch)}
+        className={classes.button}
+      >
+        Atualizar lista de pacientes
+      </Button>
       <OrangeButton
         variant="contained"
         color="primary"

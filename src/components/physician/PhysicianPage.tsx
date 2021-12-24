@@ -64,8 +64,10 @@ function PhysicianPage() {
   const [, setAlertMessage] = useContext(AlertContext);
 
   useEffect(() => {
-    getPatients(setAlertMessage)(dispatch);
-  }, [setAlertMessage]);
+    if (panel === PhysicianPanelType.PatientsTable) {
+      getPatients(setAlertMessage)(dispatch);
+    }
+  }, [setAlertMessage, panel]);
 
   const setPatient = async (
     id: number | undefined,

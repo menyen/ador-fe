@@ -99,7 +99,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     divider: {
       marginTop: theme.spacing(3),
-      // marginBottom: theme.spacing(1),
     },
   })
 );

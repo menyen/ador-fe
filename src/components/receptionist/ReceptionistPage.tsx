@@ -62,8 +62,10 @@ function ReceptionistPage() {
   const [, setAlertMessage] = useContext(AlertContext);
 
   useEffect(() => {
-    getPatients(setAlertMessage)(dispatch);
-  }, [setAlertMessage]);
+    if (panel === ReceptionistPanelType.PatientsTable) {
+      getPatients(setAlertMessage)(dispatch);
+    }
+  }, [setAlertMessage, panel]);
 
   const setPatient = async (
     id: number | undefined,

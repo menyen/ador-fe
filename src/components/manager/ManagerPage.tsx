@@ -77,12 +77,16 @@ export default function ManagerPage() {
   const [, setAlertMessage] = useContext(AlertContext);
 
   useEffect(() => {
-    getUsers(setAlertMessage)(usersDispatch);
-  }, [setAlertMessage]);
+    if (panel === ManagerPanelType.UsersTable) {
+      getUsers(setAlertMessage)(usersDispatch);
+    }
+  }, [setAlertMessage, panel]);
 
   useEffect(() => {
-    getPatients(setAlertMessage)(patientDispatch);
-  }, [setAlertMessage]);
+    if (panel === ManagerPanelType.PatientsTable) {
+      getPatients(setAlertMessage)(patientDispatch);
+    }
+  }, [setAlertMessage, panel]);
 
   const setUser = async (id: number | undefined, payload: UserPayload) => {
     if (id) {
