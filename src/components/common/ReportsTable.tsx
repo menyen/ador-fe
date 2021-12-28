@@ -188,7 +188,7 @@ export default function ReportsTable(props: ReportsTableProps) {
                 <option value="HAD_ANXIETY">Ansiedade(HAD)</option>
                 {QUESTIONAIRE_LIST.map((form) => (
                   <option key={form.value} value={form.value}>
-                    {form.label}
+                    {form.label} ({form.value})
                   </option>
                 ))}
               </Select>

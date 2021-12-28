@@ -323,22 +323,25 @@ export interface PatientPayload {
 }
 
 export const QUESTIONAIRE_LIST = [
-  { value: 'BPI', label: 'Breve Inventário de Dor (BPI)' },
-  { value: 'HAD', label: 'HAD' },
-  { value: 'SF36', label: 'Qualidade de vida - SF36' },
-  { value: 'DN4', label: 'Dor Neuropática (DN4)' },
-  { value: 'EPC', label: 'Escala de pensamento catastrófico' },
-  { value: 'FIBROMIALGIA', label: 'Fibromialgia' },
-  { value: 'OSWESTRY', label: 'Questionário de Oswestry' },
-  { value: 'IAD', label: 'Inventário de Atitudes frente à Dor (IAD - Breve)' },
-  { value: 'SBST', label: 'Start Back Screening Tool (SBST)' },
-  { value: 'PSEQ', label: 'Autoeficácia da dor (PSEQ)' },
+  { value: 'BPI', label: 'Breve Inventário de Dor' },
+  { value: 'HAD', label: 'Ansiedade e Depressão' },
+  { value: 'SF36', label: 'Qualidade de Vida' },
+  { value: 'DN4', label: 'Dor Neuropática' },
+  { value: 'EPC', label: 'Catastrofização' },
+  { value: 'FIBROMIALGIA', label: 'Índice de Dor da Fibromialgia' },
+  { value: 'OSWESTRY', label: 'Oswestry de Lombalgia' },
+  { value: 'IAD', label: 'Inventário de Atitudes frente à Dor' },
+  { value: 'SBST', label: 'Start Back Screening Tool - Brasil' },
+  { value: 'PSEQ', label: 'Autoeficácia da dor' },
   {
     value: 'WOMAC',
-    label: 'Qualidade de vida específico para osteoartrose WOMAC',
+    label: 'Índice WOMAC de Osteoartrose',
   },
-  { value: 'SPADI', label: 'Índice de dor e incapacidade no ombro (SPADI)' },
-  { value: 'AOFAS', label: 'Escala AOFAS para tornozelo e retropé' },
+  {
+    value: 'SPADI',
+    label: 'Índice de Dor e Incapacidade no Ombro (SPADI-Brasil)',
+  },
+  { value: 'AOFAS', label: 'Escala AOFAS para Tornozelo e Retropé' },
 ];
 
 export interface RouterParams {

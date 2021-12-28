@@ -19,12 +19,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 import { OrangeButton, OutlinedButton } from '../Buttons';
-import { PatientPayload, QUESTIONAIRE_LIST } from '../../interfaces';
+import { PatientPayload } from '../../interfaces';
 import { Patient } from '../../models/Patient';
 import { PatientForm as PatientFormModel } from '../../models/PatientForm';
 import userReducer from '../../reducers/user';
 import { getUsers } from '../../actions/user';
 import { AlertContext } from '../../utils/alert';
+import { AuthContext } from '../../utils/loggedUser';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -92,6 +93,7 @@ export default function PatientForm(props: PatientFormProps) {
 
   const [physicians, physiciansDispatch] = useReducer(userReducer, []);
   const [, setAlertMessage] = useContext(AlertContext);
+  const [auth] = useContext(AuthContext);
   const classes = useStyles();
 
   const setErrorAlert = useCallback(
@@ -254,18 +256,18 @@ export default function PatientForm(props: PatientFormProps) {
               Quais questionários foram solicitados para esse paciente?
             </Typography>
           </Grid>
-          {QUESTIONAIRE_LIST.map((item) => (
-            <Grid item xs={12} key={item.value}>
+          {auth.user!.clinic.forms.map((item) => (
+            <Grid item xs={12} key={item.id}>
               <FormGroup row>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={questionaires.includes(item.value)}
+                      checked={questionaires.includes(item.code)}
                       onChange={handleCheckboxOnChange}
-                      name={item.value}
+                      name={item.code}
                     />
                   }
-                  label={item.label}
+                  label={item.name}
                 />
               </FormGroup>
             </Grid>
