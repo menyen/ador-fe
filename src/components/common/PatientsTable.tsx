@@ -1,4 +1,10 @@
-import { useContext, useEffect, useReducer, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
@@ -91,6 +97,15 @@ export default function PatientsTable(props: PatientsTableProps) {
   const [, dispatch] = useReducer(patientReducer, []);
   const [, setAlertMessage] = useContext(AlertContext);
 
+  const setErrorAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'error',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
+
   const { deletePatient, openPatientForm, patients } = props;
 
   useEffect(() => {
@@ -107,7 +122,7 @@ export default function PatientsTable(props: PatientsTableProps) {
     >
       <Button
         variant="contained"
-        onClick={() => getPatients(setAlertMessage)(dispatch)}
+        onClick={() => getPatients(setErrorAlert)(dispatch)}
         className={classes.button}
       >
         Atualizar lista de pacientes

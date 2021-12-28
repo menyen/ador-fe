@@ -16,7 +16,7 @@ export interface IPatientsDispatchProps {
   patients: Patient[];
 }
 
-export function getPatients(setAlertMessage: (message: string) => void) {
+export function getPatients(setErrorAlert: (message: string) => void) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/patients`, {
       method: 'GET',
@@ -28,14 +28,14 @@ export function getPatients(setAlertMessage: (message: string) => void) {
     if (response.ok) {
       dispatch({ type: IActions.PATIENTS_FETCHED, patients: data.patients });
     } else {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     }
   };
 }
 
 export function deletePatient(
   patient: Patient,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/patients/${patient.id}`, {
@@ -48,14 +48,14 @@ export function deletePatient(
       dispatch({ type: IActions.PATIENT_DELETED, patients: [patient] });
     } else {
       const error = await response.json();
-      setAlertMessage!(error.message);
+      setErrorAlert!(error.message);
     }
   };
 }
 
 export function createPatient(
   patient: PatientPayload,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/patients`, {
@@ -71,7 +71,7 @@ export function createPatient(
       dispatch({ type: IActions.PATIENT_CREATED, patients: [data.patient] });
       return data.patient;
     } else {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
       return null;
     }
   };
@@ -80,7 +80,7 @@ export function createPatient(
 export function updatePatient(
   id: number,
   patient: PatientPayload,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/patients/${id}`, {
@@ -96,7 +96,7 @@ export function updatePatient(
     if (response.ok) {
       dispatch({ type: IActions.PATIENT_UPDATED, patients: [data.patient] });
     } else {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     }
   };
 }

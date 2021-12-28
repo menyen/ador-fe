@@ -11,7 +11,7 @@ export interface ITermsDispatchProps {
   terms: string;
 }
 
-export function getTermsOfUse(setAlertMessage: (message: string) => void) {
+export function getTermsOfUse(setErrorAlert: (message: string) => void) {
   return async (dispatch: Dispatch<ITermsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/terms`, {
       method: 'GET',
@@ -23,14 +23,14 @@ export function getTermsOfUse(setAlertMessage: (message: string) => void) {
     if (response.ok) {
       dispatch({ type: IActions.TERMS_FETCHED, terms: data.term });
     } else {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     }
   };
 }
 
 export function setTermsOfUse(
   text: string,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<ITermsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/terms/1`, {
@@ -46,7 +46,7 @@ export function setTermsOfUse(
       dispatch({ type: IActions.TERMS_UPDATED, terms: text });
     } else {
       const error = await response.json();
-      setAlertMessage!(error.message);
+      setErrorAlert!(error.message);
     }
   };
 }

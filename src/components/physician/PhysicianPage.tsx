@@ -1,4 +1,10 @@
-import { useContext, useEffect, useReducer, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -63,11 +69,20 @@ function PhysicianPage() {
   );
   const [, setAlertMessage] = useContext(AlertContext);
 
+  const setErrorAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'error',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
+
   useEffect(() => {
     if (panel === PhysicianPanelType.PatientsTable) {
-      getPatients(setAlertMessage)(dispatch);
+      getPatients(setErrorAlert)(dispatch);
     }
-  }, [setAlertMessage, panel]);
+  }, [setErrorAlert, panel]);
 
   const setPatient = async (
     id: number | undefined,
@@ -78,19 +93,16 @@ function PhysicianPage() {
     let newPatient;
     if (id) {
       delete patientPayload.email;
-      await updatePatient(id, patientPayload, setAlertMessage)(dispatch);
+      await updatePatient(id, patientPayload, setErrorAlert)(dispatch);
     } else {
-      newPatient = await createPatient(
-        patientPayload,
-        setAlertMessage
-      )(dispatch);
+      newPatient = await createPatient(patientPayload, setErrorAlert)(dispatch);
     }
     if (newPatient) {
       await sendQuestionaires(
         id ?? newPatient.id,
         questionairePayload,
         sendEmail,
-        setAlertMessage
+        setErrorAlert
       )(questionairesDispatch);
       setPanel(PhysicianPanelType.PatientsTable);
     }
@@ -115,14 +127,14 @@ function PhysicianPage() {
           <PatientsTable
             patients={patients}
             deletePatient={(patient: Patient) =>
-              deletePatient(patient, setAlertMessage)(dispatch)
+              deletePatient(patient, setErrorAlert)(dispatch)
             }
             openPatientForm={async (patient?: Patient) => {
               setCurrentPatient(patient);
               patient
                 ? await getQuestionaires(
                     patient.id,
-                    setAlertMessage
+                    setErrorAlert
                   )(questionairesDispatch)
                 : clearQuestionaires()(questionairesDispatch);
               setPanel(PhysicianPanelType.PatientForm);

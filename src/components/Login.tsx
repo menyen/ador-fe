@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import {
   withStyles,
   makeStyles,
@@ -174,6 +174,7 @@ const DefaultButton = withStyles((theme: Theme) => ({
     },
     textTransform: 'capitalize',
     maxWidth: 185,
+    margin: theme.spacing(1),
   },
 }))(Button);
 
@@ -192,11 +193,20 @@ function InitialPanel(props: PanelCommonProps) {
   const [terms, setTerms] = useState({ message: '', term: '' });
   const [, setAlertMessage] = useContext(AlertContext);
 
+  const setErrorAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'error',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
+
   const [openModal, setOpenModal] = React.useState(false);
 
   const handleOpenModal = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const fetchedTerms = await getTermsNoLogin(setAlertMessage);
+    const fetchedTerms = await getTermsNoLogin(setErrorAlert);
     setTerms(fetchedTerms);
     setOpenModal(true);
   };
@@ -282,6 +292,15 @@ function LoginPanel(props: PanelCommonProps) {
   const [password, setPassword] = useState<string>('');
   const classes = useStyles();
 
+  const setErrorAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'error',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
+
   const history = useHistory();
   const location = useLocation<{ from: { pathname: string } }>();
 
@@ -293,7 +312,7 @@ function LoginPanel(props: PanelCommonProps) {
         email,
         password,
       },
-      setAlertMessage
+      setErrorAlert
     );
     if (token) {
       setAuth(token);
@@ -355,10 +374,43 @@ function LoginPanel(props: PanelCommonProps) {
 
 function ForgotPasswordPanel(props: PanelCommonProps) {
   const [emailForgotPsw, setEmailForgotPsw] = useState<string>('');
+  const [, setAlertMessage] = useContext(AlertContext);
+
+  const setErrorAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'error',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
+
+  const setSuccessAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'success',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
 
   const handleForgotPswSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    // TODO call forgotPassword function here
+    const response = await fetch(`${baseUrl}/api/v1/forgot_password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: emailForgotPsw }),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      setErrorAlert(error.message);
+    } else {
+      props.nextPanel();
+      const jsonResp = await response.json();
+      setSuccessAlert(jsonResp.message);
+    }
   };
 
   const classes = useStyles();
@@ -416,6 +468,15 @@ function PatientPanel() {
   const [, setClinicSlug] = useContext(ClinicSlugContext);
   const classes = useStyles();
 
+  const setErrorAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'error',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
+
   const history = useHistory();
   const location = useLocation<{ from: { pathname: string } }>();
   const { clinic_slug } = useParams<RouterParams>();
@@ -424,7 +485,7 @@ function PatientPanel() {
       from: { pathname: `/patient` },
     };
     e.preventDefault();
-    const token = await loginPatient(taxId, clinic_slug || '', setAlertMessage);
+    const token = await loginPatient(taxId, clinic_slug || '', setErrorAlert);
     if (token) {
       setAuth(token);
       if (clinic_slug) setClinicSlug(clinic_slug);

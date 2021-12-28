@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -81,6 +87,15 @@ export default function ReportsTable(props: ReportsTableProps) {
   const [result, setResult] = useState<string>('');
   const [, setAlertMessage] = useContext(AlertContext);
 
+  const setErrorAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'error',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
+
   const { patients } = props;
 
   const searchReports = async (e: React.SyntheticEvent) => {
@@ -92,7 +107,7 @@ export default function ReportsTable(props: ReportsTableProps) {
       endDate,
       reportType,
       result,
-      setAlertMessage
+      setErrorAlert
     )(reportsDispatch);
   };
 

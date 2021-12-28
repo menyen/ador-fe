@@ -1,4 +1,10 @@
-import { useContext, useEffect, useReducer, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import { useHistory } from 'react-router';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -235,9 +241,18 @@ export default function QuestionaireList(props: QuestionaireListProps) {
   const [clinicSlug] = useContext(ClinicSlugContext);
   const history = useHistory();
 
+  const setErrorAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'error',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
+
   useEffect(() => {
-    getQuestionairesForPatient(setAlertMessage)(questionairesDispatch);
-  }, [setAlertMessage]);
+    getQuestionairesForPatient(setErrorAlert)(questionairesDispatch);
+  }, [setErrorAlert]);
 
   const signout = () => {
     setAuth();

@@ -16,7 +16,7 @@ export interface IClinicsDispatchProps {
   clinics: Clinic[];
 }
 
-export function getClinics(setAlertMessage: (message: string) => void) {
+export function getClinics(setErrorAlert: (message: string) => void) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/clinics`, {
       method: 'GET',
@@ -28,7 +28,7 @@ export function getClinics(setAlertMessage: (message: string) => void) {
     if (response.ok) {
       dispatch({ type: IActions.CLINICS_FETCHED, clinics: data.clinics });
     } else {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     }
   };
 }
@@ -44,7 +44,7 @@ export function getClinics(setAlertMessage: (message: string) => void) {
 
 export function deleteClinic(
   clinic: Clinic,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/clinics/${clinic.id}`, {
@@ -57,14 +57,14 @@ export function deleteClinic(
       dispatch({ type: IActions.CLINIC_DELETED, clinics: [clinic] });
     } else {
       const error = await response.json();
-      setAlertMessage!(error.message);
+      setErrorAlert!(error.message);
     }
   };
 }
 
 export function createClinic(
   clinic: ClinicPayload,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/clinics`, {
@@ -79,7 +79,7 @@ export function createClinic(
     if (response.ok) {
       dispatch({ type: IActions.CLINIC_CREATED, clinics: [data.clinic] });
     } else {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     }
   };
 }
@@ -87,7 +87,7 @@ export function createClinic(
 export function updateClinic(
   id: number,
   clinic: ClinicPayload,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/clinics/${id}`, {
@@ -102,7 +102,7 @@ export function updateClinic(
     if (response.ok) {
       dispatch({ type: IActions.CLINIC_UPDATED, clinics: [data.clinic] });
     } else {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     }
   };
 }

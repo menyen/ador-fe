@@ -17,7 +17,7 @@ export interface IUsersDispatchProps {
 }
 
 export function getUsers(
-  setAlertMessage: (message: string) => void,
+  setErrorAlert: (message: string) => void,
   role?: string
 ) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
@@ -34,14 +34,14 @@ export function getUsers(
     if (response.ok) {
       dispatch({ type: IActions.USERS_FETCHED, users: data.users });
     } else {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     }
   };
 }
 
 export function deleteUser(
   user: User,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/users/${user.id}`, {
@@ -54,14 +54,14 @@ export function deleteUser(
       dispatch({ type: IActions.USER_DELETED, users: [user] });
     } else {
       const error = await response.json();
-      setAlertMessage!(error.message);
+      setErrorAlert!(error.message);
     }
   };
 }
 
 export function createUser(
   user: UserPayload,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/users`, {
@@ -76,7 +76,7 @@ export function createUser(
     if (response.ok) {
       dispatch({ type: IActions.USER_CREATED, users: [data.user] });
     } else {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     }
   };
 }
@@ -84,7 +84,7 @@ export function createUser(
 export function updateUser(
   id: number,
   user: UserPayload,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/users/${id}`, {
@@ -98,7 +98,7 @@ export function updateUser(
 
     const dataResponse = await response.json();
     if (!response.ok) {
-      setAlertMessage!(dataResponse.message);
+      setErrorAlert!(dataResponse.message);
       return;
     }
     dispatch({ type: IActions.USER_UPDATED, users: [dataResponse.user] });

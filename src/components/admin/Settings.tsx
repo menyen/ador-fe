@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -31,15 +31,24 @@ export default function Settings() {
   const [tou, dispatch] = useReducer(termsReducer, '');
   const [, setAlertMessage] = useContext(AlertContext);
 
+  const setErrorAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'error',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
+
   useEffect(() => {
-    getTermsOfUse(setAlertMessage)(dispatch);
-  }, [setAlertMessage]);
+    getTermsOfUse(setErrorAlert)(dispatch);
+  }, [setErrorAlert]);
 
   const handleSetTerms = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setTermsOfUse(
       ((e.target as HTMLFormElement)[0] as HTMLTextAreaElement).value,
-      setAlertMessage
+      setErrorAlert
     )(dispatch);
   };
 

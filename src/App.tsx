@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Snackbar, { SnackbarCloseReason } from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import MuiAlert, { Color } from '@material-ui/lab/Alert';
 import {
   BrowserRouter,
   Redirect,
@@ -25,7 +25,7 @@ import { ClinicSlugContext } from './utils/clinicSlug';
 
 function App() {
   const [auth, setAuth] = useAuth();
-  const [alertMessage, setAlertMessage] = useState('');
+  const [alertMessage, setAlertMessage] = useState({ text: '', type: 'error' });
   const [clinicSlug, setClinicSlug] = useState('');
 
   const currentRole =
@@ -66,7 +66,7 @@ function App() {
       return;
     }
 
-    setAlertMessage('');
+    setAlertMessage({ text: '', type: 'error' });
   };
 
   return (
@@ -74,17 +74,17 @@ function App() {
       <AlertContext.Provider value={[alertMessage, setAlertMessage]}>
         <div className="App">
           <Snackbar
-            open={!!alertMessage}
+            open={!!alertMessage.text}
             autoHideDuration={6000}
             onClose={handleClose}
           >
             <MuiAlert
               elevation={6}
               variant="filled"
-              onClose={() => setAlertMessage('')}
-              severity="error"
+              onClose={() => setAlertMessage({ text: '', type: 'error' })}
+              severity={alertMessage.type as Color}
             >
-              {alertMessage}
+              {alertMessage.text}
             </MuiAlert>
           </Snackbar>
           <ClinicSlugContext.Provider value={[clinicSlug, setClinicSlug]}>

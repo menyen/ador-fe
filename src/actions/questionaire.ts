@@ -14,7 +14,7 @@ export interface IQuestionairesDispatchProps {
 
 export function getQuestionaires(
   patient_id: number,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
     const response = await fetch(
@@ -29,7 +29,7 @@ export function getQuestionaires(
     const data = await response.json();
 
     if (!response.ok) {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     } else {
       dispatch({
         type: IActions.QUESTIONAIRES_FETCHED,
@@ -40,7 +40,7 @@ export function getQuestionaires(
 }
 
 export function getQuestionairesForPatient(
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/forms/patient`, {
@@ -52,7 +52,7 @@ export function getQuestionairesForPatient(
     const data = await response.json();
 
     if (!response.ok) {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     } else {
       dispatch({
         type: IActions.QUESTIONAIRES_FETCHED,
@@ -66,7 +66,7 @@ export function sendQuestionaires(
   patient_id: number,
   forms: string[],
   send_email: boolean,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
     const response = await fetch(`${baseUrl}/api/v1/forms/request`, {
@@ -79,7 +79,7 @@ export function sendQuestionaires(
     });
     if (!response.ok) {
       const error = await response.json();
-      setAlertMessage!(error.message);
+      setErrorAlert!(error.message);
     }
   };
 }

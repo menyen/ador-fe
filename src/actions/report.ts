@@ -18,7 +18,7 @@ export function getReports(
   end_date: string,
   type: string,
   result: string,
-  setAlertMessage: (message: string) => void
+  setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IReportsDispatchProps>) => {
     const url = new URL(`${baseUrl}/api/v1/reports`);
@@ -51,7 +51,7 @@ export function getReports(
     const data = await response.json();
 
     if (!response.ok) {
-      setAlertMessage!(data.message);
+      setErrorAlert!(data.message);
     } else {
       dispatch({
         type: IActions.REPORTS_FETCHED,

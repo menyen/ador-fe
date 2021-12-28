@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -88,9 +94,18 @@ export default function PatientForm(props: PatientFormProps) {
   const [, setAlertMessage] = useContext(AlertContext);
   const classes = useStyles();
 
+  const setErrorAlert = useCallback(
+    (message: string) =>
+      setAlertMessage({
+        type: 'error',
+        text: message,
+      }),
+    [setAlertMessage]
+  );
+
   useEffect(() => {
-    getUsers(setAlertMessage, 'physicians')(physiciansDispatch);
-  }, [setAlertMessage]);
+    getUsers(setErrorAlert, 'physicians')(physiciansDispatch);
+  }, [setErrorAlert]);
 
   useEffect(() => {
     if (physicians?.length && !physicianId) {
