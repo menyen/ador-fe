@@ -23,6 +23,7 @@ import {
   createPatient,
   deletePatient,
   getPatients,
+  searchPatients,
   updatePatient,
 } from '../../actions/patient';
 import PatientForm from '../common/PatientForm';
@@ -61,6 +62,7 @@ function PhysicianPage() {
     PhysicianPanelType.PatientsTable
   );
   const [currentPatient, setCurrentPatient] = useState<Patient>();
+  const [searchPatientQuery, setSearchPatientQuery] = useState<string>();
 
   const [patients, dispatch] = useReducer(patientReducer, []);
   const [questionaires, questionairesDispatch] = useReducer(
@@ -78,11 +80,19 @@ function PhysicianPage() {
     [setAlertMessage]
   );
 
-  useEffect(() => {
-    if (panel === PhysicianPanelType.PatientsTable) {
+  const fetchPatients = useCallback(() => {
+    if (searchPatientQuery) {
+      searchPatients(searchPatientQuery, setErrorAlert)(dispatch);
+    } else {
       getPatients(setErrorAlert)(dispatch);
     }
-  }, [setErrorAlert, panel]);
+  }, [searchPatientQuery, setErrorAlert]);
+
+  useEffect(() => {
+    if (panel === PhysicianPanelType.PatientsTable) {
+      fetchPatients();
+    }
+  }, [setErrorAlert, panel, fetchPatients]);
 
   const setPatient = async (
     id: number | undefined,
@@ -108,6 +118,11 @@ function PhysicianPage() {
     }
   };
 
+  const onSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchPatientQuery(event.target.value);
+    setPanel(PhysicianPanelType.PatientsTable);
+  };
+
   return (
     <div
       className={clsx({
@@ -121,6 +136,7 @@ function PhysicianPage() {
         setPanel={(panel: AllPanelTypes) =>
           setPanel(panel as PhysicianPanelType)
         }
+        searchPatients={onSearchInputChange}
       />
       <main className={classes.content}>
         {panel === PhysicianPanelType.PatientsTable && (
@@ -139,6 +155,7 @@ function PhysicianPage() {
                 : clearQuestionaires()(questionairesDispatch);
               setPanel(PhysicianPanelType.PatientForm);
             }}
+            updatePatientList={() => getPatients(setErrorAlert)(dispatch)}
           />
         )}
         {panel === PhysicianPanelType.PatientForm && (

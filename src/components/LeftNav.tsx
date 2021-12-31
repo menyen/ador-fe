@@ -151,6 +151,7 @@ interface LeftNavProps {
   currentPanel: AllPanelTypes;
   openClinicsTablePage?: () => void;
   openTermsOfUsePage?: () => void;
+  searchPatients?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setPanel: (panelType: AllPanelTypes) => void;
 }
 
@@ -160,7 +161,7 @@ export default function LeftNav(props: LeftNavProps) {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const history = useHistory();
-  const { role, currentPanel, setPanel } = props;
+  const { role, currentPanel, setPanel, searchPatients } = props;
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -195,19 +196,22 @@ export default function LeftNav(props: LeftNavProps) {
           >
             <img src={minilogo} alt="logo" width="39" />
           </IconButton>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+          {role !== RolesEnum.ADMIN && (
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Pesquisar paciente"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={searchPatients}
+              />
             </div>
-            <InputBase
-              placeholder="Pesquisar paciente"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer

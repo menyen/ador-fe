@@ -33,6 +33,7 @@ import {
   createPatient,
   deletePatient,
   getPatients,
+  searchPatients,
   updatePatient,
 } from '../../actions/patient';
 import {
@@ -74,6 +75,7 @@ export default function ManagerPage() {
   const [currentUser, setCurrentUser] = useState<User>();
   const [users, usersDispatch] = useReducer(userReducer, []);
   const [currentPatient, setCurrentPatient] = useState<Patient>();
+  const [searchPatientQuery, setSearchPatientQuery] = useState<string>();
 
   const [patients, patientDispatch] = useReducer(patientReducer, []);
   const [questionaires, questionairesDispatch] = useReducer(
@@ -97,11 +99,19 @@ export default function ManagerPage() {
     }
   }, [setErrorAlert, panel]);
 
-  useEffect(() => {
-    if (panel === ManagerPanelType.PatientsTable) {
+  const fetchPatients = useCallback(() => {
+    if (searchPatientQuery) {
+      searchPatients(searchPatientQuery, setErrorAlert)(patientDispatch);
+    } else {
       getPatients(setErrorAlert)(patientDispatch);
     }
-  }, [setErrorAlert, panel]);
+  }, [searchPatientQuery, setErrorAlert]);
+
+  useEffect(() => {
+    if (panel === ManagerPanelType.PatientsTable) {
+      fetchPatients();
+    }
+  }, [setErrorAlert, panel, searchPatientQuery, fetchPatients]);
 
   const setUser = async (id: number | undefined, payload: UserPayload) => {
     if (id) {
@@ -139,6 +149,11 @@ export default function ManagerPage() {
     }
   };
 
+  const onSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchPatientQuery(event.target.value);
+    setPanel(ManagerPanelType.PatientsTable);
+  };
+
   return (
     <div
       className={clsx({
@@ -150,6 +165,7 @@ export default function ManagerPage() {
         role="manager"
         currentPanel={panel}
         setPanel={(panel: AllPanelTypes) => setPanel(panel as ManagerPanelType)}
+        searchPatients={onSearchInputChange}
       />
       <main className={classes.content}>
         {panel === ManagerPanelType.UsersTable && (
@@ -162,6 +178,7 @@ export default function ManagerPage() {
               setCurrentUser(user);
               setPanel(ManagerPanelType.UserForm);
             }}
+            updateUserList={() => getUsers(setErrorAlert)(usersDispatch)}
           />
         )}
         {panel === ManagerPanelType.UserForm && (
@@ -187,6 +204,7 @@ export default function ManagerPage() {
                 : clearQuestionaires()(questionairesDispatch);
               setPanel(ManagerPanelType.PatientForm);
             }}
+            updatePatientList={fetchPatients}
           />
         )}
         {panel === ManagerPanelType.PatientForm && (

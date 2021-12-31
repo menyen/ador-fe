@@ -1,10 +1,4 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,12 +7,9 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import { PatientTableColumn, PatientTableData } from '../../interfaces';
 import { Patient } from '../../models/Patient';
-import patientReducer from '../../reducers/patient';
 import GenericTable from '../GenericTable';
 import { OrangeButton } from '../Buttons';
 import Grid from '@material-ui/core/Grid';
-import { AlertContext } from '../../utils/alert';
-import { getPatients } from '../../actions/patient';
 
 const columns: PatientTableColumn[] = [
   { id: 'name', label: 'Nome', minWidth: 170 },
@@ -89,24 +80,13 @@ interface PatientsTableProps {
   patients: Patient[];
   deletePatient: (patient: Patient) => Promise<void>;
   openPatientForm: (patient?: Patient) => void;
+  updatePatientList: () => void;
 }
 
 export default function PatientsTable(props: PatientsTableProps) {
   const classes = useStyles();
   const [rows, setRows] = useState<PatientTableData[]>([]);
-  const [, dispatch] = useReducer(patientReducer, []);
-  const [, setAlertMessage] = useContext(AlertContext);
-
-  const setErrorAlert = useCallback(
-    (message: string) =>
-      setAlertMessage({
-        type: 'error',
-        text: message,
-      }),
-    [setAlertMessage]
-  );
-
-  const { deletePatient, openPatientForm, patients } = props;
+  const { deletePatient, openPatientForm, updatePatientList, patients } = props;
 
   useEffect(() => {
     setRows(setPatientsIntoTable(patients, deletePatient, openPatientForm));
@@ -122,7 +102,7 @@ export default function PatientsTable(props: PatientsTableProps) {
     >
       <Button
         variant="contained"
-        onClick={() => getPatients(setErrorAlert)(dispatch)}
+        onClick={() => updatePatientList()}
         className={classes.button}
       >
         Atualizar lista de pacientes

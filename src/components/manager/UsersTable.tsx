@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -15,9 +9,6 @@ import { UserTableColumn, UserTableData } from '../../interfaces';
 import GenericTable from '../GenericTable';
 import { OrangeButton } from '../Buttons';
 import { User } from '../../models/User';
-import userReducer from '../../reducers/user';
-import { AlertContext } from '../../utils/alert';
-import { getUsers } from '../../actions/user';
 
 const columns: UserTableColumn[] = [
   // { id: 'id', label: 'ID' },
@@ -68,6 +59,7 @@ interface UsersTableProps {
   users: User[];
   deleteUser: (user: User) => Promise<void>;
   openUserForm: (user?: User) => void;
+  updateUserList: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -85,19 +77,8 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function UsersTable(props: UsersTableProps) {
   const classes = useStyles();
   const [rows, setRows] = useState<UserTableData[]>([]);
-  const [, dispatch] = useReducer(userReducer, []);
-  const [, setAlertMessage] = useContext(AlertContext);
 
-  const setErrorAlert = useCallback(
-    (message: string) =>
-      setAlertMessage({
-        type: 'error',
-        text: message,
-      }),
-    [setAlertMessage]
-  );
-
-  const { deleteUser, openUserForm, users } = props;
+  const { deleteUser, openUserForm, updateUserList, users } = props;
 
   useEffect(() => {
     setRows(setUsersIntoTable(users, deleteUser, openUserForm));
@@ -113,7 +94,7 @@ export default function UsersTable(props: UsersTableProps) {
     >
       <Button
         variant="contained"
-        onClick={() => getUsers(setErrorAlert)(dispatch)}
+        onClick={() => updateUserList()}
         className={classes.button}
       >
         Atualizar lista de pacientes
