@@ -202,7 +202,8 @@ export default function LeftNav(props: LeftNavProps) {
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder="Pesquisar paciente"
+                id="input-search"
+                placeholder="Pesquisar paciente (mín. 4 caracteres)..."
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
