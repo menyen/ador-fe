@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
     },
     container: {
-      maxHeight: 440,
+      maxHeight: '75vh',
     },
     tableHeadCell: {
       backgroundColor: theme.palette.common.black,

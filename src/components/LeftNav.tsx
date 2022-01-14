@@ -28,6 +28,12 @@ import SearchIcon from '@material-ui/icons/Search';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import logo from '../image/logo.svg';
 import minilogo from '../image/mini-logo.svg';
 import {
@@ -116,10 +122,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
       marginLeft: 0,
       width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto',
-      },
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
@@ -132,6 +134,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     inputRoot: {
       color: 'inherit',
+      width: '100%',
     },
     inputInput: {
       padding: theme.spacing(1, 1, 1, 0),
@@ -139,9 +142,6 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
       transition: theme.transitions.create('width'),
       width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
     },
   })
 );
@@ -160,6 +160,7 @@ export default function LeftNav(props: LeftNavProps) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
   const history = useHistory();
   const { role, currentPanel, setPanel, searchPatients } = props;
   const handleDrawerOpen = () => {
@@ -175,8 +176,50 @@ export default function LeftNav(props: LeftNavProps) {
     history.push('/login');
   };
 
+  const handleClickOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const gotoPatientPage = () => {
+    handleCloseModal();
+    signout();
+    window.open(
+      `/login/patient/${auth?.user?.clinic_slug}`,
+      '_blank',
+      'noopener'
+    );
+  };
+
   return (
     <div className={classes.root}>
+      <Dialog
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Ir para a área do paciente?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Tem certeza que deseja ir para a área do paciente? Executar essa
+            ação fará com que você seja deslogado dessa página.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseModal} color="primary" autoFocus>
+            Não
+          </Button>
+          <Button onClick={gotoPatientPage} color="primary">
+            Sim
+          </Button>
+        </DialogActions>
+      </Dialog>
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -202,7 +245,6 @@ export default function LeftNav(props: LeftNavProps) {
                 <SearchIcon />
               </div>
               <InputBase
-                id="input-search"
                 placeholder="Pesquisar paciente (mín. 4 caracteres)..."
                 classes={{
                   root: classes.inputRoot,
@@ -314,17 +356,7 @@ export default function LeftNav(props: LeftNavProps) {
               </ListItemIcon>
               <ListItemText primary="Relatórios" />
             </ListItem>
-            <ListItem
-              onClick={() =>
-                window.open(
-                  `/login/patient/${auth?.user?.clinic_slug}`,
-                  '_blank',
-                  'noopener'
-                )
-              }
-              button
-              key="Smartphone"
-            >
+            <ListItem onClick={handleClickOpenModal} button key="Smartphone">
               <ListItemIcon>
                 <Smartphone />
               </ListItemIcon>

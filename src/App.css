@@ -16,11 +16,3 @@
 .App-link {
   color: #61dafb;
 }
-
-#input-search{
-  width:360px;
-}
-
-.MuiTableContainer-root{
-  max-height:75vh !important;
-}
