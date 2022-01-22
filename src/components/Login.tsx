@@ -29,9 +29,10 @@ import {
 import minilogo from '../image/mini-logo-white.svg';
 import logo from '../image/logo.svg';
 import { OutlinedButton } from './Buttons';
-import { AuthContext, baseUrl } from '../utils/loggedUser';
+import { AuthContext } from '../utils/loggedUser';
 import { AlertContext } from '../utils/alert';
 import { ClinicSlugContext } from '../utils/clinicSlug';
+import api from '../utils/api';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -112,19 +113,17 @@ async function loginUser(
   credentials: Credentials,
   setAlertMessage?: (message: string) => void
 ) {
-  const response = await fetch(`${baseUrl}/api/v1/login`, {
-    method: 'POST',
+  const response = await api.post('api/v1/login', JSON.stringify(credentials), {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(credentials),
   });
-  if (!response.ok) {
-    const error = await response.json();
+  if (response.status !== 200) {
+    const error = response.data;
     setAlertMessage!(error.message);
     return null;
   }
-  return response.json();
+  return response.data;
 }
 
 async function loginPatient(
@@ -132,37 +131,35 @@ async function loginPatient(
   clinic_slug: string,
   setAlertMessage?: (message: string) => void
 ) {
-  const response = await fetch(
-    `${baseUrl}/api/v1/patient/login/${clinic_slug}`,
+  const response = await api.post(
+    `api/v1/patient/login/${clinic_slug}`,
+    JSON.stringify({ tax_id }),
     {
-      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ tax_id }),
     }
   );
-  if (!response.ok) {
-    const error = await response.json();
+  if (response.status !== 200) {
+    const error = response.data;
     setAlertMessage!(error.message);
     return null;
   }
-  return response.json();
+  return response.data;
 }
 
 async function getTermsNoLogin(setAlertMessage?: (message: string) => void) {
-  const response = await fetch(`${baseUrl}/api/v1/terms/text`, {
-    method: 'GET',
+  const response = await api.get('api/v1/terms/text', {
     headers: {
       'Content-Type': 'application/json',
     },
   });
-  if (!response.ok) {
-    const error = await response.json();
+  if (response.status !== 200) {
+    const error = response.data;
     setAlertMessage!(error.message);
     return null;
   }
-  return response.json();
+  return response.data;
 }
 
 const DefaultButton = withStyles((theme: Theme) => ({
@@ -396,19 +393,21 @@ function ForgotPasswordPanel(props: PanelCommonProps) {
 
   const handleForgotPswSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const response = await fetch(`${baseUrl}/api/v1/forgot_password`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: emailForgotPsw }),
-    });
-    if (!response.ok) {
-      const error = await response.json();
+    const response = await api.post(
+      'api/v1/forgot_password',
+      JSON.stringify({ email: emailForgotPsw }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    if (response.status !== 200) {
+      const error = response.data;
       setErrorAlert(error.message);
     } else {
       props.nextPanel();
-      const jsonResp = await response.json();
+      const jsonResp = response.data;
       setSuccessAlert(jsonResp.message);
     }
   };
