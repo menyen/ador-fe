@@ -1,7 +1,8 @@
 import { Dispatch } from 'react';
 import { UserPayload } from '../interfaces';
 import { User } from '../models/User';
-import { baseUrl, getAuth } from '../utils/loggedUser';
+import api from '../utils/api';
+import { getAuth } from '../utils/loggedUser';
 
 export enum IActions {
   USERS_FETCHED,
@@ -21,21 +22,16 @@ export function getUsers(
   role?: string
 ) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
-    const response = await fetch(
-      `${baseUrl}/api/v1/users${role ? `/${role}` : ''}`,
-      {
-        method: 'GET',
+    api
+      .get(`api/v1/users${role ? `/${role}` : ''}`, {
         headers: {
           Authorization: `Bearer ${getAuth().token}`,
         },
-      }
-    );
-    const data = await response.json();
-    if (response.ok) {
-      dispatch({ type: IActions.USERS_FETCHED, users: data.users });
-    } else {
-      setErrorAlert!(data.message);
-    }
+      })
+      .then((response) =>
+        dispatch({ type: IActions.USERS_FETCHED, users: response.data.users })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -44,18 +40,16 @@ export function deleteUser(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/users/${user.id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-      },
-    });
-    if (response.ok) {
-      dispatch({ type: IActions.USER_DELETED, users: [user] });
-    } else {
-      const error = await response.json();
-      setErrorAlert!(error.message);
-    }
+    api
+      .delete(`api/v1/users/${user.id}`, {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+        },
+      })
+      .then((response) =>
+        dispatch({ type: IActions.USER_DELETED, users: [user] })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -64,20 +58,17 @@ export function createUser(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/users`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user),
-    });
-    const data = await response.json();
-    if (response.ok) {
-      dispatch({ type: IActions.USER_CREATED, users: [data.user] });
-    } else {
-      setErrorAlert!(data.message);
-    }
+    api
+      .post('api/v1/users', JSON.stringify(user), {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) =>
+        dispatch({ type: IActions.USER_CREATED, users: [response.data.user] })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -87,20 +78,19 @@ export function updateUser(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IUsersDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/users/${id}`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user),
-    });
-
-    const dataResponse = await response.json();
-    if (!response.ok) {
-      setErrorAlert!(dataResponse.message);
-      return;
-    }
-    dispatch({ type: IActions.USER_UPDATED, users: [dataResponse.user] });
+    api
+      .put(`api/v1/users/${id}`, JSON.stringify(user), {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) =>
+        dispatch({ type: IActions.USER_UPDATED, users: [response.data.user] })
+      )
+      .catch((error) => {
+        setErrorAlert!(error.response.data.message);
+        return;
+      });
   };
 }

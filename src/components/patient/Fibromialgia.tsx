@@ -20,8 +20,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import _ from 'lodash';
 
 import { PatientFormProps, PatientPanel } from '../../interfaces';
-import { baseUrl } from '../../utils/loggedUser';
 import { UserAuth } from '../../models/UserAuth';
+import api from '../../utils/api';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -189,22 +189,19 @@ async function postFibromialgiaAnswers(
   answers: Answers,
   goToQuestionaire: () => void
 ) {
-  const response = await fetch(
-    `${baseUrl}/api/v1/forms/patient/fill/fibromialgia`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ answers }),
-    }
-  );
-
-  if (response.ok) {
-    goToQuestionaire();
-  }
+  api
+    .post(
+      '/api/v1/forms/patient/fill/fibromialgia',
+      JSON.stringify({ answers }),
+      {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    .then((response) => goToQuestionaire());
 }
 
 const getBooleansRealIndex = (questionIndex: number, sectionIndex: number) => {

@@ -1,5 +1,6 @@
 import { Dispatch } from 'react';
-import { baseUrl, getAuth } from '../utils/loggedUser';
+import api from '../utils/api';
+import { getAuth } from '../utils/loggedUser';
 
 export enum IActions {
   TERMS_FETCHED,
@@ -13,18 +14,16 @@ export interface ITermsDispatchProps {
 
 export function getTermsOfUse(setErrorAlert: (message: string) => void) {
   return async (dispatch: Dispatch<ITermsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/terms`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-      },
-    });
-    const data = await response.json();
-    if (response.ok) {
-      dispatch({ type: IActions.TERMS_FETCHED, terms: data.term });
-    } else {
-      setErrorAlert!(data.message);
-    }
+    api
+      .get('api/v1/terms', {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+        },
+      })
+      .then((response) =>
+        dispatch({ type: IActions.TERMS_FETCHED, terms: response.data.term })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -33,20 +32,16 @@ export function setTermsOfUse(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<ITermsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/terms/1`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ text }),
-    });
-
-    if (response.ok) {
-      dispatch({ type: IActions.TERMS_UPDATED, terms: text });
-    } else {
-      const error = await response.json();
-      setErrorAlert!(error.message);
-    }
+    api
+      .put('api/v1/terms/1', JSON.stringify({ text }), {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) =>
+        dispatch({ type: IActions.TERMS_UPDATED, terms: text })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }

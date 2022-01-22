@@ -5,11 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { ArrowBack } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {
-  makeStyles,
-  createStyles,
-  Theme,
-} from '@material-ui/core/styles';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 import FormControl from '@material-ui/core/FormControl';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -19,8 +15,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio from '@material-ui/core/Radio';
 
 import { PatientFormProps, PatientPanel } from '../../interfaces';
-import { baseUrl } from '../../utils/loggedUser';
 import { UserAuth } from '../../models/UserAuth';
+import api from '../../utils/api';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -80,18 +76,27 @@ const questions = [
     ],
   },
   {
-    title:
-      'Funcional: Limitação nas atividades, necessidade de suporte',
+    title: 'Funcional: Limitação nas atividades, necessidade de suporte',
     alternatives: [
       { label: 'Sem limitação, sem suporte', value: 1 },
-      { label: 'Sem limitação nas atividades diárias, limitação nas atividades recreacionais, sem suporte', value: 2 },
-      { label: 'Limitação nas atividades diárias e recreacionais, bengala', value: 3 },
-      { label: 'Limitação intensa nas atividades diárias e recreacionais, andador, muletas, cadeira-de-rodas, órtese (tornozeleira, imobilizador de tornozelo)', value: 4 },
+      {
+        label:
+          'Sem limitação nas atividades diárias, limitação nas atividades recreacionais, sem suporte',
+        value: 2,
+      },
+      {
+        label: 'Limitação nas atividades diárias e recreacionais, bengala',
+        value: 3,
+      },
+      {
+        label:
+          'Limitação intensa nas atividades diárias e recreacionais, andador, muletas, cadeira-de-rodas, órtese (tornozeleira, imobilizador de tornozelo)',
+        value: 4,
+      },
     ],
   },
   {
-    title:
-      'Funcional: Distância máxima de caminhada, quarteirões',
+    title: 'Funcional: Distância máxima de caminhada, quarteirões',
     alternatives: [
       { label: 'Mais que 6', value: 1 },
       { label: 'De 4 a 6', value: 2 },
@@ -103,8 +108,16 @@ const questions = [
     title: 'Funcional: Superfícies de caminhada',
     alternatives: [
       { label: 'Sem dificuldade em qualquer superfície', value: 1 },
-      { label: 'Alguma dificuldade em terrenos irregulares, escadas, inclinações e ladeiras', value: 2 },
-      { label: 'Dificuldade intensa em terrenos irregulares, escadas, inclinações e ladeiras', value: 3 },
+      {
+        label:
+          'Alguma dificuldade em terrenos irregulares, escadas, inclinações e ladeiras',
+        value: 2,
+      },
+      {
+        label:
+          'Dificuldade intensa em terrenos irregulares, escadas, inclinações e ladeiras',
+        value: 3,
+      },
     ],
   },
   {
@@ -132,19 +145,29 @@ const questions = [
     ],
   },
   {
-    title: 'Funcional: Estabilidade do tornozelo e retro-pé (anteroposterior, varo-valgo)',
+    title:
+      'Funcional: Estabilidade do tornozelo e retro-pé (anteroposterior, varo-valgo)',
     alternatives: [
       { label: 'Estável', value: 1 },
       { label: 'Instável', value: 2 },
     ],
   },
   {
-    title:
-      'Alinhamento',
+    title: 'Alinhamento',
     alternatives: [
-      { label: 'Bom, pé plantígrado, ante-pé e retro-pé bem alinhado', value: 1 },
-      { label: 'Regular, pé plantígrado, algum grau de desalinhamento do tornozelo e retro-pé, sem sintomas', value: 2 },
-      { label: 'Ruim, pé não plantígrado, desalinhamento intenso e sintomático', value: 3 },
+      {
+        label: 'Bom, pé plantígrado, ante-pé e retro-pé bem alinhado',
+        value: 1,
+      },
+      {
+        label:
+          'Regular, pé plantígrado, algum grau de desalinhamento do tornozelo e retro-pé, sem sintomas',
+        value: 2,
+      },
+      {
+        label: 'Ruim, pé não plantígrado, desalinhamento intenso e sintomático',
+        value: 3,
+      },
     ],
   },
 ];
@@ -154,19 +177,15 @@ async function postAOFASAnswers(
   answers: number[],
   goToQuestionaire: () => void
 ) {
-  const response = await fetch(`${baseUrl}/api/v1/forms/patient/fill/aofas`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${auth.token}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ answers }),
-  });
-
-  if (response.ok) {
-    goToQuestionaire();
-  }
+  api
+    .post('api/v1/forms/patient/fill/aofas', JSON.stringify({ answers }), {
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => goToQuestionaire());
 }
 
 export default function AOFAS(props: PatientFormProps) {
@@ -209,7 +228,10 @@ export default function AOFAS(props: PatientFormProps) {
           </div>
           <div className={classes.bodyContent}>
             <Typography variant="body1">
-              Em 1994, um comitê da American Orthopaedic Foot and Ankle Society (AOFAS) desenvolveu um sistema de avaliação para as diferentes regiões anatômicas do pé, dando origem a quatro escalas que geram uma pontuação
+              Em 1994, um comitê da American Orthopaedic Foot and Ankle Society
+              (AOFAS) desenvolveu um sistema de avaliação para as diferentes
+              regiões anatômicas do pé, dando origem a quatro escalas que geram
+              uma pontuação
             </Typography>
             <Button
               variant="contained"
@@ -219,7 +241,8 @@ export default function AOFAS(props: PatientFormProps) {
               Começar
             </Button>
             <Typography variant="body2" className={classes.referenceInfo}>
-              Tradução, adaptação cultural e validação do "American Orthopaedic Foot and Ankle Society (AOFAS) ankle-hindfoot scale"
+              Tradução, adaptação cultural e validação do "American Orthopaedic
+              Foot and Ankle Society (AOFAS) ankle-hindfoot scale"
             </Typography>
           </div>
         </>

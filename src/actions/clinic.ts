@@ -1,7 +1,8 @@
 import { Dispatch } from 'react';
 import { ClinicPayload } from '../interfaces';
 import { Clinic } from '../models/Clinic';
-import { baseUrl, getAuth } from '../utils/loggedUser';
+import api from '../utils/api';
+import { getAuth } from '../utils/loggedUser';
 
 export enum IActions {
   CLINICS_FETCHED,
@@ -18,18 +19,19 @@ export interface IClinicsDispatchProps {
 
 export function getClinics(setErrorAlert: (message: string) => void) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/clinics`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-      },
-    });
-    const data = await response.json();
-    if (response.ok) {
-      dispatch({ type: IActions.CLINICS_FETCHED, clinics: data.clinics });
-    } else {
-      setErrorAlert!(data.message);
-    }
+    api
+      .get('api/v1/clinics', {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+        },
+      })
+      .then((response) =>
+        dispatch({
+          type: IActions.CLINICS_FETCHED,
+          clinics: response.data.clinics,
+        })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -47,18 +49,16 @@ export function deleteClinic(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/clinics/${clinic.id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-      },
-    });
-    if (response.ok) {
-      dispatch({ type: IActions.CLINIC_DELETED, clinics: [clinic] });
-    } else {
-      const error = await response.json();
-      setErrorAlert!(error.message);
-    }
+    api
+      .delete(`api/v1/clinics/${clinic.id}`, {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+        },
+      })
+      .then((response) =>
+        dispatch({ type: IActions.CLINIC_DELETED, clinics: [clinic] })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -67,20 +67,20 @@ export function createClinic(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/clinics`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(clinic),
-    });
-    const data = await response.json();
-    if (response.ok) {
-      dispatch({ type: IActions.CLINIC_CREATED, clinics: [data.clinic] });
-    } else {
-      setErrorAlert!(data.message);
-    }
+    api
+      .post('api/v1/clinics', JSON.stringify(clinic), {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) =>
+        dispatch({
+          type: IActions.CLINIC_CREATED,
+          clinics: [response.data.clinic],
+        })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -90,19 +90,19 @@ export function updateClinic(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/clinics/${id}`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(clinic),
-    });
-    const data = await response.json();
-    if (response.ok) {
-      dispatch({ type: IActions.CLINIC_UPDATED, clinics: [data.clinic] });
-    } else {
-      setErrorAlert!(data.message);
-    }
+    api
+      .put(`api/v1/clinics/${id}`, JSON.stringify(clinic), {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) =>
+        dispatch({
+          type: IActions.CLINIC_UPDATED,
+          clinics: [response.data.clinic],
+        })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }

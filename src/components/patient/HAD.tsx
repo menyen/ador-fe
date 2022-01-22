@@ -21,8 +21,8 @@ import Radio, { RadioProps } from '@material-ui/core/Radio';
 import clsx from 'clsx';
 
 import { PatientFormProps, PatientPanel } from '../../interfaces';
-import { baseUrl } from '../../utils/loggedUser';
 import { UserAuth } from '../../models/UserAuth';
+import api from '../../utils/api';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -277,19 +277,15 @@ async function postHADAnswers(
   answers: number[],
   goToQuestionaire: () => void
 ) {
-  const response = await fetch(`${baseUrl}/api/v1/forms/patient/fill/had`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${auth.token}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ answers }),
-  });
-
-  if (response.ok) {
-    goToQuestionaire();
-  }
+  api
+    .post('api/v1/forms/patient/fill/had', JSON.stringify({ answers }), {
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => goToQuestionaire());
 }
 
 export default function HAD(props: PatientFormProps) {

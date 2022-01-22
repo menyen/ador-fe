@@ -1,7 +1,8 @@
 import { Dispatch } from 'react';
 import { ReportsSearchPayload } from '../interfaces';
 import { PatientForm } from '../models/PatientForm';
-import { baseUrl, getAuth } from '../utils/loggedUser';
+import api from '../utils/api';
+import { getAuth } from '../utils/loggedUser';
 
 export enum IActions {
   REPORTS_FETCHED,
@@ -21,7 +22,6 @@ export function getReports(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IReportsDispatchProps>) => {
-    const url = new URL(`${baseUrl}/api/v1/reports`);
     let urlParamObject: ReportsSearchPayload = {
       patient_id: patient_id.toString(),
       start_date,
@@ -39,25 +39,22 @@ export function getReports(
     } else {
       urlParamObject = { ...urlParamObject, result };
     }
-    url.search = new URLSearchParams({ ...urlParamObject }).toString();
-    const response = await fetch(url.toString(), {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      setErrorAlert!(data.message);
-    } else {
-      dispatch({
-        type: IActions.REPORTS_FETCHED,
-        reports: data.forms,
-      });
-    }
+    api
+      .get('api/v1/reports', {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        params: urlParamObject,
+      })
+      .then((response) =>
+        dispatch({
+          type: IActions.REPORTS_FETCHED,
+          reports: response.data.forms,
+        })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 

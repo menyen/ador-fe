@@ -16,8 +16,8 @@ import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { PatientFormProps, PatientPanel } from '../../interfaces';
-import { baseUrl } from '../../utils/loggedUser';
 import { UserAuth } from '../../models/UserAuth';
+import api from '../../utils/api';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -117,19 +117,15 @@ async function postWOMACAnswers(
   answers: number[],
   goToQuestionaire: () => void
 ) {
-  const response = await fetch(`${baseUrl}/api/v1/forms/patient/fill/womac`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${auth.token}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ answers }),
-  });
-
-  if (response.ok) {
-    goToQuestionaire();
-  }
+  api
+    .post('api/v1/forms/patient/fill/womac', JSON.stringify({ answers }), {
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => goToQuestionaire());
 }
 
 const getRealIndex = (questionIndex: number, sectionIndex: number) => {

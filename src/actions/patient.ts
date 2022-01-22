@@ -1,7 +1,8 @@
 import { Dispatch } from 'react';
 import { PatientPayload } from '../interfaces';
 import { Patient } from '../models/Patient';
-import { baseUrl, getAuth } from '../utils/loggedUser';
+import api from '../utils/api';
+import { getAuth } from '../utils/loggedUser';
 
 export enum IActions {
   PATIENTS_FETCHED,
@@ -18,18 +19,19 @@ export interface IPatientsDispatchProps {
 
 export function getPatients(setErrorAlert: (message: string) => void) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/patients`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-      },
-    });
-    const data = await response.json();
-    if (response.ok) {
-      dispatch({ type: IActions.PATIENTS_FETCHED, patients: data.patients });
-    } else {
-      setErrorAlert!(data.message);
-    }
+    api
+      .get('api/v1/patients', {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+        },
+      })
+      .then((response) =>
+        dispatch({
+          type: IActions.PATIENTS_FETCHED,
+          patients: response.data.patients,
+        })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -38,18 +40,16 @@ export function deletePatient(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/patients/${patient.id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-      },
-    });
-    if (response.ok) {
-      dispatch({ type: IActions.PATIENT_DELETED, patients: [patient] });
-    } else {
-      const error = await response.json();
-      setErrorAlert!(error.message);
-    }
+    api
+      .delete(`api/v1/patients/${patient.id}`, {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+        },
+      })
+      .then((response) =>
+        dispatch({ type: IActions.PATIENT_DELETED, patients: [patient] })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -57,24 +57,23 @@ export function createPatient(
   patient: PatientPayload,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/patients`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(patient),
-    });
-    const data = await response.json();
-    if (response.ok) {
-      dispatch({ type: IActions.PATIENT_CREATED, patients: [data.patient] });
-      return data.patient;
-    } else {
-      setErrorAlert!(data.message);
-      return null;
-    }
-  };
+  return async (dispatch: Dispatch<IPatientsDispatchProps>) =>
+    api
+      .post('api/v1/patients', JSON.stringify(patient), {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        const { patient } = response.data;
+        dispatch({ type: IActions.PATIENT_CREATED, patients: [patient] });
+        return patient;
+      })
+      .catch((error) => {
+        setErrorAlert!(error.response.data.message);
+        return null;
+      });
 }
 
 export function updatePatient(
@@ -83,21 +82,20 @@ export function updatePatient(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/patients/${id}`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(patient),
-    });
-    const data = await response.json();
-
-    if (response.ok) {
-      dispatch({ type: IActions.PATIENT_UPDATED, patients: [data.patient] });
-    } else {
-      setErrorAlert!(data.message);
-    }
+    api
+      .put(`api/v1/patients/${id}`, JSON.stringify(patient), {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) =>
+        dispatch({
+          type: IActions.PATIENT_UPDATED,
+          patients: [response.data.patient],
+        })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -106,17 +104,18 @@ export function searchPatients(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/patients?search=${query}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-      },
-    });
-    const data = await response.json();
-    if (response.ok) {
-      dispatch({ type: IActions.PATIENTS_FETCHED, patients: data.patients });
-    } else {
-      setErrorAlert!(data.message);
-    }
+    api
+      .get(`api/v1/patients?search=${query}`, {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+        },
+      })
+      .then((response) =>
+        dispatch({
+          type: IActions.PATIENTS_FETCHED,
+          patients: response.data.patients,
+        })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }

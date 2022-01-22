@@ -1,6 +1,7 @@
 import { Dispatch } from 'react';
 import { PatientForm } from '../models/PatientForm';
-import { baseUrl, getAuth } from '../utils/loggedUser';
+import api from '../utils/api';
+import { getAuth } from '../utils/loggedUser';
 
 export enum IActions {
   QUESTIONAIRES_FETCHED,
@@ -17,25 +18,19 @@ export function getQuestionaires(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
-    const response = await fetch(
-      `${baseUrl}/api/v1/forms/patient/${patient_id}`,
-      {
-        method: 'GET',
+    api
+      .get(`api/v1/forms/patient/${patient_id}`, {
         headers: {
           Authorization: `Bearer ${getAuth().token}`,
         },
-      }
-    );
-    const data = await response.json();
-
-    if (!response.ok) {
-      setErrorAlert!(data.message);
-    } else {
-      dispatch({
-        type: IActions.QUESTIONAIRES_FETCHED,
-        questionaires: data.forms,
-      });
-    }
+      })
+      .then((response) =>
+        dispatch({
+          type: IActions.QUESTIONAIRES_FETCHED,
+          questionaires: response.data.forms,
+        })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -43,22 +38,19 @@ export function getQuestionairesForPatient(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/forms/patient`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-      },
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      setErrorAlert!(data.message);
-    } else {
-      dispatch({
-        type: IActions.QUESTIONAIRES_FETCHED,
-        questionaires: data.forms,
-      });
-    }
+    api
+      .get('api/v1/forms/patient', {
+        headers: {
+          Authorization: `Bearer ${getAuth().token}`,
+        },
+      })
+      .then((response) =>
+        dispatch({
+          type: IActions.QUESTIONAIRES_FETCHED,
+          questionaires: response.data.forms,
+        })
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
@@ -69,18 +61,18 @@ export function sendQuestionaires(
   setErrorAlert: (message: string) => void
 ) {
   return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
-    const response = await fetch(`${baseUrl}/api/v1/forms/request`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${getAuth().token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ patient_id, forms, send_email }),
-    });
-    if (!response.ok) {
-      const error = await response.json();
-      setErrorAlert!(error.message);
-    }
+    api
+      .post(
+        'api/v1/forms/request',
+        JSON.stringify({ patient_id, forms, send_email }),
+        {
+          headers: {
+            Authorization: `Bearer ${getAuth().token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .catch((error) => setErrorAlert!(error.response.data.message));
   };
 }
 
