@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Grid from '@material-ui/core/Grid';
 
@@ -27,6 +27,7 @@ interface PatientReportsProps {
 }
 
 function PatientReports(props: PatientReportsProps) {
+  console.log('cheguei aqui');
   const componentRef = useRef(null);
   const { initialReportPanel, questionaires } = props;
   const [panel, setPanel] = useState<PatientReportPanelType>(
@@ -34,7 +35,13 @@ function PatientReports(props: PatientReportsProps) {
   );
 
   const reactToPrintContent = useCallback(() => {
+    let ReportPanel:any = componentRef.current;
+    if(ReportPanel && ReportPanel['lastChild']){
+      ReportPanel = ReportPanel['lastChild'];
+      return (ReportPanel);
+    }
     return componentRef.current;
+    
   }, [componentRef]);
 
   const handlePrint = useReactToPrint({
@@ -52,8 +59,9 @@ function PatientReports(props: PatientReportsProps) {
           </OrangeButton>
         </Grid>
       </Grid>
+      
       <div ref={componentRef}>
-        {panel === PatientReportPanelType.Summary && (
+      {panel === PatientReportPanelType.Summary && (
           <PatientSummary {...props} setReportPanel={setPanel} />
         )}
         {panel === PatientReportPanelType.EPC && (
