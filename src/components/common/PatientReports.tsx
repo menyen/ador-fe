@@ -27,7 +27,6 @@ interface PatientReportsProps {
 }
 
 function PatientReports(props: PatientReportsProps) {
-  console.log('cheguei aqui');
   const componentRef = useRef(null);
   const { initialReportPanel, questionaires } = props;
   const [panel, setPanel] = useState<PatientReportPanelType>(
