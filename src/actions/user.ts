@@ -21,7 +21,7 @@ export function getUsers(
   setErrorAlert: (message: string) => void,
   role?: string
 ) {
-  return async (dispatch: Dispatch<IUsersDispatchProps>) => {
+  return async (dispatch: Dispatch<IUsersDispatchProps>) =>
     api
       .get(`api/v1/users${role ? `/${role}` : ''}`, {
         headers: {
@@ -32,14 +32,13 @@ export function getUsers(
         dispatch({ type: IActions.USERS_FETCHED, users: response.data.users })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function deleteUser(
   user: User,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IUsersDispatchProps>) => {
+  return async (dispatch: Dispatch<IUsersDispatchProps>) =>
     api
       .delete(`api/v1/users/${user.id}`, {
         headers: {
@@ -50,14 +49,13 @@ export function deleteUser(
         dispatch({ type: IActions.USER_DELETED, users: [user] })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function createUser(
   user: UserPayload,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IUsersDispatchProps>) => {
+  return async (dispatch: Dispatch<IUsersDispatchProps>) =>
     api
       .post('api/v1/users', JSON.stringify(user), {
         headers: {
@@ -69,7 +67,6 @@ export function createUser(
         dispatch({ type: IActions.USER_CREATED, users: [response.data.user] })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function updateUser(
@@ -77,7 +74,7 @@ export function updateUser(
   user: UserPayload,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IUsersDispatchProps>) => {
+  return async (dispatch: Dispatch<IUsersDispatchProps>) =>
     api
       .put(`api/v1/users/${id}`, JSON.stringify(user), {
         headers: {
@@ -92,5 +89,4 @@ export function updateUser(
         setErrorAlert!(error.response.data.message);
         return;
       });
-  };
 }

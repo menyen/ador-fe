@@ -17,7 +17,7 @@ export function getQuestionaires(
   patient_id: number,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
+  return async (dispatch: Dispatch<IQuestionairesDispatchProps>) =>
     api
       .get(`api/v1/forms/patient/${patient_id}`, {
         headers: {
@@ -31,13 +31,12 @@ export function getQuestionaires(
         })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function getQuestionairesForPatient(
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
+  return async (dispatch: Dispatch<IQuestionairesDispatchProps>) =>
     api
       .get('api/v1/forms/patient', {
         headers: {
@@ -51,7 +50,6 @@ export function getQuestionairesForPatient(
         })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function sendQuestionaires(
@@ -60,7 +58,7 @@ export function sendQuestionaires(
   send_email: boolean,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IQuestionairesDispatchProps>) => {
+  return async (dispatch: Dispatch<IQuestionairesDispatchProps>) =>
     api
       .post(
         'api/v1/forms/request',
@@ -73,7 +71,6 @@ export function sendQuestionaires(
         }
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function clearQuestionaires() {

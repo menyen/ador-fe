@@ -153,7 +153,7 @@ function PhysicianPage() {
                     setErrorAlert
                   )(questionairesDispatch)
                 : clearQuestionaires()(questionairesDispatch);
-                setTimeout(function(){setPanel(PhysicianPanelType.PatientForm)}, 500);  
+              setPanel(PhysicianPanelType.PatientForm);
             }}
             updatePatientList={() => getPatients(setErrorAlert)(dispatch)}
           />

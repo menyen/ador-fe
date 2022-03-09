@@ -13,7 +13,7 @@ export interface ITermsDispatchProps {
 }
 
 export function getTermsOfUse(setErrorAlert: (message: string) => void) {
-  return async (dispatch: Dispatch<ITermsDispatchProps>) => {
+  return async (dispatch: Dispatch<ITermsDispatchProps>) =>
     api
       .get('api/v1/terms', {
         headers: {
@@ -24,14 +24,13 @@ export function getTermsOfUse(setErrorAlert: (message: string) => void) {
         dispatch({ type: IActions.TERMS_FETCHED, terms: response.data.term })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function setTermsOfUse(
   text: string,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<ITermsDispatchProps>) => {
+  return async (dispatch: Dispatch<ITermsDispatchProps>) =>
     api
       .put('api/v1/terms/1', JSON.stringify({ text }), {
         headers: {
@@ -43,5 +42,4 @@ export function setTermsOfUse(
         dispatch({ type: IActions.TERMS_UPDATED, terms: text })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }

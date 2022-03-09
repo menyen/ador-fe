@@ -18,7 +18,7 @@ export interface IPatientsDispatchProps {
 }
 
 export function getPatients(setErrorAlert: (message: string) => void) {
-  return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
+  return async (dispatch: Dispatch<IPatientsDispatchProps>) =>
     api
       .get('api/v1/patients', {
         headers: {
@@ -32,14 +32,13 @@ export function getPatients(setErrorAlert: (message: string) => void) {
         })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function deletePatient(
   patient: Patient,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
+  return async (dispatch: Dispatch<IPatientsDispatchProps>) =>
     api
       .delete(`api/v1/patients/${patient.id}`, {
         headers: {
@@ -50,7 +49,6 @@ export function deletePatient(
         dispatch({ type: IActions.PATIENT_DELETED, patients: [patient] })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function createPatient(
@@ -81,7 +79,7 @@ export function updatePatient(
   patient: PatientPayload,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
+  return async (dispatch: Dispatch<IPatientsDispatchProps>) =>
     api
       .put(`api/v1/patients/${id}`, JSON.stringify(patient), {
         headers: {
@@ -96,14 +94,13 @@ export function updatePatient(
         })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function searchPatients(
   query: string,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IPatientsDispatchProps>) => {
+  return async (dispatch: Dispatch<IPatientsDispatchProps>) =>
     api
       .get(`api/v1/patients?search=${query}`, {
         headers: {
@@ -117,5 +114,4 @@ export function searchPatients(
         })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }

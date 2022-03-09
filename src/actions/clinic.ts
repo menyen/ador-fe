@@ -18,7 +18,7 @@ export interface IClinicsDispatchProps {
 }
 
 export function getClinics(setErrorAlert: (message: string) => void) {
-  return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
+  return async (dispatch: Dispatch<IClinicsDispatchProps>) =>
     api
       .get('api/v1/clinics', {
         headers: {
@@ -32,7 +32,6 @@ export function getClinics(setErrorAlert: (message: string) => void) {
         })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 // export async function getClinic(id: number) {
@@ -48,7 +47,7 @@ export function deleteClinic(
   clinic: Clinic,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
+  return async (dispatch: Dispatch<IClinicsDispatchProps>) =>
     api
       .delete(`api/v1/clinics/${clinic.id}`, {
         headers: {
@@ -59,14 +58,13 @@ export function deleteClinic(
         dispatch({ type: IActions.CLINIC_DELETED, clinics: [clinic] })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function createClinic(
   clinic: ClinicPayload,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
+  return async (dispatch: Dispatch<IClinicsDispatchProps>) =>
     api
       .post('api/v1/clinics', JSON.stringify(clinic), {
         headers: {
@@ -81,7 +79,6 @@ export function createClinic(
         })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
 
 export function updateClinic(
@@ -89,7 +86,7 @@ export function updateClinic(
   clinic: ClinicPayload,
   setErrorAlert: (message: string) => void
 ) {
-  return async (dispatch: Dispatch<IClinicsDispatchProps>) => {
+  return async (dispatch: Dispatch<IClinicsDispatchProps>) =>
     api
       .put(`api/v1/clinics/${id}`, JSON.stringify(clinic), {
         headers: {
@@ -104,5 +101,4 @@ export function updateClinic(
         })
       )
       .catch((error) => setErrorAlert!(error.response.data.message));
-  };
 }
