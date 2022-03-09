@@ -127,6 +127,7 @@ export default function PatientForm(props: PatientFormProps) {
       physician_id: physicianId,
     };
     setPatient(currentPatient?.id, patientPayload, questionaires, sendEmail);
+    
   };
 
   const handleCheckboxOnChange = (

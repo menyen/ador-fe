@@ -202,7 +202,7 @@ export default function ManagerPage() {
                     setErrorAlert
                   )(questionairesDispatch)
                 : clearQuestionaires()(questionairesDispatch);
-              setPanel(ManagerPanelType.PatientForm);
+              setTimeout(function(){setPanel(ManagerPanelType.PatientForm)}, 500);              
             }}
             updatePatientList={fetchPatients}
           />

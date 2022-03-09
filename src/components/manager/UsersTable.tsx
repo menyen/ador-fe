@@ -97,7 +97,7 @@ export default function UsersTable(props: UsersTableProps) {
         onClick={() => updateUserList()}
         className={classes.button}
       >
-        Atualizar lista de pacientes
+        Atualizar lista de usuários
       </Button>
       <OrangeButton
         variant="contained"

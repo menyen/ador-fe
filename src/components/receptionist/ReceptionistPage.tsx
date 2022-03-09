@@ -151,7 +151,8 @@ function ReceptionistPage() {
                     setErrorAlert
                   )(questionairesDispatch)
                 : clearQuestionaires()(questionairesDispatch);
-              setPanel(ReceptionistPanelType.PatientForm);
+                setTimeout(function(){setPanel(ReceptionistPanelType.PatientForm)}, 500);      
+              ;
             }}
             updatePatientList={() => getPatients(setErrorAlert)(dispatch)}
           />
