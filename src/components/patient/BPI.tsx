@@ -242,7 +242,7 @@ const questions: QuestionObject[] = [
       'Habilidade de caminhar',
       'Trabalho',
       'Relacionamento com outras pessoas',
-      'Habilidade para apressiar a vida',
+      'Habilidade para apreciar a vida',
     ],
     alternatives: [
       { label: 'Não interferiu', value: 0 },
