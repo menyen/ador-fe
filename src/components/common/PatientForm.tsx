@@ -26,6 +26,7 @@ import userReducer from '../../reducers/user';
 import { getUsers } from '../../actions/user';
 import { AlertContext } from '../../utils/alert';
 import { AuthContext } from '../../utils/loggedUser';
+import { maskCNPJandCPF } from '../../utils/formFieldMask';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -163,7 +164,7 @@ export default function PatientForm(props: PatientFormProps) {
               fullWidth
               id="user-name-input"
               label="Nome do usuário"
-              defaultValue={patientName}
+              value={patientName}
               onChange={(e) => setPatientName(e.target.value)}
             />
           </Grid>
@@ -172,7 +173,7 @@ export default function PatientForm(props: PatientFormProps) {
               fullWidth
               id="tax-id-input"
               label="CNPJ/CPF"
-              defaultValue={taxId}
+              value={maskCNPJandCPF(taxId)}
               onChange={(e) => setTaxId(e.target.value)}
             />
           </Grid>
@@ -184,7 +185,7 @@ export default function PatientForm(props: PatientFormProps) {
               fullWidth
               type="date"
               id="birthdate-input"
-              defaultValue={birthdate}
+              value={birthdate}
               onChange={(e) => setBirthdate(e.target.value)}
             />
           </Grid>
@@ -193,7 +194,7 @@ export default function PatientForm(props: PatientFormProps) {
               fullWidth
               id="email-input"
               label="E-mail"
-              defaultValue={email}
+              value={email}
               disabled={!!currentPatient?.email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -240,7 +241,7 @@ export default function PatientForm(props: PatientFormProps) {
               fullWidth
               id="phone-input"
               label="Telefone"
-              defaultValue={phone}
+              value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
           </Grid>

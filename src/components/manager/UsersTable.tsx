@@ -9,11 +9,12 @@ import { UserTableColumn, UserTableData } from '../../interfaces';
 import GenericTable from '../GenericTable';
 import { OrangeButton } from '../Buttons';
 import { User } from '../../models/User';
+import { maskCNPJandCPF } from '../../utils/formFieldMask';
 
 const columns: UserTableColumn[] = [
   // { id: 'id', label: 'ID' },
   { id: 'name', label: 'Nome', minWidth: 100 },
-  { id: 'tax_id', label: 'CPF/CNPJ', minWidth: 50 },
+  { id: 'tax_id', label: 'CPF/CNPJ', minWidth: 50, format: (value: string) => value && maskCNPJandCPF(value) },
   { id: 'email', label: 'E-mail', minWidth: 100 },
   { id: 'address_zipcode', label: 'CEP', minWidth: 50 },
   { id: 'address_street', label: 'Endereço', minWidth: 100 },

@@ -33,6 +33,7 @@ import TextField from '@material-ui/core/TextField';
 import { AlertContext } from '../../utils/alert';
 import { AuthContext } from '../../utils/loggedUser';
 import { ClinicSlugContext } from '../../utils/clinicSlug';
+import { maskCNPJandCPF } from '../../utils/formFieldMask';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -200,7 +201,7 @@ function BannerMenu(props: BannerInfoProps) {
                 disabled
                 id="standard-disabled"
                 label="CPF"
-                defaultValue={props.patientInfo.tax_id}
+                value={maskCNPJandCPF(props.patientInfo.tax_id)}
                 className={classes.textField}
               />
             </Grid>
@@ -209,7 +210,7 @@ function BannerMenu(props: BannerInfoProps) {
                 disabled
                 id="standard-disabled"
                 label="E-mail"
-                defaultValue={props.patientInfo.email}
+                value={props.patientInfo.email}
                 className={classes.textField}
               />
             </Grid>
@@ -218,7 +219,7 @@ function BannerMenu(props: BannerInfoProps) {
                 disabled
                 id="standard-disabled"
                 label="Data de Nascimento"
-                defaultValue={props.patientInfo.birthdate}
+                value={props.patientInfo.birthdate}
                 className={classes.textField}
               />
             </Grid>

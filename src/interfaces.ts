@@ -7,7 +7,7 @@ export interface TableColumn<K extends string = string> {
   id: K;
   label: string;
   minWidth?: number;
-  format?: (value: number) => string;
+  format?: (value: string) => string;
 }
 
 export type TableRow<K extends string = string, T = any> = Record<K, T>;
@@ -24,17 +24,17 @@ export interface PanelCommonProps {
 
 export interface PatientTableColumn {
   id:
-    | 'name'
-    | 'email'
-    | 'tax_id'
-    | 'phone'
-    | 'birthdate'
-    | 'gender'
-    | 'physician_id'
-    | 'details';
+  | 'name'
+  | 'email'
+  | 'tax_id'
+  | 'phone'
+  | 'birthdate'
+  | 'gender'
+  | 'physician_id'
+  | 'details';
   label: string;
   minWidth?: number;
-  format?: (value: number) => string;
+  format?: (value: string) => string;
 }
 
 export interface PatientTableData extends Patient {
@@ -43,20 +43,20 @@ export interface PatientTableData extends Patient {
 
 export interface ClinicTableColumn {
   id:
-    | 'id'
-    | 'name'
-    | 'tax_id'
-    | 'address_zipcode'
-    | 'address_street'
-    | 'address_city'
-    | 'address_state'
-    | 'phone'
-    | 'owner_id'
-    | 'status'
-    | 'details';
+  | 'id'
+  | 'name'
+  | 'tax_id'
+  | 'address_zipcode'
+  | 'address_street'
+  | 'address_city'
+  | 'address_state'
+  | 'phone'
+  | 'owner_id'
+  | 'status'
+  | 'details';
   label: string;
   minWidth?: number;
-  format?: (value: number) => string;
+  format?: (value: string) => string;
 }
 
 export interface ClinicTableData extends Clinic {
@@ -65,21 +65,21 @@ export interface ClinicTableData extends Clinic {
 
 export interface UserTableColumn {
   id:
-    | 'id'
-    | 'name'
-    | 'tax_id'
-    | 'email'
-    | 'address_zipcode'
-    | 'address_street'
-    | 'address_city'
-    | 'address_state'
-    | 'crm'
-    | 'phone'
-    | 'role'
-    | 'details';
+  | 'id'
+  | 'name'
+  | 'tax_id'
+  | 'email'
+  | 'address_zipcode'
+  | 'address_street'
+  | 'address_city'
+  | 'address_state'
+  | 'crm'
+  | 'phone'
+  | 'role'
+  | 'details';
   label: string;
   minWidth?: number;
-  format?: (value: number) => string;
+  format?: (value: string) => string;
 }
 
 export interface UserTableData extends User {
@@ -107,39 +107,39 @@ export interface NoResultReportTableData {
 
 export interface HADReportTableColumn {
   id:
-    | 'id'
-    | 'date'
-    | 'result_anxiety'
-    | 'result_depression'
-    | 'patient'
-    | 'details';
+  | 'id'
+  | 'date'
+  | 'result_anxiety'
+  | 'result_depression'
+  | 'patient'
+  | 'details';
   label: string;
   minWidth?: number;
 }
 
 export interface SPADIReportTableColumn {
   id:
-    | 'id'
-    | 'date'
-    | 'result_disability'
-    | 'result_pain'
-    | 'result_total'
-    | 'patient'
-    | 'details';
+  | 'id'
+  | 'date'
+  | 'result_disability'
+  | 'result_pain'
+  | 'result_total'
+  | 'patient'
+  | 'details';
   label: string;
   minWidth?: number;
 }
 
 export interface AOFASReportTableColumn {
   id:
-    | 'id'
-    | 'date'
-    | 'result_pain'
-    | 'result_function'
-    | 'result_alignment'
-    | 'result_total'
-    | 'patient'
-    | 'details';
+  | 'id'
+  | 'date'
+  | 'result_pain'
+  | 'result_function'
+  | 'result_alignment'
+  | 'result_total'
+  | 'patient'
+  | 'details';
   label: string;
   minWidth?: number;
 }

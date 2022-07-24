@@ -11,6 +11,7 @@ import Select from '@material-ui/core/Select';
 import { OrangeButton, OutlinedButton } from '../Buttons';
 import { User } from '../../models/User';
 import { UserPayload } from '../../interfaces';
+import { maskCNPJandCPF } from '../../utils/formFieldMask';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -112,7 +113,7 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="user-name-input"
               label="Nome do usuário"
-              defaultValue={userName}
+              value={userName}
               onChange={(e) => setUserName(e.target.value)}
             />
           </Grid>
@@ -121,7 +122,7 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="tax-id-input"
               label="CNPJ/CPF"
-              defaultValue={taxId}
+              value={maskCNPJandCPF(taxId)}
               onChange={(e) => setTaxId(e.target.value)}
             />
           </Grid>
@@ -130,7 +131,7 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="crm-input"
               label="Conselho Regional"
-              defaultValue={crm}
+              value={crm}
               onChange={(e) => setCrm(e.target.value)}
             />
           </Grid>
@@ -139,7 +140,7 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="email-input"
               label="E-mail"
-              defaultValue={email}
+              value={email}
               disabled={!!currentUser?.email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -149,7 +150,7 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="password-input"
               label="Senha"
-              defaultValue={password}
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
@@ -175,7 +176,7 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="zipcode-input"
               label="CEP"
-              defaultValue={zipcode}
+              value={zipcode}
               onChange={(e) => setZipcode(e.target.value)}
             />
           </Grid>
@@ -184,7 +185,7 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="street-address-input"
               label="Logradouro"
-              defaultValue={streetAddress}
+              value={streetAddress}
               onChange={(e) => setStreetAddress(e.target.value)}
             />
           </Grid>
@@ -193,7 +194,7 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="city-input"
               label="Cidade"
-              defaultValue={city}
+              value={city}
               onChange={(e) => setCity(e.target.value)}
             />
           </Grid>
@@ -202,7 +203,7 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="state-address-input"
               label="Estado"
-              defaultValue={stateAddress}
+              value={stateAddress}
               onChange={(e) => setStateAddress(e.target.value)}
             />
           </Grid>
@@ -211,7 +212,7 @@ export default function UserForm(props: UserFormProps) {
               fullWidth
               id="phone-input"
               label="Telefone"
-              defaultValue={phone}
+              value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
           </Grid>

@@ -9,6 +9,7 @@ import { deepOrange } from '@material-ui/core/colors';
 import { OrangeButton, OutlinedButton } from '../Buttons';
 import { Clinic } from '../../models/Clinic';
 import { ClinicPayload } from '../../interfaces';
+import { maskCNPJandCPF } from '../../utils/formFieldMask';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -103,7 +104,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="clinic-name-input"
               label="Nome da clínica"
-              defaultValue={clinicName}
+              value={clinicName}
               onChange={(e) => setClinicName(e.target.value)}
             />
           </Grid>
@@ -112,7 +113,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="tax-id-input"
               label="CNPJ/CPF"
-              defaultValue={taxId}
+              value={maskCNPJandCPF(taxId)}
               onChange={(e) => setTaxId(e.target.value)}
             />
           </Grid>
@@ -121,7 +122,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="zipcode-input"
               label="CEP"
-              defaultValue={zipcode}
+              value={zipcode}
               onChange={(e) => setZipcode(e.target.value)}
             />
           </Grid>
@@ -130,7 +131,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="street-address-input"
               label="Logradouro"
-              defaultValue={streetAddress}
+              value={streetAddress}
               onChange={(e) => setStreetAddress(e.target.value)}
             />
           </Grid>
@@ -139,7 +140,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="city-input"
               label="Cidade"
-              defaultValue={city}
+              value={city}
               onChange={(e) => setCity(e.target.value)}
             />
           </Grid>
@@ -148,7 +149,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="state-address-input"
               label="Estado"
-              defaultValue={stateAddress}
+              value={stateAddress}
               onChange={(e) => setStateAddress(e.target.value)}
             />
           </Grid>
@@ -157,7 +158,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="phone-input"
               label="Telefone"
-              defaultValue={phone}
+              value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
           </Grid>
@@ -183,7 +184,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="owner-name-input"
               label="Nome do proprietário"
-              defaultValue={ownerName}
+              value={ownerName}
               onChange={(e) => setOwnerName(e.target.value)}
             />
           </Grid>
@@ -192,7 +193,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               id="owner-email-input"
               label="Email do proprietário"
-              defaultValue={ownerEmail}
+              value={ownerEmail}
               disabled={!!currentClinic?.owner?.email}
               onChange={(e) => setOwnerEmail(e.target.value)}
             />
@@ -203,7 +204,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               type="password"
               id="owner-password-input"
               label="Senha do proprietário"
-              defaultValue={ownerPassword}
+              value={ownerPassword}
               onChange={(e) => setOwnerPassword(e.target.value)}
             />
           </Grid>

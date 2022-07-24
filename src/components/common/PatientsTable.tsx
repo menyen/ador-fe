@@ -4,12 +4,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 import { PatientTableColumn, PatientTableData } from '../../interfaces';
 import { Patient } from '../../models/Patient';
 import GenericTable from '../GenericTable';
 import { OrangeButton } from '../Buttons';
-import Grid from '@material-ui/core/Grid';
+import { maskCNPJandCPF } from '../../utils/formFieldMask';
 
 const columns: PatientTableColumn[] = [
   { id: 'name', label: 'Nome', minWidth: 170 },
@@ -18,15 +19,7 @@ const columns: PatientTableColumn[] = [
     id: 'tax_id',
     label: 'CPF',
     minWidth: 100,
-    format: (value: number) =>
-      value
-        .toString()
-        .padStart(11, '0')
-        .replace(
-          /(\d{3})(\d{3})(\d{3})(\d{2})/,
-          (regex, arg1, arg2, arg3, arg4) =>
-            arg1 + '.' + arg2 + '.' + arg3 + '-' + arg4
-        ),
+    format: (value: string) => maskCNPJandCPF(value)
   },
   { id: 'phone', label: 'Telefone', minWidth: 100 },
   { id: 'birthdate', label: 'Nascimento', minWidth: 100 },

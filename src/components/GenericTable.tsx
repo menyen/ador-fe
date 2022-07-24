@@ -141,9 +141,10 @@ export default function PatientsTable(props: TableProps) {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align="left">
-                          {column.format && typeof value === 'number'
+                          {column.format
                             ? column.format(value)
-                            : value}
+                            : value
+                          }
                         </TableCell>
                       );
                     })}

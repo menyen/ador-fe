@@ -33,6 +33,7 @@ import { AuthContext } from '../utils/loggedUser';
 import { AlertContext } from '../utils/alert';
 import { ClinicSlugContext } from '../utils/clinicSlug';
 import api from '../utils/api';
+import { maskCNPJandCPF } from '../utils/formFieldMask';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -512,6 +513,7 @@ function PatientPanel() {
             fullWidth
             id="tax-id-input"
             label="CPF"
+            value={maskCNPJandCPF(taxId)}
             onChange={(e) => setTaxId(e.target.value)}
           />
         </Grid>
