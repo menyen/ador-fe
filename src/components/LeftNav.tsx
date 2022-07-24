@@ -41,6 +41,7 @@ import {
   AllPanelTypes,
   ManagerPanelType,
   PhysicianPanelType,
+  ReceptionistPanelType,
   RolesEnum,
 } from '../interfaces';
 import { AuthContext } from '../utils/loggedUser';
@@ -62,6 +63,10 @@ const useStyles = makeStyles((theme: Theme) =>
     appBarShift: {
       marginLeft: drawerWidth,
       width: `calc(100% - ${drawerWidth}px)`,
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: '100vw',
+        width: `calc(100% - 100vw)`,
+      },
       transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -73,11 +78,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     drawer: {
       width: drawerWidth,
+      [theme.breakpoints.down('sm')]: {
+        width: '100vw',
+      },
       flexShrink: 0,
       whiteSpace: 'nowrap',
     },
     drawerOpen: {
       width: drawerWidth,
+      [theme.breakpoints.down('sm')]: {
+        width: '100vw',
+      },
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -90,8 +101,8 @@ const useStyles = makeStyles((theme: Theme) =>
       }),
       overflowX: 'hidden',
       width: theme.spacing(7),
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(8),
+      [theme.breakpoints.down('sm')]: {
+        width: 0,
       },
     },
     collapsedToolbar: {
@@ -105,12 +116,14 @@ const useStyles = makeStyles((theme: Theme) =>
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
     bottomButton: {
-      marginTop: 'auto',
+      [theme.breakpoints.up('sm')]: {
+        marginTop: 'auto',
+      },
+      [theme.breakpoints.down('sm')]: {
+        position: 'sticky',
+        bottom: 0
+      }
     },
     search: {
       position: 'relative',
@@ -290,7 +303,12 @@ export default function LeftNav(props: LeftNavProps) {
                 AdminPanelType.ClinicsTable,
                 AdminPanelType.ClinicForm,
               ].includes(currentPanel as AdminPanelType)}
-              onClick={props.openClinicsTablePage}
+              onClick={() => {
+                if (props.openClinicsTablePage) {
+                  props.openClinicsTablePage();
+                  handleDrawerClose();
+                }
+              }}
             >
               <ListItemIcon>
                 <LocalHospitalIcon />
@@ -303,7 +321,12 @@ export default function LeftNav(props: LeftNavProps) {
               selected={
                 AdminPanelType.Settings === (currentPanel as AdminPanelType)
               }
-              onClick={props.openTermsOfUsePage}
+              onClick={() => {
+                if (props.openTermsOfUsePage) {
+                  props.openTermsOfUsePage();
+                  handleDrawerClose();
+                }
+              }}
             >
               <ListItemIcon>
                 <SettingsIcon />
@@ -315,7 +338,10 @@ export default function LeftNav(props: LeftNavProps) {
         {role === RolesEnum.MANAGER && (
           <List>
             <ListItem
-              onClick={() => setPanel(ManagerPanelType.UsersTable)}
+              onClick={() => {
+                setPanel(ManagerPanelType.UsersTable);
+                handleDrawerClose();
+              }}
               button
               key="PersonIcon"
               selected={
@@ -329,7 +355,10 @@ export default function LeftNav(props: LeftNavProps) {
               <ListItemText primary="Usuários" />
             </ListItem>
             <ListItem
-              onClick={() => setPanel(ManagerPanelType.PatientsTable)}
+              onClick={() => {
+                setPanel(ManagerPanelType.PatientsTable);
+                handleDrawerClose();
+              }}
               button
               key="AirlineSeatFlatIcon"
               selected={
@@ -343,7 +372,10 @@ export default function LeftNav(props: LeftNavProps) {
               <ListItemText primary="Pacientes" />
             </ListItem>
             <ListItem
-              onClick={() => setPanel(ManagerPanelType.ReportsTable)}
+              onClick={() => {
+                setPanel(ManagerPanelType.ReportsTable);
+                handleDrawerClose();
+              }}
               button
               key="PieChartIcon"
               selected={
@@ -367,7 +399,10 @@ export default function LeftNav(props: LeftNavProps) {
         {role === RolesEnum.PHYSICIAN && (
           <List>
             <ListItem
-              onClick={() => setPanel(PhysicianPanelType.PatientsTable)}
+              onClick={() => {
+                setPanel(PhysicianPanelType.PatientsTable);
+                handleDrawerClose();
+              }}
               button
               key="PersonIcon"
               selected={
@@ -381,7 +416,10 @@ export default function LeftNav(props: LeftNavProps) {
               <ListItemText primary="Pacientes" />
             </ListItem>
             <ListItem
-              onClick={() => setPanel(PhysicianPanelType.ReportsTable)}
+              onClick={() => {
+                setPanel(PhysicianPanelType.ReportsTable);
+                handleDrawerClose();
+              }}
               button
               key="PieChartIcon"
               selected={
@@ -398,19 +436,41 @@ export default function LeftNav(props: LeftNavProps) {
         )}
         {role === RolesEnum.RECEPTIONIST && (
           <List>
-            <ListItem button key="PersonIcon" selected>
-              <ListItemIcon>
-                <PersonIcon />
-              </ListItemIcon>
-              <ListItemText primary="Pacientes" />
-            </ListItem>
-            <ListItem button key="PieChartIcon">
-              <ListItemIcon>
-                <PieChartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Relatórios" />
-            </ListItem>
-          </List>
+          <ListItem
+            onClick={() => {
+              setPanel(ReceptionistPanelType.PatientsTable);
+              handleDrawerClose();
+            }}
+            button
+            key="PersonIcon"
+            selected={
+              ReceptionistPanelType.PatientsTable ===
+              (currentPanel as ReceptionistPanelType)
+            }
+          >
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary="Pacientes" />
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              setPanel(ReceptionistPanelType.ReportsTable);
+              handleDrawerClose();
+            }}
+            button
+            key="PieChartIcon"
+            selected={
+              ReceptionistPanelType.ReportsTable ===
+              (currentPanel as ReceptionistPanelType)
+            }
+          >
+            <ListItemIcon>
+              <PieChartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Relatórios" />
+          </ListItem>
+        </List>
         )}
         <Button className={classes.bottomButton} onClick={signout}>
           SAIR
