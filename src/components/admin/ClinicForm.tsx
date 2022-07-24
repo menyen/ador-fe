@@ -114,7 +114,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               id="tax-id-input"
               label="CNPJ/CPF"
               value={maskCNPJandCPF(taxId)}
-              onChange={(e) => setTaxId(e.target.value)}
+              onChange={(e) => setTaxId(e.target.value?.match(/\d+/g)?.join('') || '')}
             />
           </Grid>
           <Grid item xs={4}>

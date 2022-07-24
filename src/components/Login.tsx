@@ -514,7 +514,7 @@ function PatientPanel() {
             id="tax-id-input"
             label="CPF"
             value={maskCNPJandCPF(taxId)}
-            onChange={(e) => setTaxId(e.target.value)}
+            onChange={(e) => setTaxId(e.target.value?.match(/\d+/g)?.join('') || '')}
           />
         </Grid>
         <Grid item xs={12} spacing={0} className={classes.gridLoginPatient}>
