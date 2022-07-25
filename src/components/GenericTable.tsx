@@ -9,6 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
+import clsx from 'clsx';
+
 import { TableProps } from '../interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,6 +28,11 @@ const useStyles = makeStyles((theme: Theme) =>
     tableHeadCheckbox: {
       color: theme.palette.common.white,
     },
+    hideColumnForSmallScreen: {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none'
+      }
+    }
   })
 );
 
@@ -85,7 +92,7 @@ export default function PatientsTable(props: TableProps) {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox" className={classes.tableHeadCell}>
+              <TableCell padding="checkbox" className={clsx(classes.tableHeadCell, classes.hideColumnForSmallScreen)}>
                 {!shouldHideCheckboxes && (
                   <Checkbox
                     indeterminate={
@@ -104,7 +111,9 @@ export default function PatientsTable(props: TableProps) {
                   key={column.id}
                   align="left"
                   style={{ minWidth: column.minWidth }}
-                  className={classes.tableHeadCell}
+                  className={clsx(classes.tableHeadCell, {
+                    [classes.hideColumnForSmallScreen]: column.hideForSmallScreen
+                  })}
                 >
                   {column.label}
                 </TableCell>
@@ -129,7 +138,10 @@ export default function PatientsTable(props: TableProps) {
                       !shouldHideCheckboxes && handleClick(event, row.id)
                     }
                   >
-                    <TableCell padding="checkbox">
+                    <TableCell
+                      padding="checkbox"
+                      className={classes.hideColumnForSmallScreen}
+                    >
                       {!shouldHideCheckboxes && (
                         <Checkbox
                           checked={isItemSelected}
@@ -140,7 +152,13 @@ export default function PatientsTable(props: TableProps) {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align="left">
+                        <TableCell
+                          key={column.id}
+                          align="left"
+                          className={clsx({
+                            [classes.hideColumnForSmallScreen]: column.hideForSmallScreen,
+                          })}
+                        >
                           {column.format
                             ? column.format(value)
                             : value

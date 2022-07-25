@@ -7,6 +7,7 @@ export interface TableColumn<K extends string = string> {
   id: K;
   label: string;
   minWidth?: number;
+  hideForSmallScreen?: boolean;
   format?: (value: string) => string;
 }
 
@@ -22,7 +23,7 @@ export interface PanelCommonProps {
   nextPanel: () => void;
 }
 
-export interface PatientTableColumn {
+export interface PatientTableColumn extends TableColumn {
   id:
   | 'name'
   | 'email'
@@ -32,16 +33,13 @@ export interface PatientTableColumn {
   | 'gender'
   | 'physician_id'
   | 'details';
-  label: string;
-  minWidth?: number;
-  format?: (value: string) => string;
 }
 
 export interface PatientTableData extends Patient {
   details?: JSX.Element;
 }
 
-export interface ClinicTableColumn {
+export interface ClinicTableColumn extends TableColumn {
   id:
   | 'id'
   | 'name'
@@ -54,16 +52,13 @@ export interface ClinicTableColumn {
   | 'owner_id'
   | 'status'
   | 'details';
-  label: string;
-  minWidth?: number;
-  format?: (value: string) => string;
 }
 
 export interface ClinicTableData extends Clinic {
   details?: JSX.Element;
 }
 
-export interface UserTableColumn {
+export interface UserTableColumn extends TableColumn {
   id:
   | 'id'
   | 'name'
@@ -77,9 +72,6 @@ export interface UserTableColumn {
   | 'phone'
   | 'role'
   | 'details';
-  label: string;
-  minWidth?: number;
-  format?: (value: string) => string;
 }
 
 export interface UserTableData extends User {
@@ -105,7 +97,7 @@ export interface NoResultReportTableData {
   details?: JSX.Element;
 }
 
-export interface HADReportTableColumn {
+export interface HADReportTableColumn extends TableColumn {
   id:
   | 'id'
   | 'date'
@@ -113,11 +105,9 @@ export interface HADReportTableColumn {
   | 'result_depression'
   | 'patient'
   | 'details';
-  label: string;
-  minWidth?: number;
 }
 
-export interface SPADIReportTableColumn {
+export interface SPADIReportTableColumn extends TableColumn {
   id:
   | 'id'
   | 'date'
@@ -126,11 +116,9 @@ export interface SPADIReportTableColumn {
   | 'result_total'
   | 'patient'
   | 'details';
-  label: string;
-  minWidth?: number;
 }
 
-export interface AOFASReportTableColumn {
+export interface AOFASReportTableColumn extends TableColumn {
   id:
   | 'id'
   | 'date'
@@ -140,8 +128,6 @@ export interface AOFASReportTableColumn {
   | 'result_total'
   | 'patient'
   | 'details';
-  label: string;
-  minWidth?: number;
 }
 
 export interface HADReportTableData {
