@@ -22,8 +22,8 @@ const columns: PatientTableColumn[] = [
     format: (value: string) => maskCNPJandCPF(value)
   },
   { id: 'phone', label: 'Telefone', minWidth: 100 },
-  { id: 'birthdate', label: 'Nascimento', minWidth: 100 },
-  { id: 'gender', label: 'Sexo', minWidth: 100 },
+  { id: 'birthdate', label: 'Nascimento', minWidth: 100, hideForSmallScreen: true },
+  { id: 'gender', label: 'Sexo', minWidth: 100, hideForSmallScreen: true },
   { id: 'details', label: 'Detalhes', minWidth: 50 },
 ];
 
