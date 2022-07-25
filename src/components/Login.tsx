@@ -56,6 +56,9 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
       alignItems: 'center',
       display: 'flex',
+      [theme.breakpoints.down('sm')]: {
+        display: 'none'
+      }
     },
     right: {
       justifyContent: 'center',
@@ -548,13 +551,13 @@ export default function Login(props: LoginProps) {
               mountOnEnter
               unmountOnExit
             >
-              <Grid item xs={6}>
+              <Grid item md={6}>
                 <Paper className={clsx(classes.paper, classes.left)}>
                   <img src={minilogo} alt="logo" width="300" />
                 </Paper>
               </Grid>
             </Slide>
-            <Grid item xs={6}>
+            <Grid item sm={12} md={6}>
               {panel === LoginPanelType.Initial && (
                 <InitialPanel
                   nextPanel={() => setPanel(LoginPanelType.Login)}
