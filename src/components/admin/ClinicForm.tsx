@@ -5,6 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 import { deepOrange } from '@material-ui/core/colors';
 import { OrangeButton, OutlinedButton } from '../Buttons';
 import { Clinic } from '../../models/Clinic';
@@ -53,7 +57,6 @@ export default function ClinicForm(props: ClinicFormProps) {
     currentClinic?.address_state || ''
   );
   const [phone, setPhone] = useState<string>(currentClinic?.phone || '');
-  // TODO: Need to get owner's data. Get clinic is not returning them
   const [ownerName, setOwnerName] = useState<string>(
     currentClinic?.owner?.name || ''
   );
@@ -175,7 +178,7 @@ export default function ClinicForm(props: ClinicFormProps) {
             gutterBottom
             className={clsx(classes.headerSection, classes.ownerHeaderSection)}
           >
-            Dados da proprietário
+            Dados do proprietário
           </Typography>
         </Grid>
         <Grid container spacing={4}>
@@ -209,6 +212,68 @@ export default function ClinicForm(props: ClinicFormProps) {
             />
           </Grid>
         </Grid>
+
+        <Grid
+          container
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          alignContent="flex-start"
+        >
+          <Typography
+            variant="h6"
+            gutterBottom
+            className={clsx(classes.headerSection, classes.ownerHeaderSection)}
+          >
+            Dados da assinatura
+          </Typography>
+        </Grid>
+        <Grid container spacing={4}>
+          <Grid item xs={12} sm={4}>
+            <FormControl fullWidth>
+              {/* TODO: Need to make this field available to change once back-end is ready */}
+              <InputLabel htmlFor="subscription-type">Plano Adquirido</InputLabel>
+              <Select
+                native
+                id="subscription-type"
+                value={currentClinic?.subscription?.plan?.slug}
+                disabled
+                // onChange={(e) => {}}
+              >
+                <option key={currentClinic?.subscription?.plan?.id} value={currentClinic?.subscription?.plan?.id}>
+                  {currentClinic?.subscription?.plan?.slug}
+                </option>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <InputLabel htmlFor="subscription-start">
+              Data de início
+            </InputLabel>
+            <TextField
+              fullWidth
+              type="date"
+              id="subscription-start"
+              value={currentClinic?.subscription?.created_at}
+              disabled
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            {/* TODO: Need to make this field available to change once back-end is ready */}
+            <InputLabel htmlFor="subscription-end">
+              Válido até
+            </InputLabel>
+            <TextField
+              fullWidth
+              type="date"
+              id="subscription-end"
+              value={currentClinic?.subscription?.active_until}
+              disabled
+              // onChange={(e) => {}}
+            />
+          </Grid>
+        </Grid>
+
+
         <Grid
           container
           justifyContent="center"

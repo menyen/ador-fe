@@ -27,4 +27,23 @@ export interface Clinic {
     roles: Array<string>;
     deleted_at: Date | null;
   };
+  subscription: {
+    active_until: Date | null;
+    clinic_id: number;
+    created_at: Date | null;
+    id: number;
+    included_forms: Array<number>;
+    paypal_subscription_id: string;
+    plan: {
+      created_at: Date | null;
+      currency: string;
+      default_forms: Array<number>;
+      durantion_in_days: number;
+      id: number;
+      price: number;
+      slug: string;
+      total_users: number;
+      updated_at: Date | null;
+    }
+  } | null
 }

@@ -9,7 +9,6 @@ import { Clinic } from '../../models/Clinic';
 import GenericTable from '../GenericTable';
 import { OrangeButton } from '../Buttons';
 
-// TODO: Need to double check if these values below are valid in the back-end
 enum ClinicStatus {
   ACTIVE = 'Ativo',
   INACTIVE = 'Inativo',
