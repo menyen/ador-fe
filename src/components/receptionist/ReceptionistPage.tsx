@@ -31,9 +31,8 @@ import {
   getQuestionaires,
   sendQuestionaires,
 } from '../../actions/questionaire';
-import { AlertContext } from '../../utils/alert';
 import PatientsTable from '../common/PatientsTable';
-import ReportsTable from '../common/ReportsTable';
+import { AlertContext } from '../../utils/alert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -166,11 +165,6 @@ function ReceptionistPage() {
               setPanel(ReceptionistPanelType.PatientsTable)
             }
           />
-        )}
-        {panel === ReceptionistPanelType.ReportsTable && (
-          <>
-            <ReportsTable patients={patients} />
-          </>
         )}
       </main>
     </div>

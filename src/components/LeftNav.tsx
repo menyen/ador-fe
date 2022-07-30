@@ -453,23 +453,6 @@ export default function LeftNav(props: LeftNavProps) {
             </ListItemIcon>
             <ListItemText primary="Pacientes" />
           </ListItem>
-          <ListItem
-            onClick={() => {
-              setPanel(ReceptionistPanelType.ReportsTable);
-              handleDrawerClose();
-            }}
-            button
-            key="PieChartIcon"
-            selected={
-              ReceptionistPanelType.ReportsTable ===
-              (currentPanel as ReceptionistPanelType)
-            }
-          >
-            <ListItemIcon>
-              <PieChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Relatórios" />
-          </ListItem>
         </List>
         )}
         <Button className={classes.bottomButton} onClick={signout}>
