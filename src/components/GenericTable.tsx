@@ -32,11 +32,14 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('sm')]: {
         display: 'none'
       }
+    },
+    cellRoot: {
+      padding: '6px 10px'
     }
   })
 );
 
-export default function PatientsTable(props: TableProps) {
+export default function GenericTable(props: TableProps) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -89,10 +92,14 @@ export default function PatientsTable(props: TableProps) {
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader size="small" aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox" className={clsx(classes.tableHeadCell, classes.hideColumnForSmallScreen)}>
+              <TableCell
+                padding="checkbox"
+                className={clsx(classes.tableHeadCell, classes.hideColumnForSmallScreen)}
+                classes={{root: classes.cellRoot}}
+              >
                 {!shouldHideCheckboxes && (
                   <Checkbox
                     indeterminate={
@@ -141,6 +148,7 @@ export default function PatientsTable(props: TableProps) {
                     <TableCell
                       padding="checkbox"
                       className={classes.hideColumnForSmallScreen}
+                      classes={{root: classes.cellRoot}}
                     >
                       {!shouldHideCheckboxes && (
                         <Checkbox
@@ -158,6 +166,7 @@ export default function PatientsTable(props: TableProps) {
                           className={clsx({
                             [classes.hideColumnForSmallScreen]: column.hideForSmallScreen,
                           })}
+                          classes={{root: classes.cellRoot}}
                         >
                           {column.format
                             ? column.format(value)

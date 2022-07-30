@@ -162,7 +162,7 @@ function FibromialgiaInnerReport({ selectedForm }: InnerReportProps) {
           </Typography>
           <Grid container spacing={2}>
             {questions.map((question, qIndex) => (
-              <Grid item xs={6} key={`question${qIndex}`}>
+              <Grid item xs={12} sm={6} key={`question${qIndex}`}>
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <Typography variant="subtitle1">

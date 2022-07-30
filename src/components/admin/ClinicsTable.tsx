@@ -23,7 +23,7 @@ const columns: ClinicTableColumn[] = [
   { id: 'address_city', label: 'Cidade', minWidth: 100, hideForSmallScreen: true },
   { id: 'address_state', label: 'Estado', minWidth: 100, hideForSmallScreen: true },
   { id: 'phone', label: 'Telefone', minWidth: 100 },
-  { id: 'status', label: 'Status', minWidth: 100 },
+  { id: 'status', label: 'Status', minWidth: 50 },
   { id: 'details', label: 'Detalhes', minWidth: 100 },
 ];
 
@@ -92,13 +92,15 @@ export default function ClinicsTable(props: ClinicsTableProps) {
       alignItems="flex-end"
       justifyContent="flex-end"
     >
-      <OrangeButton
-        variant="contained"
-        color="primary"
-        onClick={() => props.openClinicForm()}
-      >
-        Cadastrar nova clínica
-      </OrangeButton>
+      <Grid item xs={12}>
+        <OrangeButton
+          variant="contained"
+          color="primary"
+          onClick={() => props.openClinicForm()}
+        >
+          Cadastrar nova clínica
+        </OrangeButton>
+      </Grid>
       <GenericTable columns={columns} rows={rows} />
     </Grid>
   );

@@ -59,7 +59,7 @@ function SBSTInnerReport({ selectedForm }: InnerReportProps) {
           </Typography>
           <Grid container spacing={1}>
             {questions.map((question, index) => (
-              <Grid item xs={6} key={`question-${index}`}>
+              <Grid item xs={12} sm={6} key={`question-${index}`}>
                 <FormControl component="fieldset">
                   <FormLabel component="legend">
                     {`${index + 1}. ${question}`}

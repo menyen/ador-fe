@@ -14,14 +14,15 @@ import { maskCNPJandCPF } from '../../utils/formFieldMask';
 
 const columns: PatientTableColumn[] = [
   { id: 'name', label: 'Nome', minWidth: 170 },
-  { id: 'email', label: 'E-mail', minWidth: 100 },
+  { id: 'email', label: 'E-mail', minWidth: 100, hideForSmallScreen: true },
   {
     id: 'tax_id',
     label: 'CPF',
     minWidth: 100,
-    format: (value: string) => maskCNPJandCPF(value)
+    format: (value: string) => maskCNPJandCPF(value),
+    hideForSmallScreen: true
   },
-  { id: 'phone', label: 'Telefone', minWidth: 100 },
+  { id: 'phone', label: 'Telefone', minWidth: 100, hideForSmallScreen: true },
   { id: 'birthdate', label: 'Nascimento', minWidth: 100, hideForSmallScreen: true },
   { id: 'gender', label: 'Sexo', minWidth: 100, hideForSmallScreen: true },
   { id: 'details', label: 'Detalhes', minWidth: 50 },
@@ -93,20 +94,24 @@ export default function PatientsTable(props: PatientsTableProps) {
       alignItems="flex-end"
       justifyContent="flex-end"
     >
-      <Button
-        variant="contained"
-        onClick={() => updatePatientList()}
-        className={classes.button}
-      >
-        Atualizar lista de pacientes
-      </Button>
-      <OrangeButton
-        variant="contained"
-        color="primary"
-        onClick={() => props.openPatientForm()}
-      >
-        Cadastrar novo Paciente
-      </OrangeButton>
+      <Grid item xs={12} sm={6}>
+        <Button
+          variant="contained"
+          onClick={() => updatePatientList()}
+          className={classes.button}
+        >
+          Atualizar lista de pacientes
+        </Button>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+        <OrangeButton
+          variant="contained"
+          color="primary"
+          onClick={() => props.openPatientForm()}
+        >
+          Cadastrar novo Paciente
+        </OrangeButton>
+      </Grid>
       <GenericTable columns={columns} rows={rows} />
     </Grid>
   );

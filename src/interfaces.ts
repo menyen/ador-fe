@@ -78,10 +78,8 @@ export interface UserTableData extends User {
   details?: JSX.Element;
 }
 
-export interface SimpleReportTableColumn {
+export interface SimpleReportTableColumn extends TableColumn {
   id: 'id' | 'date' | 'result' | 'patient' | 'type' | 'details';
-  label: string;
-  minWidth?: number;
 }
 
 export interface SimpleReportTableData {

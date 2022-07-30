@@ -152,10 +152,10 @@ export default function ReportsTable(props: ReportsTableProps) {
             </Typography>
           </Grid>
           <Grid container spacing={4}>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <InputLabel htmlFor="birthdate-input">Período</InputLabel>
               <Grid container spacing={1}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
                     type="date"
@@ -164,7 +164,7 @@ export default function ReportsTable(props: ReportsTableProps) {
                     onChange={(e) => setStartDate(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
                     type="date"
@@ -175,7 +175,7 @@ export default function ReportsTable(props: ReportsTableProps) {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <InputLabel htmlFor="form-select">Questionário</InputLabel>
               <Select
                 native
@@ -193,7 +193,7 @@ export default function ReportsTable(props: ReportsTableProps) {
                 ))}
               </Select>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <InputLabel htmlFor="patient-id-input">Paciente</InputLabel>
               <Select
                 fullWidth
@@ -211,7 +211,7 @@ export default function ReportsTable(props: ReportsTableProps) {
                   ))}
               </Select>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <InputLabel htmlFor="result-input">Resultado</InputLabel>
               <Select
                 fullWidth

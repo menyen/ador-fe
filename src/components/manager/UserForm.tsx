@@ -108,7 +108,7 @@ export default function UserForm(props: UserFormProps) {
           </Typography>
         </Grid>
         <Grid container spacing={4}>
-          <Grid item xs={5}>
+          <Grid item xs={12} sm={5}>
             <TextField
               fullWidth
               id="user-name-input"
@@ -117,7 +117,7 @@ export default function UserForm(props: UserFormProps) {
               onChange={(e) => setUserName(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="tax-id-input"
@@ -126,7 +126,7 @@ export default function UserForm(props: UserFormProps) {
               onChange={(e) => setTaxId(e.target.value?.match(/\d+/g)?.join('') || '')}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={3}>
             <TextField
               fullWidth
               id="crm-input"
@@ -135,7 +135,7 @@ export default function UserForm(props: UserFormProps) {
               onChange={(e) => setCrm(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="email-input"
@@ -145,7 +145,7 @@ export default function UserForm(props: UserFormProps) {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="password-input"
@@ -154,7 +154,7 @@ export default function UserForm(props: UserFormProps) {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <FormControl>
               <InputLabel htmlFor="role-select">Perfil</InputLabel>
               <Select
@@ -171,7 +171,7 @@ export default function UserForm(props: UserFormProps) {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="zipcode-input"
@@ -180,7 +180,7 @@ export default function UserForm(props: UserFormProps) {
               onChange={(e) => setZipcode(e.target.value)}
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12} sm={8}>
             <TextField
               fullWidth
               id="street-address-input"
@@ -189,7 +189,7 @@ export default function UserForm(props: UserFormProps) {
               onChange={(e) => setStreetAddress(e.target.value)}
             />
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={12} sm={5}>
             <TextField
               fullWidth
               id="city-input"
@@ -198,7 +198,7 @@ export default function UserForm(props: UserFormProps) {
               onChange={(e) => setCity(e.target.value)}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={12} sm={2}>
             <TextField
               fullWidth
               id="state-address-input"
@@ -207,7 +207,7 @@ export default function UserForm(props: UserFormProps) {
               onChange={(e) => setStateAddress(e.target.value)}
             />
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={12} sm={5}>
             <TextField
               fullWidth
               id="phone-input"

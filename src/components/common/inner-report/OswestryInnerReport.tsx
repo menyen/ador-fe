@@ -185,7 +185,7 @@ function OswestryInnerReport({ selectedForm }: InnerReportProps) {
           </Typography>
           <Grid container spacing={2}>
             {questions.map((question, qIndex) => (
-              <Grid item xs={6} key={`question${qIndex}`}>
+              <Grid item xs={12} sm={6} key={`question${qIndex}`}>
                 <Typography variant="body1" align="left">
                   {question.title}
                 </Typography>

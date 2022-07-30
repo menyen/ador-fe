@@ -179,7 +179,7 @@ function HADInnerReport({ selectedForm }: InnerReportProps) {
           </Typography>
           <Grid container spacing={2}>
             {questions.map((question, qIndex) => (
-              <Grid item xs={6} key={`question${qIndex}`}>
+              <Grid item xs={12} sm={6} key={`question${qIndex}`}>
                 <Typography variant="body1" align="left">
                   {`${qIndex + 1}. ${question.title}`}
                 </Typography>
@@ -199,22 +199,22 @@ function HADInnerReport({ selectedForm }: InnerReportProps) {
         <Paper classes={{ root: classes.paper }}>
           <Typography variant="h6">Resultado</Typography>
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Typography variant="subtitle1">Ansiedade</Typography>
               <Typography variant="caption">{`Resultado: ${ansiedade?.score}`}</Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Typography variant="subtitle1" className={classes.hadTextResult}>
                 {ansiedade?.text}
               </Typography>
             </Grid>
           </Grid>
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Typography variant="subtitle1">Depressão</Typography>
               <Typography variant="caption">{`Resultado: ${depressao?.score}`}</Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Typography variant="subtitle1" className={classes.hadTextResult}>
                 {depressao?.text}
               </Typography>

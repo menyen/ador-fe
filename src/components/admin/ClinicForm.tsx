@@ -99,7 +99,7 @@ export default function ClinicForm(props: ClinicFormProps) {
           </Typography>
         </Grid>
         <Grid container spacing={4}>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               id="clinic-name-input"
@@ -108,7 +108,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               onChange={(e) => setClinicName(e.target.value)}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               id="tax-id-input"
@@ -117,7 +117,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               onChange={(e) => setTaxId(e.target.value?.match(/\d+/g)?.join('') || '')}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="zipcode-input"
@@ -126,7 +126,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               onChange={(e) => setZipcode(e.target.value)}
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12} sm={8}>
             <TextField
               fullWidth
               id="street-address-input"
@@ -135,7 +135,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               onChange={(e) => setStreetAddress(e.target.value)}
             />
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={12} sm={5}>
             <TextField
               fullWidth
               id="city-input"
@@ -144,7 +144,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               onChange={(e) => setCity(e.target.value)}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={12} sm={2}>
             <TextField
               fullWidth
               id="state-address-input"
@@ -153,7 +153,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               onChange={(e) => setStateAddress(e.target.value)}
             />
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={12} sm={5}>
             <TextField
               fullWidth
               id="phone-input"
@@ -179,7 +179,7 @@ export default function ClinicForm(props: ClinicFormProps) {
           </Typography>
         </Grid>
         <Grid container spacing={4}>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="owner-name-input"
@@ -188,7 +188,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               onChange={(e) => setOwnerName(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="owner-email-input"
@@ -198,7 +198,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               onChange={(e) => setOwnerEmail(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               type="password"

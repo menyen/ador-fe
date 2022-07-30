@@ -88,7 +88,7 @@ function IADInnerReport({ selectedForm }: InnerReportProps) {
           </Typography>
           <Grid container spacing={1}>
             {questions.map((question, index) => (
-              <Grid item xs={6} key={`question-${index}`}>
+              <Grid item xs={12} sm={6} key={`question-${index}`}>
                 <div className={classes.IADFormItem} key={`question_${index}`}>
                   <Typography
                     id={`question_${index}`}

@@ -17,54 +17,55 @@ import {
 } from '../models/PatientForm';
 
 export const simpleColumns: SimpleReportTableColumn[] = [
-  { id: 'date', label: 'Data', minWidth: 100 },
-  { id: 'result', label: 'Resultado', minWidth: 100 },
+  { id: 'date', label: 'Data', minWidth: 50 },
+  { id: 'result', label: 'Resultado', minWidth: 100, hideForSmallScreen: true },
   { id: 'patient', label: 'Paciente', minWidth: 100 },
-  { id: 'details', label: 'Ver resultados', minWidth: 100 },
+  { id: 'details', label: 'Resultados', minWidth: 20 },
 ];
 
 export const noResultColumns: SimpleReportTableColumn[] = [
-  { id: 'date', label: 'Data', minWidth: 100 },
+  { id: 'date', label: 'Data', minWidth: 50 },
   { id: 'patient', label: 'Paciente', minWidth: 100 },
-  { id: 'details', label: 'Ver resultados', minWidth: 100 },
+  { id: 'details', label: 'Resultados', minWidth: 20 },
 ];
 
 export const allResultsColumns: SimpleReportTableColumn[] = [
-  { id: 'date', label: 'Data', minWidth: 100 },
+  { id: 'date', label: 'Data', minWidth: 50 },
   { id: 'patient', label: 'Paciente', minWidth: 100 },
   { id: 'type', label: 'Formulário', minWidth: 100 },
-  { id: 'details', label: 'Ver resultados', minWidth: 100 },
+  { id: 'details', label: 'Resultados', minWidth: 20 },
 ];
 
 export const hadColumns: HADReportTableColumn[] = [
-  { id: 'date', label: 'Data', minWidth: 100 },
-  { id: 'result_anxiety', label: 'Resultado para ansiedade', minWidth: 100 },
-  { id: 'result_depression', label: 'Resultado para depressão', minWidth: 100 },
+  { id: 'date', label: 'Data', minWidth: 50 },
+  { id: 'result_anxiety', label: 'Resultado para ansiedade', minWidth: 100, hideForSmallScreen: true },
+  { id: 'result_depression', label: 'Resultado para depressão', minWidth: 100, hideForSmallScreen: true },
   { id: 'patient', label: 'Paciente', minWidth: 100 },
-  { id: 'details', label: 'Ver resultados', minWidth: 100 },
+  { id: 'details', label: 'Resultados', minWidth: 20 },
 ];
 
 export const spadiColumns: SPADIReportTableColumn[] = [
-  { id: 'date', label: 'Data', minWidth: 100 },
+  { id: 'date', label: 'Data', minWidth: 50 },
   {
     id: 'result_disability',
     label: 'Resultado de incapacidade',
     minWidth: 100,
+    hideForSmallScreen: true
   },
-  { id: 'result_pain', label: 'Resultado de dor', minWidth: 100 },
-  { id: 'result_total', label: 'Resultado total', minWidth: 100 },
+  { id: 'result_pain', label: 'Resultado de dor', minWidth: 100, hideForSmallScreen: true },
+  { id: 'result_total', label: 'Resultado total', minWidth: 100, hideForSmallScreen: true },
   { id: 'patient', label: 'Paciente', minWidth: 100 },
-  { id: 'details', label: 'Ver resultados', minWidth: 100 },
+  { id: 'details', label: 'Resultados', minWidth: 20 },
 ];
 
 export const aofasColumns: AOFASReportTableColumn[] = [
-  { id: 'date', label: 'Data', minWidth: 100 },
-  { id: 'result_pain', label: 'Escala de dor', minWidth: 100 },
-  { id: 'result_function', label: 'Escala funcional', minWidth: 100 },
-  { id: 'result_alignment', label: 'Escala de alinhamento', minWidth: 100 },
-  { id: 'result_total', label: 'Escala total', minWidth: 100 },
+  { id: 'date', label: 'Data', minWidth: 50 },
+  { id: 'result_pain', label: 'Escala de dor', minWidth: 100, hideForSmallScreen: true },
+  { id: 'result_function', label: 'Escala funcional', minWidth: 100, hideForSmallScreen: true },
+  { id: 'result_alignment', label: 'Escala de alinhamento', minWidth: 100, hideForSmallScreen: true },
+  { id: 'result_total', label: 'Escala total', minWidth: 100, hideForSmallScreen: true },
   { id: 'patient', label: 'Paciente', minWidth: 100 },
-  { id: 'details', label: 'Ver resultados', minWidth: 100 },
+  { id: 'details', label: 'Resultados', minWidth: 20 },
 ];
 
 export function setDataIntoSimpleTable(

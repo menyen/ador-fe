@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme: Theme) =>
     footerSection: {
       marginTop: theme.spacing(4),
     },
+    formGroup: {
+      textAlign: 'start',
+      margin: '10px 0'
+    }
   })
 );
 
@@ -159,7 +163,7 @@ export default function PatientForm(props: PatientFormProps) {
           </Typography>
         </Grid>
         <Grid container spacing={4}>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="user-name-input"
@@ -168,7 +172,7 @@ export default function PatientForm(props: PatientFormProps) {
               onChange={(e) => setPatientName(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="tax-id-input"
@@ -177,7 +181,7 @@ export default function PatientForm(props: PatientFormProps) {
               onChange={(e) => setTaxId(e.target.value?.match(/\d+/g)?.join('') || '')}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <InputLabel htmlFor="birthdate-input">
               Data de Nascimento
             </InputLabel>
@@ -189,7 +193,7 @@ export default function PatientForm(props: PatientFormProps) {
               onChange={(e) => setBirthdate(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="email-input"
@@ -199,7 +203,7 @@ export default function PatientForm(props: PatientFormProps) {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <FormControl>
               <InputLabel htmlFor="gender-select">Sexo</InputLabel>
               <Select
@@ -217,7 +221,7 @@ export default function PatientForm(props: PatientFormProps) {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <InputLabel htmlFor="physician-id-input">
               Médico Responsável
             </InputLabel>
@@ -236,7 +240,7 @@ export default function PatientForm(props: PatientFormProps) {
                 ))}
             </Select>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id="phone-input"
@@ -260,7 +264,7 @@ export default function PatientForm(props: PatientFormProps) {
           </Grid>
           {auth.user!.clinic.forms.map((item) => (
             <Grid item xs={12} key={item.id}>
-              <FormGroup row>
+              <FormGroup row classes={{root: classes.formGroup}}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -275,7 +279,7 @@ export default function PatientForm(props: PatientFormProps) {
             </Grid>
           ))}
           <Grid item xs={12}>
-            <FormGroup row>
+            <FormGroup row classes={{root: classes.formGroup}}>
               <FormControlLabel
                 control={
                   <Checkbox
