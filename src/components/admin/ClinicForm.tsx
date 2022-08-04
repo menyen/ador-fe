@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -12,7 +12,8 @@ import Select from '@material-ui/core/Select';
 import { deepOrange } from '@material-ui/core/colors';
 import { OrangeButton, OutlinedButton } from '../Buttons';
 import { Clinic } from '../../models/Clinic';
-import { ClinicPayload } from '../../interfaces';
+import { Plan } from '../../models/Plan';
+import { ClinicPayload, SubscriptionPayload } from '../../interfaces';
 import { maskCNPJandCPF } from '../../utils/formFieldMask';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -37,11 +38,18 @@ const useStyles = makeStyles((theme: Theme) =>
 interface ClinicFormProps {
   currentClinic?: Clinic;
   openClinicsTablePage: () => void;
-  setClinic: (id: number | undefined, payload: ClinicPayload) => Promise<void>;
+  setClinicAndSubscription: (
+    clinicId: number | undefined,
+    clinicPayload: ClinicPayload,
+    subscriptionId: number | undefined,
+    subscriptionPayload: SubscriptionPayload
+  ) => Promise<void>;
+  plans?: Plan[];
 }
 
 export default function ClinicForm(props: ClinicFormProps) {
-  const { currentClinic, setClinic } = props;
+  const { currentClinic, setClinicAndSubscription, plans } = props;
+
   const [clinicName, setClinicName] = useState<string>(
     currentClinic?.name || ''
   );
@@ -64,11 +72,20 @@ export default function ClinicForm(props: ClinicFormProps) {
     currentClinic?.owner?.email || ''
   );
   const [ownerPassword, setOwnerPassword] = useState<string>('');
+
+  const [subscriptionEnd, setSubscriptionEnd] = useState<string>(
+    currentClinic?.subscription?.active_until?.split('T')[0] || ''
+  );
+
+  const [selectedPlanId, setSelectedPlanId] = useState<number>(
+    Number(currentClinic?.subscription?.plan?.id)
+  );
+
   const classes = useStyles();
 
-  const handleSetClinic = async (e: React.SyntheticEvent) => {
+  const handleSetClinicAndSubscription = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const payload = {
+    const clinicPayload = {
       name: clinicName,
       tax_id: taxId,
       address_zipcode: zipcode,
@@ -82,11 +99,20 @@ export default function ClinicForm(props: ClinicFormProps) {
         password: ownerPassword,
       },
     };
-    setClinic(currentClinic?.id, payload);
+    const subscriptionPayload: SubscriptionPayload = {
+      plan_id: selectedPlanId,
+      active_until: subscriptionEnd
+    }
+    setClinicAndSubscription(
+      currentClinic?.id,
+      clinicPayload,
+      currentClinic?.subscription?.id,
+      subscriptionPayload
+    );
   };
   return (
     <Paper className={classes.root}>
-      <form onSubmit={handleSetClinic}>
+      <form onSubmit={handleSetClinicAndSubscription}>
         <Grid
           container
           justifyContent="flex-start"
@@ -230,18 +256,18 @@ export default function ClinicForm(props: ClinicFormProps) {
         <Grid container spacing={4}>
           <Grid item xs={12} sm={4}>
             <FormControl fullWidth>
-              {/* TODO: Need to make this field available to change once back-end is ready */}
               <InputLabel htmlFor="subscription-type">Plano Adquirido</InputLabel>
               <Select
                 native
                 id="subscription-type"
-                value={currentClinic?.subscription?.plan?.slug}
-                disabled
-                // onChange={(e) => {}}
+                value={selectedPlanId}
+                onChange={(e) => {setSelectedPlanId(Number(e.target.value))}}
               >
-                <option key={currentClinic?.subscription?.plan?.id} value={currentClinic?.subscription?.plan?.id}>
-                  {currentClinic?.subscription?.plan?.slug}
-                </option>
+                {plans?.map(plan => (
+                  <option key={plan.id} value={plan.id}>
+                    {plan.slug}
+                  </option>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -253,7 +279,7 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               type="date"
               id="subscription-start"
-              value={currentClinic?.subscription?.created_at}
+              value={currentClinic?.subscription?.created_at?.split('T')[0]}
               disabled
             />
           </Grid>
@@ -266,9 +292,9 @@ export default function ClinicForm(props: ClinicFormProps) {
               fullWidth
               type="date"
               id="subscription-end"
-              value={currentClinic?.subscription?.active_until}
-              disabled
-              // onChange={(e) => {}}
+              value={subscriptionEnd}
+              // disabled
+              onChange={(e) => setSubscriptionEnd(e.target.value)}
             />
           </Grid>
         </Grid>

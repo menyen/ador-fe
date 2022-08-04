@@ -28,9 +28,9 @@ export interface Clinic {
     deleted_at: Date | null;
   };
   subscription: {
-    active_until: Date | null;
+    active_until: string | null;
     clinic_id: number;
-    created_at: Date | null;
+    created_at: string | null;
     id: number;
     included_forms: Array<number>;
     paypal_subscription_id: string;

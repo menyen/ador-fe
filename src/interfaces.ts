@@ -351,3 +351,8 @@ export interface ReportsSearchPayload {
 export interface InnerReportProps {
   selectedForm: PatientForm;
 }
+
+export interface SubscriptionPayload {
+  active_until?: string;
+  plan_id: number;
+}
