@@ -133,8 +133,8 @@ function HADInnerReport({ selectedForm }: InnerReportProps) {
       alternatives: [
         { label: 'Sim, demais', value: 3 },
         { label: 'Bastante', value: 2 },
-        { label: 'Muitas vezes', value: 1 },
-        { label: 'Quase sempre', value: 0 },
+        { label: 'Um pouco', value: 1 },
+        { label: 'Não me sinto assim', value: 0 },
       ],
     },
     {
