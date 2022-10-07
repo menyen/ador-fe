@@ -108,7 +108,7 @@ export default function ManagerPage() {
   }, [searchPatientQuery, setErrorAlert]);
 
   useEffect(() => {
-    if (panel === ManagerPanelType.PatientsTable) {
+    if ([ManagerPanelType.PatientsTable, ManagerPanelType.ReportsTable].includes(panel)) {
       fetchPatients();
     }
   }, [setErrorAlert, panel, searchPatientQuery, fetchPatients]);
