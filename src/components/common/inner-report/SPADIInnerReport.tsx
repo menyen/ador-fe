@@ -122,7 +122,7 @@ function SPADIInnerReport({ selectedForm }: InnerReportProps) {
       sections: [
         'Qual foi a intensidade da sua dor quando foi a pior na semana passada?', //1
         'Quando se deitou em cima do braço afetado?', //2
-        'Quando tentou pegfar algo em uma prateleira alta com o braço afetado?', //3
+        'Quando tentou pegar algo em uma prateleira alta com o braço afetado?', //3
         'Quando tentou tocar a parte de trás do pescoço com o braço afetado?', //4
         'Quando tentou empurrar algo com o braço afetado?', //5
       ],
