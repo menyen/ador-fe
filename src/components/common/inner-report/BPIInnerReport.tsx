@@ -140,7 +140,7 @@ function BPIInnerReport({ selectedForm }: InnerReportProps) {
                   <Divider className={classes.divider} variant="middle" />
                 </div>
               ))}
-              {booleans?.map((booleanValue) => (
+              {booleans.map((booleanValue) => (
                 <List>
                     <ListItem>
                       <ListItemText
