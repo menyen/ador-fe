@@ -172,7 +172,7 @@ const questions = [
     title: 'Dou risada e me divirto quando vejo coisas engraçadas',
     alternatives: [
       { label: 'Sim, do mesmo jeito que antes', value: 0 },
-      { label: 'Atualmente u pouco menos', value: 1 },
+      { label: 'Atualmente um pouco menos', value: 1 },
       { label: 'Atualmente bem menos', value: 2 },
       { label: 'Não consigo mais', value: 3 },
     ],

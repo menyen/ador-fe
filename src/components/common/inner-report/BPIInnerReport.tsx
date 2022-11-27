@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { ReactChild, ReactFragment, ReactPortal, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -47,7 +47,7 @@ function BPIInnerReport({ selectedForm }: InnerReportProps) {
     'Habilidade para apreciar a vida',
   ];
 
-  const { updated_at, body_pain, grades, treatments, slider, percentages } =
+  const { updated_at, booleans, body_pain, grades, treatments, slider, percentages } =
     useMemo(() => {
       const { answers, results, updated_at } = selectedForm;
       const { booleans, body_pain, grades, treatments, slider, percentages } =
@@ -139,6 +139,16 @@ function BPIInnerReport({ selectedForm }: InnerReportProps) {
                   </List>
                   <Divider className={classes.divider} variant="middle" />
                 </div>
+              ))}
+              {booleans?.map((booleanValue) => (
+                <List>
+                    <ListItem>
+                      <ListItemText
+                        primary="Durante a vida, a maioria das pessoas apresenta dor de vez em quando (dor de cabeça, dor de dente, etc)."
+                        secondary={(booleanValue == '1') ? 'Sim' : 'Não'}
+                      />
+                    </ListItem>
+                </List>
               ))}
             </Grid>
             <Grid item xs={12} lg={6}>
