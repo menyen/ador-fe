@@ -141,14 +141,17 @@ function BPIInnerReport({ selectedForm }: InnerReportProps) {
                 </div>
               ))}
               {booleans.map((booleanValue) => (
-                <List>
-                    <ListItem>
-                      <ListItemText
-                        primary="Durante a vida, a maioria das pessoas apresenta dor de vez em quando (dor de cabeça, dor de dente, etc)."
-                        secondary={(booleanValue == '1') ? 'Sim' : 'Não'}
-                      />
-                    </ListItem>
-                </List>
+                <div>
+                  <List>
+                      <ListItem>
+                        <ListItemText
+                          primary="Durante a vida, a maioria das pessoas apresenta dor de vez em quando (dor de cabeça, dor de dente, etc)."
+                          secondary={(booleanValue == '1') ? 'Sim' : 'Não'}
+                        />
+                      </ListItem>
+                  </List>
+                  <Divider className={classes.divider} variant="middle" />
+                </div>
               ))}
             </Grid>
             <Grid item xs={12} lg={6}>
