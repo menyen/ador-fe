@@ -145,7 +145,7 @@ function BPIInnerReport({ selectedForm }: InnerReportProps) {
                   <List>
                       <ListItem>
                         <ListItemText
-                          primary="Durante a vida, a maioria das pessoas apresenta dor de vez em quando (dor de cabeça, dor de dente, etc)."
+                          primary="Durante a vida, a maioria das pessoas apresenta dor de vez em quando (dor de cabeça, dor de dente, etc). Você teve hoje, dor diferente dessas?"
                           secondary={booleanValue}
                         />
                       </ListItem>

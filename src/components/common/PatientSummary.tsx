@@ -410,6 +410,19 @@ function PatientSummary(props: PatientSummaryProps) {
               <Divider className={classes.divider} variant="middle" />
             </div>
           ))}
+          {bpiResult?.booleans?.map((booleanVal) => (
+            <div>
+              <List>
+                <ListItem>
+                  <ListItemText
+                    primary="Durante a vida, a maioria das pessoas apresenta dor de vez em quando (dor de cabeça, dor de dente, etc). Você teve hoje, dor diferente dessas?"
+                    secondary={booleanVal}
+                  />
+                </ListItem>
+              </List>
+              <Divider className={classes.divider} variant="middle" />
+             </div>
+          ))}
         </Grid>
         <Grid item xs={6}>
           <Typography variant="subtitle1">
