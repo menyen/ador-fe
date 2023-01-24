@@ -199,7 +199,6 @@ export default function PatientForm(props: PatientFormProps) {
               id="email-input"
               label="E-mail"
               value={email}
-              disabled={!!currentPatient?.email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </Grid>
