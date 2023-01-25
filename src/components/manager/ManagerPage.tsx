@@ -130,7 +130,6 @@ export default function ManagerPage() {
   ) => {
     let newPatient;
     if (id) {
-      delete patientPayload.email;
       await updatePatient(id, patientPayload, setErrorAlert)(patientDispatch);
     } else {
       newPatient = await createPatient(

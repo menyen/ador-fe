@@ -102,7 +102,6 @@ function PhysicianPage() {
   ) => {
     let newPatient;
     if (id) {
-      delete patientPayload.email;
       await updatePatient(id, patientPayload, setErrorAlert)(dispatch);
     } else {
       newPatient = await createPatient(patientPayload, setErrorAlert)(dispatch);
