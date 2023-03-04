@@ -72,14 +72,14 @@ export default function ReportsTable(props: ReportsTableProps) {
   const [startDate, setStartDate] = useState<string>(
     lastMonth.getFullYear() +
       '-' +
-      (lastMonth.getMonth() + 1) +
+      ('0' + (lastMonth.getMonth() + 1)).slice(-2) +
       '-' +
       ('0' + lastMonth.getDate()).slice(-2)
   );
   const [endDate, setEndDate] = useState<string>(
     today.getFullYear() +
       '-' +
-      (today.getMonth() + 1) +
+      ('0' + (today.getMonth() + 1)).slice(-2) +
       '-' +
       ('0' + today.getDate()).slice(-2)
   );

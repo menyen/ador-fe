@@ -628,6 +628,9 @@ export default function BPI(props: PatientFormProps) {
                   if (questions[currentPanel - 1].type === 'grades') {
                     return false;
                   }
+                  if(questions[currentPanel - 1].type === 'body_pain'){
+                    return false;
+                  }
                   return (
                     answers[questions[currentPanel - 1].type].length <=
                       sIndex ||
