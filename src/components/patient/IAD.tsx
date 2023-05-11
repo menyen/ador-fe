@@ -74,13 +74,13 @@ const questions = [
   'A ansiedade aumenta a minha dor.', //6
   'Sempre que eu sinto dor as pessoas devem me tratar com cuidado e preocupação', //7
   'Eu desisti de buscar a completa eliminação da minha dor através do trabalho da medicina.', //8
-  'É resposabilidade daqueles que me amam ajudarem-me quando eu sentir dor.', //9
+  'É responsabilidade daqueles que me amam ajudarem-me quando eu sentir dor.', //9
   'O estresse da minha vida aumenta a minha dor.', //10
-  'Ecercício e movimento são bons para o meu problema da dor.', //11
-  'Concentrando-me ou relanxando-me consigo diminuir a minha dor.', //12
+  'Exercício e movimento são bons para o meu problema da dor.', //11
+  'Concentrando-me ou relaxando-me consigo diminuir a minha dor.', //12
   'Remédio é um dos melhores tratamentos para dor crônica.', //13
   'A minha família precisa aprender a cuidar melhor de mim quando eu estiver com dor.', //14
-  'A drepressão aumenta a dor que sinto.', //15
+  'A depressão aumenta a dor que sinto.', //15
   'Se eu me exercitasse poderia piorar ainda mais o meu problema de dor.', //16
   'Eu acredito poder controlar a dor que sinto mudando meus pensamentos.', //17
   'Muitas vezes quando eu estou com dor eu preciso de mais carinho do que estou recebendo agora.', //18
