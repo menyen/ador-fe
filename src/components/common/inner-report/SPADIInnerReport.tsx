@@ -72,7 +72,7 @@ function SPADIInnerReport({ selectedForm }: InnerReportProps) {
         'Os números ao lado de cada item representam o grau de dificuldade que você teve ao fazer aquela atividade. O número zero representa "Sem dificuldade" e o número dez representa "Não consegui fazer". Por favor, indique o número que melhor descreve quanta dificuldade você teve para fazer cada uma das atividades na semana passada. Se você não teve a oportunidade de fazer uma das atividades na semana passada, por favor, tente estimar qual número você daria para sua dificuldade.',
       sections: [
         'Lavar seu cabelo com o braço afetado?',
-        'Lavar suas costas como braço afetado?',
+        'Lavar suas costas com o braço afetado?',
         'Vestir uma camiseta ou blusa pela cabeça',
         'Vestir uma camisa que abotoa na frente?',
         'Vestir suas calças?',
