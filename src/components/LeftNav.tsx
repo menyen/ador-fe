@@ -432,6 +432,12 @@ export default function LeftNav(props: LeftNavProps) {
               </ListItemIcon>
               <ListItemText primary="Relatórios" />
             </ListItem>
+            <ListItem onClick={handleClickOpenModal} button key="Smartphone">
+              <ListItemIcon>
+                <Smartphone />
+              </ListItemIcon>
+              <ListItemText primary="Área do Paciente" />
+            </ListItem>
           </List>
         )}
         {role === RolesEnum.RECEPTIONIST && (
