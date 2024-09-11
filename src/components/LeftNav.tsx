@@ -459,6 +459,12 @@ export default function LeftNav(props: LeftNavProps) {
             </ListItemIcon>
             <ListItemText primary="Pacientes" />
           </ListItem>
+          <ListItem onClick={handleClickOpenModal} button key="Smartphone">
+              <ListItemIcon>
+                <Smartphone />
+              </ListItemIcon>
+              <ListItemText primary="Área do Paciente" />
+            </ListItem>
         </List>
         )}
         <Button className={classes.bottomButton} onClick={signout}>
